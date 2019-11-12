@@ -12,3 +12,12 @@
 */
 
 Route::get('/', 'IndexController@index');
+
+
+Route::get('/orcamento/create', 'OrcamentoController@create');
+Route::post('/orcamento','OrcamentoController@store');
+
+
+
+Route::get('/orcamento/consulta', 'OrcamentoController@consulta');
+Route::get('/orcamento/criarCs', 'OrcamentoController@criarCs');

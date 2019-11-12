@@ -30,7 +30,6 @@ class CreateOrcamentosTable extends Migration
 			$table->date('entrada')->nullable();
 
 		});
-			
 
 
 

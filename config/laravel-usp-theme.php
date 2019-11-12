@@ -9,16 +9,16 @@ return [
     'menu' => [
         [
             'text' => 'Fazer Orçamento',
-            'url'  => '/item1',
+            'url'  => '/orcamento/create',
         ],
         [
             'text' => 'Consultar',
-            'url'  => '/item2',
+            'url'  => '/orcamento/consulta',
             'can'  => '',
         ],
         [
             'text' => 'Criar CS',
-            'url'  => '/item3',
+            'url'  => '/orcamento/criarCs',
             'can'  => '',
         ],
     ]

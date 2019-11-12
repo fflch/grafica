@@ -7,79 +7,47 @@ use Illuminate\Http\Request;
 
 class OrcamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /* Views */
     public function create()
     {
-        //
+        return view('orcamento/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function consulta()
+    {
+        return view('orcamento/consulta');
+    }
+
+    public function criarCs()
+    {
+        return 'criarCs';
+    }
+
+
+    /* Coletando os dados */
+
     public function store(Request $request)
     {
-        //
+        /* Recebendo e salvando os itens no banco de dados */
+        $orcamento = new Orcamento;
+        $orcamento->titulo = $request->titulo;
+        $orcamento->procedencia = $request->procedencia;
+        $orcamento->area = $request->area;
+        $orcamento->responsavel = $request->responsavel;
+        $orcamento->tiragem = $request->tiragem;
+        $orcamento->originais = $request->originais;
+        $orcamento->formato = $request->formato;
+        $orcamento->fonte = $request->fonte;
+        $orcamento->observacao = $request->observacao;
+        $orcamento->ano = $request->ano;
+        $orcamento->cs = $request->cs;
+        $orcamento->entrada = $request->entrada;
+
+        $orcamento->save();
+        return redirect('/');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Orcamento  $orcamento
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Orcamento $orcamento)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Orcamento  $orcamento
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Orcamento $orcamento)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Orcamento  $orcamento
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Orcamento $orcamento)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Orcamento  $orcamento
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Orcamento $orcamento)
-    {
-        //
-    }
 }

@@ -17,7 +17,8 @@ class CreateMateriais extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 			$table->string('nome');
-			$table->float('preco');
+            $table->float('preco');
+
         });
     }
 

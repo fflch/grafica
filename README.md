@@ -1,1 +1,1 @@
-Sistema de Empréstimo
+Sistema Gráfica

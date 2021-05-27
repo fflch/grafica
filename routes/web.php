@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PedidoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login');
+Route::get('callback', [LoginController::class, 'handleProviderCallback']);
+Route::get('logout',[LoginController::class, 'logout'])->name('logout');
+
+Route::resource('pedidos', PedidoController::class);
+
+

@@ -36,4 +36,20 @@ class Pedido extends Model
             'Diagramação + Impressão',
         ];
     }
+
+    public function setUserIdAttribute($value)
+    {
+        if(auth()->check()) {
+            if($this->user_id != null){
+                $this->attributes['user_id'] = $this->user->id;
+            }
+            else if(auth()->user()){
+                    $this->attributes['user_id'] = auth()->user()->id;
+            }
+        } else {
+            # para rodar o seeder
+            $this->attributes['user_id'] = $value;
+        }
+        
+    }
 }

@@ -16,7 +16,7 @@ class PedidoSeeder extends Seeder
     public function run()
     {
 
-        $pedido = [
+        $pedido1 = [
             'user_id' => 1,
             'descricao' => 'Livro - A educação universitária',
             'tipo' => 'Diagramação + Impressão',
@@ -24,11 +24,11 @@ class PedidoSeeder extends Seeder
             'centro_de_despesa' => 'Centro de Despesa da FFLCH', 
             'autorizador_codpes' => 65389,                     
         ];
-        Pedido::create($pedido);
+        Pedido::create($pedido1);
 
         Pedido::factory(5)->create()->each(function ($pedido) {           
             $orcamentos = Orcamento::factory(4)->make();
-            $pedido->bancas()->saveMany($orcamentos);
+            $pedido->orcamentos()->saveMany($orcamentos);
         });
     }
 }

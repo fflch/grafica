@@ -15,22 +15,22 @@ class OrcamentoSeeder extends Seeder
     public function run()
     {
         $orcamento1 = [
-            'preco' => 500,00,
+            'preco' => 500.00,
             'nome' => 'Diagramação',
             'pedido_id' => 1,
         ];
         $orcamento2 = [
-            'preco' => 200,00,
+            'preco' => 200.00,
             'nome' => 'Papel',
             'pedido_id' => 1,
         ];
         $orcamento3 = [
-            'preco' => 300,00,
+            'preco' => 300.00,
             'nome' => 'Capa Dura',
             'pedido_id' => 1,
         ];
         $orcamento4 = [
-            'preco' => 150,00,
+            'preco' => 150.00,
             'nome' => 'Tinta',
             'pedido_id' => 1,
         ];

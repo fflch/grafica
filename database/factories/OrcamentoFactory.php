@@ -21,9 +21,10 @@ class OrcamentoFactory extends Factory
      */
     public function definition()
     {
+        $descricao = ['Diagramação','Papel','Capa Dura','Tinta'];
         return [
-            'preco' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
-            'nome' => 'Diagramação',
+            'preco' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 100, $max = 1000),
+            'nome' => $descricao[array_rand($descricao)],
         ];
     }
 }

@@ -2,18 +2,18 @@
 
 $submenu1 = [
     [
-        'text' => '<i class="fas fa-atom"></i>  Novo Pedido',
+        'text' => '<i class="fas fa-plus-circle"></i> Novo Pedido',
         'url' => config('app.url') . '/pedidos/create',
     ],
     [
-        'text' => '<i class="fas fa-atom"></i>  Listar Pedidos',
+        'text' => '<i class="fas fa-list-alt"></i> Listar Pedidos',
         'url' => config('app.url') . '/pedidos',
     ],
 ];
 
 $menu = [
     [
-        'text' => 'Pedidos',
+        'text' => '<i class="fas fa-store-alt"></i> Pedidos',
         'submenu' => $submenu1,
     ],
 ];

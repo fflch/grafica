@@ -13,7 +13,7 @@ class OrcamentoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class OrcamentoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nome' => 'required',
+            'preco' => 'required|regex:/^\d*(\.\d{2})?$/',
+            'pedido_id' => 'required|exists:pedidos,id'
         ];
     }
 }

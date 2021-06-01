@@ -14,5 +14,7 @@
             <b>Autorizador:</b>@if($pedido->autorizador != null) {{$pessoa::dump($pedido->autorizador)['nompes'] }}@endif</br>
         </div>
     </div>
-    
+    <br>
+    @include('pedidos.partials.orcamentos')
+
 @endsection('content')

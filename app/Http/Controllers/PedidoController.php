@@ -33,7 +33,7 @@ class PedidoController extends Controller
             $query->whereDate('data_da_defesa','=', $data);
         }
         if($request->busca_tipo != ''){
-            $query->where('status','=', $request->busca_tipo);
+            $query->where('tipo','=', $request->busca_tipo);
         }
         
         $pedidos = $query->paginate(20);

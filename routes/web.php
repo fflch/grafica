@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\OrcamentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,6 @@ Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 
 Route::resource('pedidos', PedidoController::class);
+Route::resource('orcamentos', OrcamentoController::class);
 
 

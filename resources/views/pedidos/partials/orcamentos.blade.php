@@ -16,7 +16,7 @@
                 @foreach ($pedido->orcamentos as $orcamento)
                     <tr>
                         <td>{{ $orcamento->nome }}</td>
-                        <td>{{ money_format('%n', $orcamento->preco ) }}</td>
+                        <td>R$ {{ money_format('%n', $orcamento->preco ) }}</td>
                         <td>
                             <form method="POST" class="form-group" action="/orcamentos/{{$orcamento->id}}">
                                 @csrf 
@@ -26,6 +26,9 @@
                         </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td colspan='3'><b>Total:</b> R$ {{ $pedido->orcamentos()->get()->sum("preco") }} </td>
+                </tr>
                 </tbody>
             </table>
         </div>

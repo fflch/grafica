@@ -18,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+    
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            'Uspdev\SenhaunicaSocialite\SenhaunicaExtendSocialite@handle',
+        ],
     ];
 
     /**
@@ -28,5 +32,10 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    public function shouldDiscoverEvents()
+    {
+        return true;
     }
 }

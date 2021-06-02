@@ -8,7 +8,7 @@
         </div>
         <div class="col-sm form-group">
             <label for="preco"><b>Preço:</b></label>
-            <input type="text" class="form-control" name="preco" value="{{ old('preco', $pedido->preco) }}">
+            <input type="text" class="form-control" name="preco" value="{{ old('preco', $pedido->preco) }}" onKeyPress="return(MascaraMoeda(this,'.',',',event))">
         </div>
     </div>
     <div class="row">

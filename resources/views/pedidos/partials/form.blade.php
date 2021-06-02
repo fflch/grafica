@@ -28,7 +28,7 @@
                 </div>
                 <div class="form-group">
                     <label for="paginas"><b>Número de páginas:</b></label>
-                    <input type="text" class="form-control" name="paginas" value="{{ old('paginas', $pedido->paginas) }}">
+                    <input type="text" class="form-control paginas" name="paginas" value="{{ old('paginas', $pedido->paginas) }}">
                 </div>
                 <div class="form-group">
                     <label for="centro_de_despesa"><b>Centro de Despesa:</b></label>

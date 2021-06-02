@@ -4,7 +4,7 @@
             <div class="col-auto">
                 <a href="/pedidos/create" class="btn btn-primary">Novo Pedido</a>
             </div>
-            @if($pedido->status == 'Em Elaboração' and $pedido->files()->count() != 0)
+            @if(($pedido->status == 'Em Elaboração' and $pedido->files()->count() != 0) or $pedido->status == null)
                 <div class="col-auto">
                     <form method="POST" action="/pedidos/enviar_analise/{{ $pedido->id }}">
                         @csrf 

@@ -15,4 +15,11 @@ class Orcamento extends Model
     {
         return $this->belongsTo(Pedido::class);
     }
+
+    public function setPrecoAttribute($value)
+    {
+        $value = str_replace(",",".",$value);
+        $value = preg_replace('/\.(?=.*\.)/', '', $value);
+        $this->attributes['preco'] = floatval($value);
+    }
 }

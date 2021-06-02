@@ -16,7 +16,7 @@
                 @foreach ($pedido->orcamentos as $orcamento)
                     <tr>
                         <td>{{ $orcamento->nome }}</td>
-                        <td>{{ $orcamento->preco }}</td>
+                        <td>{{ money_format('%n', $orcamento->preco ) }}</td>
                         <td>
                             <form method="POST" class="form-group" action="/orcamentos/{{$orcamento->id}}">
                                 @csrf 

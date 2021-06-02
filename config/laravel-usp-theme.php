@@ -15,6 +15,7 @@ $menu = [
     [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',
         'submenu' => $submenu1,
+        'can' => 'logado',
     ],
 ];
 
@@ -25,6 +26,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/item1',
         'align' => 'right',
+        'can' => 'logado',
     ],
 ];
 

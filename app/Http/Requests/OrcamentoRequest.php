@@ -25,7 +25,7 @@ class OrcamentoRequest extends FormRequest
     {
         return [
             'nome' => 'required',
-            'preco' => 'required|regex:/^\d*(\.\d{2})?$/',
+            'preco' => 'required|regex:/^\d*(\,\d{2})?$/',
             'pedido_id' => 'required|exists:pedidos,id'
         ];
     }

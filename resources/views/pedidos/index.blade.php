@@ -58,6 +58,7 @@
                 <th>Descrição</th>
                 <th>Data da Solicitação</th>
                 <th>Tipo</th>
+                <th>Status</th>
                 <th colspan="2">Ações</th>
             </tr>
         </theader>
@@ -69,6 +70,7 @@
                 <td>{{ $pedido->descricao }}</td>
                 <td>{{ Carbon\Carbon::parse($pedido->created_at)->format('d/m/Y') }}</td>
                 <td>{{ $pedido->tipo}}</td>
+                <td>{{ $pedido->status}}</td>
                 <td>
                     <a href="/pedidos/{{$pedido->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
                 </td>

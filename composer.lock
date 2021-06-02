@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1669fb6d440f4b5fe070268b9dc2a84b",
+    "content-hash": "828b1b10de1e95d83396b63ba83581a0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,54 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "axn/laravel-stepper",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AXN-Informatique/laravel-stepper.git",
+                "reference": "81160b5367a7477c822ddb8db53676944e1b8314"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AXN-Informatique/laravel-stepper/zipball/81160b5367a7477c822ddb8db53676944e1b8314",
+                "reference": "81160b5367a7477c822ddb8db53676944e1b8314",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0 || ^6.0 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Axn\\LaravelStepper\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Axn\\LaravelStepper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "AXN Informatique",
+                    "email": "developpement@axn.fr"
+                }
+            ],
+            "description": "Step by step Laravel 5 helper.",
+            "homepage": "https://github.com/AXN-Informatique/laravel-stepper",
+            "support": {
+                "issues": "https://github.com/AXN-Informatique/laravel-stepper/issues",
+                "source": "https://github.com/AXN-Informatique/laravel-stepper/tree/1.5.0"
+            },
+            "time": "2021-05-23T10:15:19+00:00"
         },
         {
             "name": "brick/math",
@@ -421,6 +469,53 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "fflch/laravel-fflch-stepper",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fflch/laravel-fflch-stepper.git",
+                "reference": "109e45a771564f88c5f0485f17ef4ba779063d51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fflch/laravel-fflch-stepper/zipball/109e45a771564f88c5f0485f17ef4ba779063d51",
+                "reference": "109e45a771564f88c5f0485f17ef4ba779063d51",
+                "shasum": ""
+            },
+            "require": {
+                "axn/laravel-stepper": "^1.5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Fflch\\LaravelFflchStepper\\LaravelFflchStepperServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fflch\\LaravelFflchStepper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Thiago Gomes Verissimo",
+                    "email": "thiago.verissimo@usp.br"
+                }
+            ],
+            "description": "fflch stepper for laravel",
+            "support": {
+                "issues": "https://github.com/fflch/laravel-fflch-stepper/issues",
+                "source": "https://github.com/fflch/laravel-fflch-stepper/tree/1.0.2"
+            },
+            "time": "2021-05-28T02:28:49+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -2583,6 +2678,77 @@
                 "source": "https://github.com/SocialiteProviders/Manager/tree/master"
             },
             "time": "2020-09-08T10:41:06+00:00"
+        },
+        {
+            "name": "spatie/laravel-model-status",
+            "version": "1.10.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-model-status.git",
+                "reference": "6f9ec8fa41abdce3ec35cc5a2debd564d096d30c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-model-status/zipball/6f9ec8fa41abdce3ec35cc5a2debd564d096d30c",
+                "reference": "6f9ec8fa41abdce3ec35cc5a2debd564d096d30c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0|^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ModelStatus\\ModelStatusServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ModelStatus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Verhelst",
+                    "email": "tvke91@gmail.com",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package to enable assigning statuses to Eloquent Models",
+            "homepage": "https://github.com/spatie/laravel-model-status",
+            "keywords": [
+                "laravel-status",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-model-status/issues",
+                "source": "https://github.com/spatie/laravel-model-status/tree/1.10.2"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-11-03T12:58:04+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

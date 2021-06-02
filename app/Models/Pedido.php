@@ -7,12 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Orcamento;
 use App\Models\File;
+use App\Traits\HasStatuses;
 
 class Pedido extends Model
 {
     protected $guarded = ['id'];
 
     use HasFactory;
+    use HasStatuses;
+
+    const status = [
+        'Em Elaboração',
+        'Em Análise',
+        'Orçamento',
+        'Autorização',
+        'Diagramação',
+        'Impressão',
+        'Acabamento',
+        'Finalizado',
+    ];
 
     public function user()
     {

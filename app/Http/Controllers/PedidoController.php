@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
+use App\Services\PedidoStepper;
 
 class PedidoController extends Controller
 {
@@ -65,6 +66,7 @@ class PedidoController extends Controller
     {
         $validated = $request->validated();
         $pedido = Pedido::create($validated);
+        $pedido->setStatus('Em Elaboração');
         //Salva o orientador na banca
         return redirect("/pedidos/$pedido->id");
     }
@@ -75,9 +77,14 @@ class PedidoController extends Controller
      * @param  \App\Models\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function show(Pedido $pedido)
+    public function show(Pedido $pedido, PedidoStepper $stepper)
     {
-        return view('pedidos.show', compact('pedido'));
+        $stepper->setCurrentStepName($pedido->status);
+
+        return view('pedidos.show', [
+            'pedido' => $pedido,
+            'stepper' => $stepper->render(),
+        ]);
     }
 
     /**
@@ -122,4 +129,55 @@ class PedidoController extends Controller
         $pedido->delete();
         return redirect('/pedidos');
     }
+
+    public function enviar_analise(Pedido $pedido){
+        $pedido->setStatus('Em Análise');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function devolver(Pedido $pedido){
+        $pedido->setStatus('Em Elaboração');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function enviar_orcamento(Pedido $pedido){
+        $pedido->setStatus('Orçamento');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function autorizacao(Pedido $pedido){
+        $pedido->setStatus('Autorização');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function enviar_autorizacao(Pedido $pedido, $autorizacao){
+        if($autorizacao == 'autorizado'){
+            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
+                $pedido->setStatus('Diagramação');
+            }
+            else{
+                $pedido->setStatus('Impressão');
+            }
+        }
+        else{
+            $pedido->setStatus('Em Elaboração');
+        }
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function impressao(Pedido $pedido){
+        $pedido->setStatus('Impressão');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function acabamento(Pedido $pedido){
+        $pedido->setStatus('Acabamento');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
+    public function finalizar(Pedido $pedido){
+        $pedido->setStatus('Finalizado');
+        return redirect("/pedidos/{$pedido->id}");
+    }
+
 }

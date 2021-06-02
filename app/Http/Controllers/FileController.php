@@ -19,12 +19,6 @@ class FileController extends Controller
             'file' => 'required|mimetypes:application/pdf|max:12288',
             'pedido_id' => 'required|integer|exists:pedidos,id',
         ]);
-        //Primeiro deleta o arquivo anterior, caso exista
-        $file_old = File::where('pedido_id',$request->pedido_id)->first();
-        if($file_old){
-            Storage::delete($file_old->path);
-            $file_old->delete();
-        }
         //Depois faz upload de novo arquivo
         $file = new File;
         $file->pedido_id = $request->pedido_id;

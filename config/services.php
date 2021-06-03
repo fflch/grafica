@@ -35,6 +35,8 @@ return [
         'callback_id' => env('SENHAUNICA_CALLBACK_ID'),
         'dev' => env('SENHAUNICA_DEV','no'),
         'redirect' => '/',
-    ], 
+        'admins' => env('SENHAUNICA_ADMINS'),
+        'debug' => (bool) env('SENHAUNICA_DEBUG', false),
+    ],
 
 ];

@@ -13,6 +13,14 @@ jQuery(function ($) {
     
     $(".paginas").mask('0000');
     
+    $("#numero_usp").change(function(){
+        var data = { codpes: $( "#numero_usp" ).val() };
+        function success(response) {
+            $( "#info" ).html(response).css('color', 'red');;
+        }
+        $.get("info", data, success);
+    });
+
     $("#numero_nome").click(function() {
         if ($("#numero_nome").prop("checked")) {
             $("#busca_data").hide();

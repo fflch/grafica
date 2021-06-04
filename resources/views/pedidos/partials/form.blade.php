@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for="autorizador_codpes"><b>Autorizador:</b></label>
-                    <input type="number" class="form-control" id="autorizador_codpes" name="autorizador_codpes" value="{{ old('autorizador_codpes', $pedido->autorizador_codpes) }}">
+                    <input type="text" class="form-control" id="autorizador_codpes" name="autorizador_codpes" value="{{ old('autorizador_codpes', $pedido->autorizador_codpes) }}">
                     <div id="info"></div>
                 </div>
                 <div class="form-group">

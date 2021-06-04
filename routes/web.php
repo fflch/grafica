@@ -33,6 +33,8 @@ Route::post('pedidos/impressao/{pedido}', [PedidoController::class,'impressao'])
 Route::post('pedidos/acabamento/{pedido}', [PedidoController::class,'acabamento']);
 Route::post('pedidos/finalizar/{pedido}', [PedidoController::class,'finalizar']);
 
+Route::get('info', [PedidoController::class, 'info'])->name('pedidos.info');
+
 Route::resource('orcamentos', OrcamentoController::class);
 Route::resource('files', FileController::class);
 Route::resource('pedidos', PedidoController::class);

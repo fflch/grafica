@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
+use Uspdev\Replicado\Pessoa;
 use App\Services\PedidoStepper;
 
 class PedidoController extends Controller
@@ -188,6 +189,29 @@ class PedidoController extends Controller
     public function finalizar(Pedido $pedido, Request $request){
         $pedido->setStatus('Finalizado', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
+    }
+
+    /* Api para entregar dados do(a) aluno(a) no blade */
+    public function info(Request $request)
+    {
+        if(empty($request->codpes)){
+            return response('Pessoa não encontrada');
+        }
+
+        if(!is_int((int)$request->codpes)){
+            return response('Pessoa não encontrada');
+        }
+
+        if(strlen($request->codpes) < 6){
+            return response('Pessoa não encontrada');
+        }
+
+        $info = Pessoa::nomeCompleto($request->codpes);
+        if($info) {
+            return response($info);
+        } else {
+            return response('Pessoa não encontrada');
+        } 
     }
 
 }

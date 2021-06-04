@@ -49,6 +49,11 @@ class PedidoController extends Controller
         return view('pedidos.index')->with('pedidos',$pedidos);
     }
 
+    public function meusPedidos(){
+        $pedidos = Pedido::where('user_id', auth()->user()->id)->paginate(20);
+        return view('pedidos.meus_pedidos')->with('pedidos',$pedidos);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -134,12 +139,13 @@ class PedidoController extends Controller
         return redirect('/pedidos');
     }
 
-    public function enviar_analise(Pedido $pedido, Request $request){
+    //Funções de Status
+    public function enviarAnalise(Pedido $pedido, Request $request){
         $pedido->setStatus('Em Análise', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function enviar_orcamento(Pedido $pedido, Request $request){
+    public function enviarOrcamento(Pedido $pedido, Request $request){
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
         }
@@ -154,7 +160,7 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function enviar_autorizacao(Pedido $pedido, Request $request){
+    public function enviarAutorizacao(Pedido $pedido, Request $request){
         if($request->button == 'autorizado'){
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
                 $pedido->setStatus('Diagramação', $request->reason);

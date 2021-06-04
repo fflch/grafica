@@ -13,6 +13,11 @@ $submenu1 = [
 
 $menu = [
     [
+        'text' => '<i class="fas fa-store-alt"></i> Meus Pedidos',
+        'url' => config('app.url') . '/pedidos/meus_pedidos',
+        'can' => 'logado',
+    ],
+    [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',
         'submenu' => $submenu1,
         'can' => 'logado',

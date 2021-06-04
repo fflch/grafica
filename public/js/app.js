@@ -1,4 +1,12 @@
 jQuery(function ($) {
+    $('#autorizador_codpes').change(function(){
+        var data = { codpes: $( "#autorizador_codpes" ).val() };
+        function success(response) {
+            $( "#info" ).html(response).css('color', 'red');;
+        }
+        $.get('info', data, success);
+    });
+
     //JqueryUI:Datepicker
     $('.datepicker, .datePicker').datepicker({
         dateFormat: 'dd/mm/yy'
@@ -12,14 +20,6 @@ jQuery(function ($) {
     });
     
     $(".paginas").mask('0000');
-    
-    $("#numero_usp").change(function(){
-        var data = { codpes: $( "#numero_usp" ).val() };
-        function success(response) {
-            $( "#info" ).html(response).css('color', 'red');;
-        }
-        $.get("info", data, success);
-    });
 
     $("#numero_nome").click(function() {
         if ($("#numero_nome").prop("checked")) {

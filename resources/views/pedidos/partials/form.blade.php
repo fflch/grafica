@@ -4,9 +4,8 @@
                 <div class="form-group">
                     <input type="text" hidden class="form-control" name="user_id" value=""><br>
                     <label for="descricao"><b>Descrição:</b></label>
-                    <input type="text" class="form-control" name="descricao" value="{{ old('descricao', $pedido->descricao) }}">
-                </div>
-              
+                    <textarea class="form-control" name="descricao" id="descricao" rows="5">{{ old('descricao', $pedido->descricao) }}</textarea>
+                </div>              
                 <div class="form-group">
                     <label for="tipo" class="required"><b>Tipo:</b></label>
                     <select class="form-control" name="tipo">
@@ -32,11 +31,12 @@
                 </div>
                 <div class="form-group">
                     <label for="centro_de_despesa"><b>Centro de Despesa:</b></label>
-                    <input type="text" class="form-control" name="centro_de_despesa" value="{{ old('centro_de_despesa', $pedido->centro_de_despesa) }}">
+                    <textarea class="form-control" name="centro_de_despesa" id="centro_de_despesa" rows="5">{{ old('centro_de_despesa', $pedido->centro_de_despesa) }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="autorizador_codpes"><b>Autorizador:</b></label>
-                    <input type="text" class="form-control" name="autorizador_codpes" value="{{ old('autorizador_codpes', $pedido->autorizador_codpes) }}">
+                    <input type="text" class="form-control" id="autorizador_codpes" name="autorizador_codpes" value="{{ old('autorizador_codpes', $pedido->autorizador_codpes) }}">
+                    <div id="info"></div>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success float-right">Enviar</button> 

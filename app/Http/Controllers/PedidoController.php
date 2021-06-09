@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
+use Uspdev\Replicado\Pessoa;
 use App\Services\PedidoStepper;
 
 class PedidoController extends Controller
@@ -47,6 +48,11 @@ class PedidoController extends Controller
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
         return view('pedidos.index')->with('pedidos',$pedidos);
+    }
+
+    public function meusPedidos(){
+        $pedidos = Pedido::where('user_id', auth()->user()->id)->paginate(20);
+        return view('pedidos.meus_pedidos')->with('pedidos',$pedidos);
     }
 
     /**
@@ -134,54 +140,78 @@ class PedidoController extends Controller
         return redirect('/pedidos');
     }
 
-    public function enviar_analise(Pedido $pedido){
-        $pedido->setStatus('Em Análise');
+    //Funções de Status
+    public function enviarAnalise(Pedido $pedido, Request $request){
+        $pedido->setStatus('Em Análise', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function devolver(Pedido $pedido){
-        $pedido->setStatus('Em Elaboração');
+    public function enviarOrcamento(Pedido $pedido, Request $request){
+        if($request->button == 'orcamento'){
+            $pedido->setStatus('Orçamento', $request->reason);
+        }
+        else{
+            $pedido->setStatus('Em Elaboração', $request->reason);
+        }
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function enviar_orcamento(Pedido $pedido){
-        $pedido->setStatus('Orçamento');
+    public function autorizacao(Pedido $pedido, Request $request){
+        $pedido->setStatus('Autorização', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function autorizacao(Pedido $pedido){
-        $pedido->setStatus('Autorização');
-        return redirect("/pedidos/{$pedido->id}");
-    }
-
-    public function enviar_autorizacao(Pedido $pedido, $autorizacao){
-        if($autorizacao == 'autorizado'){
+    public function enviarAutorizacao(Pedido $pedido, Request $request){
+        if($request->button == 'autorizado'){
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
-                $pedido->setStatus('Diagramação');
+                $pedido->setStatus('Diagramação', $request->reason);
             }
             else{
-                $pedido->setStatus('Impressão');
+                $pedido->setStatus('Impressão', $request->reason);
             }
         }
         else{
-            $pedido->setStatus('Em Elaboração');
+            $pedido->setStatus('Em Elaboração', $request->reason);
         }
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function impressao(Pedido $pedido){
-        $pedido->setStatus('Impressão');
+    public function impressao(Pedido $pedido, Request $request){
+        $pedido->setStatus('Impressão', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function acabamento(Pedido $pedido){
-        $pedido->setStatus('Acabamento');
+    public function acabamento(Pedido $pedido, Request $request){
+        $pedido->setStatus('Acabamento', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    public function finalizar(Pedido $pedido){
-        $pedido->setStatus('Finalizado');
+    public function finalizar(Pedido $pedido, Request $request){
+        $pedido->setStatus('Finalizado', $request->reason);
         return redirect("/pedidos/{$pedido->id}");
+    }
+
+    /* Api para entregar dados do(a) aluno(a) no blade */
+    public function info(Request $request)
+    {
+        if(empty($request->codpes)){
+            return response('Pessoa não encontrada');
+        }
+
+        if(!is_int((int)$request->codpes)){
+            return response('Pessoa não encontrada');
+        }
+
+        if(strlen($request->codpes) < 6){
+            return response('Pessoa não encontrada');
+        }
+
+        $info = Pessoa::nomeCompleto($request->codpes);
+        if($info) {
+            return response($info);
+        } else {
+            return response('Pessoa não encontrada');
+        } 
     }
 
 }

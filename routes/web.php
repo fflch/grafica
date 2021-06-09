@@ -24,15 +24,17 @@ Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login'
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::post('logout',[LoginController::class, 'logout'])->name('logout');
 
-Route::resource('orcamentos', OrcamentoController::class);
-Route::resource('files', FileController::class);
-Route::resource('pedidos', PedidoController::class);
-
-Route::post('pedidos/enviar_analise/{pedido}', [PedidoController::class,'enviar_analise']);
-Route::post('pedidos/devolver/{pedido}', [PedidoController::class,'devolver']);
-Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'enviar_orcamento']);
+Route::get('pedidos/meus_pedidos', [PedidoController::class,'meusPedidos']);
+Route::post('pedidos/enviar_analise/{pedido}', [PedidoController::class,'enviarAnalise']);
+Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'enviarOrcamento']);
 Route::post('pedidos/autorizacao/{pedido}', [PedidoController::class,'autorizacao']);
-Route::post('pedidos/enviar_autorizacao/{pedido}/{autorizacao}', [PedidoController::class,'enviar_autorizacao']);
+Route::post('pedidos/enviar_autorizacao/{pedido}', [PedidoController::class,'enviarAutorizacao']);
 Route::post('pedidos/impressao/{pedido}', [PedidoController::class,'impressao']);
 Route::post('pedidos/acabamento/{pedido}', [PedidoController::class,'acabamento']);
 Route::post('pedidos/finalizar/{pedido}', [PedidoController::class,'finalizar']);
+
+Route::get('info', [PedidoController::class, 'info'])->name('pedidos.info');
+
+Route::resource('orcamentos', OrcamentoController::class);
+Route::resource('files', FileController::class);
+Route::resource('pedidos', PedidoController::class);

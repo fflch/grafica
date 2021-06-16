@@ -25,6 +25,7 @@ Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::post('logout',[LoginController::class, 'logout'])->name('logout');
 
 Route::get('pedidos/meus_pedidos', [PedidoController::class,'meusPedidos']);
+Route::get('pedidos/autorizacao_pedidos', [PedidoController::class,'autorizacaoPedidos']);
 Route::post('pedidos/enviar_analise/{pedido}', [PedidoController::class,'enviarAnalise']);
 Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'enviarOrcamento']);
 Route::post('pedidos/autorizacao/{pedido}', [PedidoController::class,'autorizacao']);

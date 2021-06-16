@@ -1,3 +1,4 @@
+@inject('financeiro','Uspdev\Replicado\Financeiro')
 <div class="card">
             <div class="card-header"><b>Novo Pedido</b></div>
             <div class="card-body">
@@ -30,8 +31,23 @@
                     <input type="text" class="form-control paginas" name="paginas" value="{{ old('paginas', $pedido->paginas) }}">
                 </div>
                 <div class="form-group">
-                    <label for="centro_de_despesa"><b>Centro de Despesa:</b></label>
-                    <textarea class="form-control" name="centro_de_despesa" id="centro_de_despesa" rows="5">{{ old('centro_de_despesa', $pedido->centro_de_despesa) }}</textarea>
+                    <label for="centro_de_despesa" class="required"><b>Centro de Despesa:</b></label>
+                    <select class="form-control" name="centro_de_despesa">
+                        <option value="" selected="">- Selecione -</option>
+                        @foreach ($financeiro->listarCentrosDespesas() as $option)
+                            {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                            @if (old('centro_de_despesa') == '' and isset($pedido->centro_de_despesa))
+                            <option value="{{$option['etrhie']}}" {{ ( $pedido->centro_de_despesa == $option['etrhie']) ? 'selected' : ''}}>
+                                {{$option['etrhie']}}
+                            </option>
+                            {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                            @else
+                            <option value="{{$option['etrhie']}}" {{ ( old('centro_de_despesa') == $option['etrhie']) ? 'selected' : ''}}>
+                                {{$option['etrhie']}}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="autorizador_codpes"><b>Autorizador:</b></label>

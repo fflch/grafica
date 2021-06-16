@@ -13,8 +13,13 @@ $submenu1 = [
 
 $menu = [
     [
-        'text' => '<i class="fas fa-store-alt"></i> Meus Pedidos',
+        'text' => '<i class="fas fa-address-card"></i> Meus Pedidos',
         'url' => config('app.url') . '/pedidos/meus_pedidos',
+        'can' => 'logado',
+    ],
+    [
+        'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
+        'url' => config('app.url') . '/pedidos/autorizacao_pedidos',
         'can' => 'logado',
     ],
     [

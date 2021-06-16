@@ -55,6 +55,11 @@ class PedidoController extends Controller
         return view('pedidos.meus_pedidos')->with('pedidos',$pedidos);
     }
 
+    public function autorizacaoPedidos(){
+        $pedidos = Pedido::where('autorizador_codpes', auth()->user()->codpes)->paginate(20);
+        return view('pedidos.autorizacao_pedidos')->with('pedidos',$pedidos);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

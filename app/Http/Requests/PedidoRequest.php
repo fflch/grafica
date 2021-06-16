@@ -31,8 +31,8 @@ class PedidoRequest extends FormRequest
             'descricao' => 'required',
             'tipo' => ['required',Rule::in($pedido->tipoOptions())],
             'paginas' => 'integer|nullable',
-            'centro_de_despesa' => 'nullable',
-            'autorizador_codpes' => 'integer|nullable', 
+            'centro_de_despesa' => '', # Rule::in
+            'autorizador_codpes' => 'integer|codpes', 
         ];
     }
 }

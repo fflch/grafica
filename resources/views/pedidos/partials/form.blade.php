@@ -50,8 +50,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="autorizador_codpes"><b>Autorizador:</b></label>
-                    <input type="text" class="form-control" id="autorizador_codpes" name="autorizador_codpes" value="{{ old('autorizador_codpes', $pedido->autorizador_codpes) }}">
+                    <label for="responsavel_centro_despesa"><b>Responsável pelo Centro de Despesa:</b></label>
+                    <input type="text" class="form-control" id="responsavel_centro_despesa" name="responsavel_centro_despesa" value="{{ old('responsavel_centro_despesa', $pedido->responsavel_centro_despesa) }}">
                     <div id="info"></div>
                 </div>
                 <div class="form-group">

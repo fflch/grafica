@@ -1,6 +1,6 @@
 jQuery(function ($) {
-    $('#autorizador_codpes').change(function(){
-        var data = { codpes: $( "#autorizador_codpes" ).val() };
+    $('#responsavel_centro_despesa').change(function(){
+        var data = { codpes: $( "#responsavel_centro_despesa" ).val() };
         function success(response) {
             $( "#info" ).html(response).css('color', 'red');;
         }

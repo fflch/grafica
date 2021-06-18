@@ -9,9 +9,9 @@
     <br><br>
     @include('pedidos.partials.dados_pedido')
     <br>
-    @include('pedidos.partials.orcamentos')
-    <br>
     @include('pedidos.partials.files')
+    <br>
+    @include('pedidos.partials.orcamentos')
 @endsection('content')
 
 @section('javascripts_bottom')

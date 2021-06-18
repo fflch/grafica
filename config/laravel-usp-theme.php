@@ -4,10 +4,12 @@ $submenu1 = [
     [
         'text' => '<i class="fas fa-plus-circle"></i> Novo Pedido',
         'url' => config('app.url') . '/pedidos/create',
+        'can' => 'logado',
     ],
     [
         'text' => '<i class="fas fa-list-alt"></i> Listar Pedidos',
         'url' => config('app.url') . '/pedidos',
+        'can' => 'servidor',
     ],
 ];
 
@@ -20,7 +22,7 @@ $menu = [
     [
         'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
         'url' => config('app.url') . '/pedidos/autorizacao_pedidos',
-        'can' => 'logado',
+        'can' => 'autorizador',
     ],
     [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',
@@ -36,7 +38,15 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/item1',
         'align' => 'right',
-        'can' => 'logado',
+        'can' => 'admin',
+    ],
+    [
+        'text' => '<i class="fas fa-user-shield"></i>',
+        'title' => 'Admin',
+        'target' => '_blank',
+        'url' => config('app.url') . '/login_admin',
+        'align' => 'right',
+        'can' => 'admin',
     ],
 ];
 

@@ -8,6 +8,15 @@ use App\Http\Requests\PedidoRequest;
 use Storage;
 use Uspdev\Replicado\Pessoa;
 use App\Services\PedidoStepper;
+use App\Mail\AnaliseMail;
+use App\Mail\OrcamentoMail;
+use App\Mail\DevolucaoMail;
+use App\Mail\AutorizacaoMail;
+use App\Mail\DiagramacaoMail;
+use App\Mail\ImpressaoMail;
+use App\Mail\AcabamentoMail;
+use App\Mail\FinalizarMail;
+use Illuminate\Support\Facades\Mail;
 
 class PedidoController extends Controller
 {
@@ -94,7 +103,7 @@ class PedidoController extends Controller
      */
     public function show(Pedido $pedido, PedidoStepper $stepper)
     {
-        $stepper->setCurrentStepName($pedido->status);
+        $stepper->setCurrentStepName($pedido->latestStatus());
 
         return view('pedidos.show', [
             'pedido' => $pedido,
@@ -148,21 +157,40 @@ class PedidoController extends Controller
     //Funções de Status
     public function enviarAnalise(Pedido $pedido, Request $request){
         $pedido->setStatus('Em Análise', $request->reason);
+        foreach(explode(',', trim(env('AUTORIZADOR'))) as $codpes){
+            if(Pessoa::emailusp($codpes) != false){
+                Mail::send(new AnaliseMail($pedido, $codpes));
+            }
+        }
         return redirect("/pedidos/{$pedido->id}");
     }
 
     public function enviarOrcamento(Pedido $pedido, Request $request){
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
+            foreach(explode(',', trim(env('EDITORA'))) as $codpes){
+                if(Pessoa::emailusp($codpes) != false){
+                    Mail::send(new OrcamentoMail($pedido, $codpes));
+                }
+            }
+            foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
+                if(Pessoa::emailusp($codpes) != false){
+                    Mail::send(new OrcamentoMail($pedido, $codpes));
+                }
+            }
         }
         else{
             $pedido->setStatus('Em Elaboração', $request->reason);
+            Mail::send(new DevolucaoMail($pedido));
         }
         return redirect("/pedidos/{$pedido->id}");
     }
 
     public function autorizacao(Pedido $pedido, Request $request){
         $pedido->setStatus('Autorização', $request->reason);
+        if(Pessoa::emailusp($pedido->responsavel_centro_despesa) != false){
+            Mail::send(new AutorizacaoMail($pedido));
+        }
         return redirect("/pedidos/{$pedido->id}");
     }
 
@@ -170,29 +198,47 @@ class PedidoController extends Controller
         if($request->button == 'autorizado'){
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
                 $pedido->setStatus('Diagramação', $request->reason);
+                foreach(explode(',', trim(env('EDITORA'))) as $codpes){
+                    if(Pessoa::emailusp($codpes) != false){
+                        Mail::send(new DiagramacaoMail($pedido, $codpes));
+                    }
+                }
             }
             else{
                 $pedido->setStatus('Impressão', $request->reason);
+                foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
+                    if(Pessoa::emailusp($codpes) != false){
+                        Mail::send(new ImpressaoMail($pedido, $codpes));
+                    }
+                }
             }
         }
         else{
             $pedido->setStatus('Em Elaboração', $request->reason);
+            Mail::send(new DevolucaoMail($pedido));
         }
         return redirect("/pedidos/{$pedido->id}");
     }
 
     public function impressao(Pedido $pedido, Request $request){
         $pedido->setStatus('Impressão', $request->reason);
+        foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
+            if(Pessoa::emailusp($codpes) != false){
+                Mail::send(new ImpressaoMail($pedido, $codpes));
+            }
+        }
         return redirect("/pedidos/{$pedido->id}");
     }
 
     public function acabamento(Pedido $pedido, Request $request){
         $pedido->setStatus('Acabamento', $request->reason);
+        Mail::send(new AcabamentoMail($pedido));
         return redirect("/pedidos/{$pedido->id}");
     }
 
     public function finalizar(Pedido $pedido, Request $request){
         $pedido->setStatus('Finalizado', $request->reason);
+        Mail::send(new FinalizarMail($pedido));
         return redirect("/pedidos/{$pedido->id}");
     }
 

@@ -27,12 +27,13 @@ class PedidoRequest extends FormRequest
     public function rules()
     {
         $pedido = new Pedido;
+        
         return [
             'user_id' => '',
             'descricao' => 'required',
             'tipo' => ['required',Rule::in($pedido->tipoOptions())],
             'paginas' => 'integer|nullable',
-            'centro_de_despesa' => ['required', Rule::in(Financeiro::listarCentrosDespesas())],
+            'centro_de_despesa' => ['required'],
             'responsavel_centro_despesa' => 'integer|codpes', 
         ];
     }

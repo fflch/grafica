@@ -64,7 +64,7 @@ class PedidoController extends Controller
     }
 
     public function autorizacaoPedidos(){
-        $pedidos = Pedido::where('autorizador_codpes', auth()->user()->codpes)->paginate(20);
+        $pedidos = Pedido::where('responsavel_centro_despesa', auth()->user()->codpes)->paginate(20);
         return view('pedidos.autorizacao_pedidos')->with('pedidos',$pedidos);
     }
 
@@ -157,7 +157,9 @@ class PedidoController extends Controller
     public function enviarAnalise(Pedido $pedido, Request $request){
         $pedido->setStatus('Em Análise', $request->reason);
         foreach(explode(',', trim(env('AUTORIZADOR'))) as $codpes){
-            AnaliseJob::dispatch($pedido, $codpes);
+            if(Pessoa::emailusp($codpes)){
+                AnaliseJob::dispatch($pedido, $codpes);
+            }
         }
         return redirect("/pedidos/{$pedido->id}");
     }
@@ -166,22 +168,28 @@ class PedidoController extends Controller
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
             foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                OrcamentoJob::dispatch($pedido, $codpes);
+                if(Pessoa::emailusp($codpes)){  
+                    OrcamentoJob::dispatch($pedido, $codpes);
+                }
             }
             foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                OrcamentoJob::dispatch($pedido, $codpes);
+                if(Pessoa::emailusp($codpes)){
+                    OrcamentoJob::dispatch($pedido, $codpes);
+                }
             }
         }
         else{
             $pedido->setStatus('Em Elaboração', $request->reason);
-            DevolucaoJob::dispatch($pedido));
+            DevolucaoJob::dispatch($pedido);
         }
         return redirect("/pedidos/{$pedido->id}");
     }
 
     public function autorizacao(Pedido $pedido, Request $request){
         $pedido->setStatus('Autorização', $request->reason);
-        AutorizacaoJob::dispatch($pedido);
+        if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
+            AutorizacaoJob::dispatch($pedido);
+        }
         return redirect("/pedidos/{$pedido->id}");
     }
 
@@ -190,13 +198,17 @@ class PedidoController extends Controller
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
                 $pedido->setStatus('Diagramação', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                    DiagramacaoJob::dispatch($pedido, $codpes);
+                    if(Pessoa::emailusp($codpes)){
+                        DiagramacaoJob::dispatch($pedido, $codpes);
+                    }
                 }
             }
             else{
                 $pedido->setStatus('Impressão', $request->reason);
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                    ImpressaoJob::dispatch($pedido, $codpes);
+                    if(Pessoa::emailusp($codpes)){
+                        ImpressaoJob::dispatch($pedido, $codpes);
+                    }
                 }
             }
         }
@@ -210,7 +222,9 @@ class PedidoController extends Controller
     public function impressao(Pedido $pedido, Request $request){
         $pedido->setStatus('Impressão', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-            ImpressaoJob::dispatch($pedido, $codpes);
+            if(Pessoa::emailusp($codpes)){
+                ImpressaoJob::dispatch($pedido, $codpes);
+            }
         }
         return redirect("/pedidos/{$pedido->id}");
     }

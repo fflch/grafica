@@ -39,7 +39,7 @@ class OrcamentoJob implements ShouldQueue
     public function handle()
     {
         if(Pessoa::emailusp($this->codpes) != false){
-            Mail::send(new ImpressaoMail($this->pedido, $this->codpes));
+            Mail::send(new OrcamentoMail($this->pedido, $this->codpes));
         }
     }
 }

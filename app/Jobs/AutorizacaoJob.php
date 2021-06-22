@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AutorizacaoMail;
+use Uspdev\Replicado\Pessoa;
 
 class AutorizacaoJob implements ShouldQueue
 {

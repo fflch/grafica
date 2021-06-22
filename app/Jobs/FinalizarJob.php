@@ -18,16 +18,14 @@ class FinalizarJob implements ShouldQueue
 
     public $tries = 3;
     public $pedido;
-    public $codpes;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Pedido $pedido, $codpes)
+    public function __construct(Pedido $pedido)
     {
         $this->pedido = $pedido;
-        $this->codpes = $codpes;
     }
 
     /**
@@ -37,8 +35,6 @@ class FinalizarJob implements ShouldQueue
      */
     public function handle()
     {
-        if(Pessoa::emailusp($this->codpes) != false){
-            Mail::send(new FinalizarMail($this->pedido, $this->codpes));
-        }
+        Mail::send(new FinalizarMail($this->pedido));
     }
 }

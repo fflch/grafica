@@ -6,19 +6,11 @@ class CreateGeneralSettings extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('general.em_analise', 'Prezado(a) %usuario,<br>
 
-        Você tem um novo pedido no sistema para ser analisado.<br>
-        
-        Mensagem:<br>
-        
-        %mensagem
+        $this->migrator->add('general.em_analise', file_get_contents(__DIR__ . "/defaults/em_analise.txt"));
 
-        <b>%url</b><br>
 
-        %link_arquivo<br>
         
-        <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.orcamento', 'Prezado(a) %usuario,<br>
 
         Você tem um pedido esperando por orçamento.<br>

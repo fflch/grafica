@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Pedido;
 use Illuminate\Validation\Rule;
+use Uspdev\Replicado\Financeiro;
 
 class PedidoRequest extends FormRequest
 {
@@ -26,13 +27,14 @@ class PedidoRequest extends FormRequest
     public function rules()
     {
         $pedido = new Pedido;
+        
         return [
             'user_id' => '',
             'descricao' => 'required',
             'tipo' => ['required',Rule::in($pedido->tipoOptions())],
             'paginas' => 'integer|nullable',
-            'centro_de_despesa' => '', # Rule::in
-            'autorizador_codpes' => 'integer|codpes', 
+            'centro_de_despesa' => ['required'],
+            'responsavel_centro_despesa' => 'integer|codpes', 
         ];
     }
 }

@@ -22,7 +22,7 @@ class PedidoSeeder extends Seeder
             'tipo' => 'Diagramação + Impressão',
             'paginas' => 200,
             'centro_de_despesa' => 'Centro de Despesa da FFLCH', 
-            'autorizador_codpes' => 65389,                     
+            'responsavel_centro_despesa' => 65389,                     
         ];
         Pedido::create($pedido1);
 

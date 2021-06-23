@@ -21,7 +21,7 @@ class CreatePedidosTable extends Migration
             $table->string('tipo');
             $table->integer('paginas')->nullable();
             $table->string('centro_de_despesa')->nullable();
-            $table->integer('autorizador_codpes')->nullable();
+            $table->integer('responsavel_centro_despesa')->nullable();
         });
     }
 

@@ -61,7 +61,8 @@ class PedidoController extends Controller
     }
 
     public function autorizacaoPedidos(){
-        $pedidos = Pedido::where('responsavel_centro_despesa', auth()->user()->codpes)->paginate(20);
+        $pedidos = Pedido::currentStatus('Autorização');
+        $pedidos = $pedidos->where('responsavel_centro_despesa', auth()->user()->codpes)->paginate(20);
         return view('pedidos.autorizacao_pedidos')->with('pedidos',$pedidos);
     }
 

@@ -58,5 +58,9 @@ class AuthServiceProvider extends ServiceProvider
             if(Gate::allows('editora')) return true;
             if(Gate::allows('grafica')) return true;
         });
+
+        Gate::define('owner.pedido', function ($user, $pedido) {
+            
+        });
     }
 }

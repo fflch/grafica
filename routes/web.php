@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginAdminController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\GeneralSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,7 @@ Route::resource('pedidos', PedidoController::class);
 
 Route::get('/login_admin',[LoginAdminController::class, 'show']);
 Route::post('/login_admin',[LoginAdminController::class, 'login']);
+
+#settings
+Route::get('/settings',[GeneralSettingsController::class, 'show']);
+Route::post('/settings',[GeneralSettingsController::class, 'update']);

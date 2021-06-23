@@ -22,7 +22,6 @@ $menu = [
     [
         'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
         'url' => config('app.url') . '/pedidos/autorizacao_pedidos',
-        'can' => 'autorizador',
     ],
     [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',

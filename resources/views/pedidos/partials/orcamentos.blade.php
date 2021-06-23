@@ -1,9 +1,9 @@
 <div class="card">
         <div class="card-header"><b>Orçamento do Pedido</b></div>
         <div class="card-body form-group">
-            @if($pedido->status == 'Em Análise' or $pedido->status == 'Orçamento')
+            @can('servidor')
                 @include('pedidos.orcamentos.form')
-            @endif
+            @endcan
             <table class="table table-striped" style="text-align: center;">
                 <theader>
                     <tr>

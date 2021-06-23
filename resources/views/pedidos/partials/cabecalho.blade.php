@@ -35,35 +35,39 @@
             </form>
         </div>
         @elseif($pedido->status == 'Em Análise')
-        <div class="col-sm">
-            <form method="POST" action="/pedidos/enviar_orcamento/{{ $pedido->id }}">
-                @csrf 
-                <div class="col-sm form-group">
-                    <label for="reason"><b>Mensagem:</b></label>
-                    <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+            @can('autorizador')
+                <div class="col-sm">
+                    <form method="POST" action="/pedidos/enviar_orcamento/{{ $pedido->id }}">
+                        @csrf 
+                        <div class="col-sm form-group">
+                            <label for="reason"><b>Mensagem:</b></label>
+                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                        </div>
+                        <div class="col-auto float-left">
+                            <button type="submit" class="btn btn-success" name="button" value="orcamento" onclick="return confirm('Tem certeza que deseja enviar para orçamento?')"> Enviar para Orçamento </button>
+                        </div>
+                        <div class="col-auto float-left">
+                            <button type="submit" class="btn btn-danger" name="button" value="devolver" onclick="return confirm('Tem certeza que deseja devolver para solicitante?')"> Devolver Pedido </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-auto float-left">
-                    <button type="submit" class="btn btn-success" name="button" value="orcamento" onclick="return confirm('Tem certeza que deseja enviar para orçamento?')"> Enviar para Orçamento </button>
-                </div>
-                <div class="col-auto float-left">
-                    <button type="submit" class="btn btn-danger" name="button" value="devolver" onclick="return confirm('Tem certeza que deseja devolver para solicitante?')"> Devolver Pedido </button>
-                </div>
-            </form>
-        </div>
+            @endcan
         @elseif($pedido->status == 'Orçamento')
-        <div class="col-sm">
-            <form method="POST" action="/pedidos/autorizacao/{{ $pedido->id }}">
-                @csrf 
-                <div class="col-sm form-group">
-                    <label for="reason"><b>Mensagem:</b></label>
-                    <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+            @can('servidor')
+                <div class="col-sm">
+                    <form method="POST" action="/pedidos/autorizacao/{{ $pedido->id }}">
+                        @csrf 
+                        <div class="col-sm form-group">
+                            <label for="reason"><b>Mensagem:</b></label>
+                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para autorização?')"> Enviar para Autorização </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para autorização?')"> Enviar para Autorização </button>
-                </div>
-            </form>
-        </div>
-        @elseif($pedido->status == 'Autorização')
+            @endcan
+        @elseif($pedido->status == 'Autorização' and (auth()->user()->codpes == $pedido->responsavel_centro_despesa or Auth::user()->can('admin')))
         <div class="col-sm">
             <form method="POST" action="/pedidos/enviar_autorizacao/{{ $pedido->id }}">
                 @csrf 
@@ -80,43 +84,49 @@
             </form>
         </div>
         @elseif($pedido->status == 'Diagramação' and $pedido->tipo == 'Diagramação + Impressão')
-        <div class="col-sm">
-            <form method="POST" action="/pedidos/impressao/{{ $pedido->id }}">
-                @csrf 
-                <div class="col-sm form-group">
-                    <label for="reason"><b>Mensagem:</b></label>
-                    <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+            @can('editora')
+                <div class="col-sm">
+                    <form method="POST" action="/pedidos/impressao/{{ $pedido->id }}">
+                        @csrf 
+                        <div class="col-sm form-group">
+                            <label for="reason"><b>Mensagem:</b></label>
+                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para impressao?')"> Enviar para Impressão </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para impressao?')"> Enviar para Impressão </button>
-                </div>
-            </form>
-        </div>
+            @endcan
         @elseif($pedido->status == 'Impressão')
-        <div class="col-sm">
-            <form method="POST" action="/pedidos/acabamento/{{ $pedido->id }}">
-                @csrf 
-                <div class="col-sm form-group">
-                    <label for="reason"><b>Mensagem:</b></label>
-                    <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+            @can('grafica')
+                <div class="col-sm">
+                    <form method="POST" action="/pedidos/acabamento/{{ $pedido->id }}">
+                        @csrf 
+                        <div class="col-sm form-group">
+                            <label for="reason"><b>Mensagem:</b></label>
+                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para acabamento?')"> Enviar para Acabamento </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para acabamento?')"> Enviar para Acabamento </button>
-                </div>
-            </form>
-        </div>
+            @endcan
         @elseif($pedido->status == 'Acabamento' or ($pedido->tipo == 'Diagramação' and $pedido->status == 'Diagramação'))
-        <div class="col-sm">
-            <form method="POST" action="/pedidos/finalizar/{{ $pedido->id }}">
-                @csrf 
-                <div class="col-sm form-group">
-                    <label for="reason"><b>Mensagem:</b></label>
-                    <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+            @can('grafica')
+                <div class="col-sm">
+                    <form method="POST" action="/pedidos/finalizar/{{ $pedido->id }}">
+                        @csrf 
+                        <div class="col-sm form-group">
+                            <label for="reason"><b>Mensagem:</b></label>
+                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja finalizar o pedido?')"> Finalizar Pedido </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja finalizar o pedido?')"> Finalizar Pedido </button>
-                </div>
-            </form>
-        </div>
+            @endcan
         @endif
     </div>

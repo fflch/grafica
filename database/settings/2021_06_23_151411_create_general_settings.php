@@ -13,6 +13,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.orcamento', 'Prezado(a) %usuario,<br>
@@ -22,6 +26,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.autorizacao', 'Prezado(a) %usuario,<br>
@@ -31,6 +39,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.diagramacao', 'Prezado(a) %usuario,<br>
@@ -40,6 +52,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.impressao', 'Prezado(a) %usuario,<br>
@@ -49,6 +65,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.acabamento', 'Prezado(a) %usuario,<br>
@@ -58,6 +78,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.finalizado', 'Prezado(a) %usuario,<br>
@@ -67,6 +91,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
         $this->migrator->add('general.devolucao', 'Prezado(a) %usuario,<br>
@@ -76,6 +104,10 @@ class CreateGeneralSettings extends SettingsMigration
         Mensagem:<br>
         
         %mensagem
+
+        <b>%url</b><br>
+
+        %link_arquivo<br>
         
         <h4><b>Sistema - Gráfica - FFLCH</b></h4>');
     }

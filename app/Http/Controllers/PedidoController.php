@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
+use App\Models\File;
 use Uspdev\Replicado\Pessoa;
 use App\Services\PedidoStepper;
 use App\Jobs\AnaliseJob;
@@ -19,10 +20,6 @@ use App\Jobs\FinalizarJob;
 
 class PedidoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -263,5 +260,17 @@ class PedidoController extends Controller
             return response('Pessoa não encontrada');
         } 
     }
+
+    public function acesso_autorizado(Request $request)
+    {
+        if ($request->hasValidSignature()) {
+            $file = File::find($request->file_id);
+            return Storage::download($file->path, $file->original_name);
+        } else {
+            $request->session()->flash('alert-danger',
+                "URL expirada!");
+            return redirect('/');
+        }
+    }    
 
 }

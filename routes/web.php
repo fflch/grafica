@@ -48,3 +48,5 @@ Route::post('/login_admin',[LoginAdminController::class, 'login']);
 #settings
 Route::get('/settings',[GeneralSettingsController::class, 'show']);
 Route::post('/settings',[GeneralSettingsController::class, 'update']);
+
+Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->name('acesso_autorizado');

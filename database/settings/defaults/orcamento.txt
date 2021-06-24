@@ -1,0 +1,12 @@
+Prezado(a) %usuario,<br>
+
+Você tem um pedido esperando por orçamento.<br>
+
+Mensagem:<br>
+
+%mensagem
+
+<b>%url</b><br>
+
+%link_arquivo<br><br>
+

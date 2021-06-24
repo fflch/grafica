@@ -8,13 +8,9 @@ use App\Http\Requests\OrcamentoRequest;
 
 class OrcamentoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function store(OrcamentoRequest $request)
     {
+        $this->authorize('servidor');
         $validated = $request->validated();
         Orcamento::create($validated);
         return back();
@@ -22,6 +18,7 @@ class OrcamentoController extends Controller
 
     public function destroy(Orcamento $orcamento)
     {
+        $this->authorize('servidor');
         $orcamento->delete();
         return back();
     }

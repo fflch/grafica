@@ -13,14 +13,16 @@ class AutorizacaoMail extends Mailable
 {
     use Queueable, SerializesModels;
     private $pedido;
+    private $codpes;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Pedido $pedido)
+    public function __construct(Pedido $pedido, $codpes)
     {   
         $this->pedido = $pedido;
+        $this->codpes = $codpes;
     }
 
     /**
@@ -32,10 +34,11 @@ class AutorizacaoMail extends Mailable
     {
         $subject = "Novo pedido de {$this->pedido->user->name} esperando ser autorizado";
         return $this->view('mails.autorizacao')
-        ->to(Pessoa::emailusp($this->pedido->responsavel_centro_despesa))
+        ->to(Pessoa::emailusp($this->codpes))
         ->subject($subject)
         ->with([
             'pedido' => $this->pedido,
+            'codpes' => $this->codpes,
         ]);
     }
 }

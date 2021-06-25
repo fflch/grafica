@@ -218,6 +218,8 @@ class PedidoController extends Controller
     }
 
     //Funções de Status
+
+    //Função que envia pedido para liberação do grupo AUTORIZADOR
     public function enviarAnalise(Pedido $pedido, Request $request){
         $this->authorize('owner.pedido', $pedido);
         $pedido->setStatus('Em Análise', $request->reason);
@@ -229,6 +231,9 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
+    //Função que envia pedido, caso liberado, para o grupo EDITORA e GRÁFICA
+    //para que façam o orçamento do pedido
+    //caso rejeitado, status volta para 'Em Elaboração' e é devolvido para o usuário
     public function enviarOrcamento(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         if($request->button == 'orcamento'){
@@ -251,15 +256,23 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
+    //Função ativada após feitura do orçamento, em que a editora ou gráfica
+    //envia o orçamento para o usuário e para o responsável do centro de despesa para que este autorize
     public function autorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         $pedido->setStatus('Autorização', $request->reason);
         if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
-            AutorizacaoJob::dispatch($pedido);
+            AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);
+        }
+        if(Pessoa::emailusp($pedido->user->codpes)){
+            AutorizacaoJob::dispatch($pedido, $pedido->user->codpes);
         }
         return redirect("/pedidos/{$pedido->id}");
     }
 
+    //Função que trabalha com o resultado da autorização do Centro de Despesa e encaminha
+    //para os próximos passos do sistema (indo para a Editora ou para a Gráfica)
+    //também pode ocorrer do Centro de Despesa não liberar, então retorna para status 'Em Elaboração'
     public function enviarAutorizacao(Pedido $pedido, Request $request){
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
@@ -287,6 +300,7 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
+    //Função que encaminha para a Gráfica assim que termina o status de Diagramação
     public function impressao(Pedido $pedido, Request $request){
         $this->authorize('editora');
         $pedido->setStatus('Impressão', $request->reason);
@@ -298,6 +312,7 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
+    //Função que avisa o usuário do acabamento do pedido na gráfica
     public function acabamento(Pedido $pedido, Request $request){
         $this->authorize('grafica');
         $pedido->setStatus('Acabamento', $request->reason);
@@ -305,6 +320,7 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
+    //Função que avisa o usuário da finalização do pedido
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         $pedido->setStatus('Finalizado', $request->reason);
@@ -335,6 +351,7 @@ class PedidoController extends Controller
         } 
     }
 
+    //Função para link de acesso temporário do arquivo do pedido
     public function acesso_autorizado(Request $request)
     {
         if ($request->hasValidSignature()) {

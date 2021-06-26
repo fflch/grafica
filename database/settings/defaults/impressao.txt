@@ -1,0 +1,13 @@
+Prezado(a) %usuario,<br>
+
+Você tem um novo pedido no sistema para ser impresso.<br>
+        
+Mensagem:<br>
+        
+%mensagem
+
+<b>%url</b><br>
+
+%link_arquivo<br>
+        
+<h4><b>Sistema - Gráfica - FFLCH</b></h4>

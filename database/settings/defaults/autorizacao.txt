@@ -1,0 +1,12 @@
+Prezado(a) %usuario,<br>
+
+Você tem um novo pedido no sistema para ser autorizado pelo responsável do Centro de Despesa.<br>
+        
+Mensagem:<br>
+        
+%mensagem
+
+<b>%url</b><br>
+
+%link_arquivo<br>
+        

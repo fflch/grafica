@@ -60,7 +60,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('owner.pedido', function ($user, $pedido) {
-            
+            if(Gate::allows('servidor')) return true;
+            if($pedido->user_id == $user->id) return true;
+            if($pedido->responsavel_centro_despesa == $user->codpes) return true;
+            return false;
         });
     }
 }

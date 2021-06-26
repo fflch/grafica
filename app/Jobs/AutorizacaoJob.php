@@ -18,14 +18,16 @@ class AutorizacaoJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $tries = 3;
     public $pedido;
+    public $codpes;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Pedido $pedido)
+    public function __construct(Pedido $pedido, $codpes)
     {
         $this->pedido = $pedido;
+        $this->codpes = $codpes;
     }
 
     /**
@@ -35,8 +37,8 @@ class AutorizacaoJob implements ShouldQueue
      */
     public function handle()
     {
-        if(Pessoa::emailusp($this->pedido->responsavel_centro_despesa) != false){
-            Mail::send(new AutorizacaoMail($this->pedido));
+        if(Pessoa::emailusp($this->codpes) != false){
+            Mail::send(new AutorizacaoMail($this->pedido, $this->codpes));
         }
     }
 }

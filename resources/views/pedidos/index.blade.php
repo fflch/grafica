@@ -35,6 +35,24 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-auto form-group"> 
+                        <select class="form-control" name="busca_status">
+                            <option value="" selected="">- Status -</option>
+                            @foreach (App\Models\Pedido::status as $option)
+                                {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                                @if (old('busca_status') == '' and isset(Request()->busca_status))
+                                <option value="{{$option}}" {{ ( Request()->busca_status == $option) ? 'selected' : ''}}>
+                                    {{$option}}
+                                </option>
+                                {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                                @else
+                                <option value="{{$option}}" {{ ( old('busca_status') == $option) ? 'selected' : ''}}>
+                                    {{$option}}
+                                </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="col-sm form-group" id="busca"  @if(Request()->filtro_busca == 'data') style="display:none;" @endif>
                         <input type="text" class="form-control busca" autocomplete="off" name="busca" value="{{ Request()->busca }}" placeholder="Digite a descrição do pedido, o número USP, o nome do(a) solicitante">
                     </div>

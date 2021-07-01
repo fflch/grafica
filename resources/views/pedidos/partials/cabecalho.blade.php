@@ -5,6 +5,7 @@
                     <a href="/pedidos/create" class="btn btn-primary">Novo Pedido</a>
                 </div>
             </div>
+            @if(auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração')
             <div class="row float-right">
                 <div class="col-auto">
                     <a href="/pedidos/{{$pedido->id}}/edit" class="btn btn-warning">Editar Pedido</a>
@@ -17,6 +18,7 @@
                     </form>
                 </div>
             </div>
+            @endif
         </div>
     </div>
     <br>

@@ -25,8 +25,16 @@ class OrcamentoRequest extends FormRequest
     {
         return [
             'nome' => 'required',
-            'preco' => 'required|regex:/^\d*(\,\d{2})?$/',
+            'preco' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'pedido_id' => 'required|exists:pedidos,id'
         ];
+    }
+
+    public function validationData()
+    {
+        $dado = $this->all();
+        $dado['preco'] = str_replace('.', '', $dado['preco']);
+        $dado['preco'] = str_replace(',', '.', $dado['preco']);
+        return $dado;
     }
 }

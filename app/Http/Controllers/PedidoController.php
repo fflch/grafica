@@ -13,6 +13,7 @@ use App\Jobs\AnaliseJob;
 use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
 use App\Jobs\AutorizacaoJob;
+use App\Jobs\AutorizadoJob;
 use App\Jobs\DiagramacaoJob;
 use App\Jobs\ImpressaoJob;
 use App\Jobs\AcabamentoJob;
@@ -276,6 +277,7 @@ class PedidoController extends Controller
     public function enviarAutorizacao(Pedido $pedido, Request $request){
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
+            AutorizadoJob::dispatch($pedido);
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
                 $pedido->setStatus('Diagramação', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){

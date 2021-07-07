@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Orcamento;
 use App\Models\File;
+use App\Models\Chat;
 use App\Traits\HasStatuses;
 use App\Service\GeneralSettings;
 use Illuminate\Support\Facades\URL;
@@ -25,7 +26,6 @@ class Pedido extends Model
         'Autorização',
         'Diagramação',
         'Impressão',
-        'Acabamento',
         'Finalizado',
     ];
 
@@ -42,6 +42,11 @@ class Pedido extends Model
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
 
     public static function tipoOptions(){
@@ -92,8 +97,8 @@ class Pedido extends Model
         elseif($tipo == 'impressao'){
             $mensagem = $settings->impressao;
         }
-        elseif($tipo == 'acabamento'){
-            $mensagem = $settings->acabamento;
+        elseif($tipo == 'autorizado'){
+            $mensagem = $settings->autorizado;
         }
         elseif($tipo == 'finalizado'){
             $mensagem = $settings->finalizado;

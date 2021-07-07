@@ -1,13 +1,11 @@
 Prezado(a) %usuario,<br>
 
-Seu pedido está em fase de acabamento.<br>
+Seu pedido foi autorizado.<br>
         
 Mensagem:<br>
         
 %mensagem
 
 <b>%url</b><br>
-
-%link_arquivo<br>
         
 <h4><b>Sistema - Gráfica - FFLCH</b></h4>

@@ -32,6 +32,10 @@
                     <input type="text" class="form-control paginas" name="paginas" value="{{ old('paginas', $pedido->paginas) }}">
                 </div>
                 <div class="form-group">
+                    <label for="finalidade"><b>Finalidade:</b></label>
+                    <textarea class="form-control" name="finalidade" id="finalidade" rows="5">{{ old('finalidade', $pedido->finalidade) }}</textarea>
+                </div>
+                <div class="form-group">
                     <label for="centro_de_despesa" class="required"><b>Centro de Despesa:</b></label>
                     <select class="form-control" name="centro_de_despesa">
                         <option value="" selected="">- Selecione -</option>

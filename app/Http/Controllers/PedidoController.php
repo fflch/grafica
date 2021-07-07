@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
 use App\Models\File;
+use App\Models\Chat;
 use Uspdev\Replicado\Pessoa;
 use App\Services\PedidoStepper;
 use App\Jobs\AnaliseJob;
@@ -16,7 +17,6 @@ use App\Jobs\AutorizacaoJob;
 use App\Jobs\AutorizadoJob;
 use App\Jobs\DiagramacaoJob;
 use App\Jobs\ImpressaoJob;
-use App\Jobs\AcabamentoJob;
 use App\Jobs\FinalizarJob;
 use Illuminate\Validation\Rule;
 
@@ -163,10 +163,11 @@ class PedidoController extends Controller
     {
         $this->authorize('owner.pedido',$pedido);
         $stepper->setCurrentStepName($pedido->latestStatus());
-
+        $chats = Chat::where('pedido_id', $pedido->id)->orderBy('created_at','asc')->get();
         return view('pedidos.show', [
             'pedido' => $pedido,
             'stepper' => $stepper->render(),
+            'chats' => $chats,
         ]);
     }
 
@@ -275,6 +276,9 @@ class PedidoController extends Controller
     //para os próximos passos do sistema (indo para a Editora ou para a Gráfica)
     //também pode ocorrer do Centro de Despesa não liberar, então retorna para status 'Em Elaboração'
     public function enviarAutorizacao(Pedido $pedido, Request $request){
+        $request->validate([
+            'termo_responsavel_centro_despesa' => 'required',
+        ]);
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);
@@ -294,6 +298,10 @@ class PedidoController extends Controller
                     }
                 }
             }
+            if($request->termo_responsavel_centro_despesa == 'on'){
+                $pedido->termo_responsavel_centro_despesa = 1;
+                $pedido->update();
+            }
         }
         else{
             $pedido->setStatus('Em Elaboração', $request->reason);
@@ -311,14 +319,6 @@ class PedidoController extends Controller
                 ImpressaoJob::dispatch($pedido, $codpes);
             }
         }
-        return redirect("/pedidos/{$pedido->id}");
-    }
-
-    //Função que avisa o usuário do acabamento do pedido na gráfica
-    public function acabamento(Pedido $pedido, Request $request){
-        $this->authorize('grafica');
-        $pedido->setStatus('Acabamento', $request->reason);
-        AcabamentoJob::dispatch($pedido);
         return redirect("/pedidos/{$pedido->id}");
     }
 

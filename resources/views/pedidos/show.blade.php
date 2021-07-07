@@ -6,6 +6,10 @@
     @include('pedidos.partials.cabecalho')
     <br>
     {!! $stepper !!}
+    @if($pedido->status == 'Diagramação' or $pedido->status == 'Impressão')
+      <br><br>
+      @include('pedidos.partials.chat')
+    @endif
     <br><br>
     @include('pedidos.partials.dados_pedido')
     <br>

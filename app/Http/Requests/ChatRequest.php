@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GeneralSettingsRequest extends FormRequest
+class ChatRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class GeneralSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'em_analise' => 'required',
-            'orcamento' => 'required',
-            'autorizacao' => 'required',
-            'diagramacao' => 'required',
-            'impressao' => 'required',
-            'finalizado' => 'required',
-            'devolucao' => 'required',            
+            'message' => 'required',
+            'pedido_id' => 'required|exists:pedidos,id'
         ];
     }
 }

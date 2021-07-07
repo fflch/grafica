@@ -20,8 +20,10 @@ class CreatePedidosTable extends Migration
             $table->text('descricao');
             $table->string('tipo');
             $table->integer('paginas')->nullable();
+            $table->text('finalidade')->nullable();
             $table->string('centro_de_despesa')->nullable();
             $table->integer('responsavel_centro_despesa')->nullable();
+            $table->boolean('termo_responsavel_centro_despesa')->nullable();
         });
     }
 

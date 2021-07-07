@@ -14,9 +14,9 @@ class GeneralSettingsController extends Controller
             'em_analise' => $settings->em_analise,
             'orcamento' => $settings->orcamento,
             'autorizacao' => $settings->autorizacao,
+            'autorizado' => $settings->autorizado,
             'diagramacao' => $settings->diagramacao,
             'impressao' => $settings->impressao,
-            'acabamento' => $settings->acabamento,
             'finalizado' => $settings->finalizado,
             'devolucao' => $settings->devolucao,
         ]);
@@ -27,9 +27,9 @@ class GeneralSettingsController extends Controller
         $settings->em_analise = $request->input('em_analise');
         $settings->orcamento = $request->input('orcamento');
         $settings->autorizacao = $request->input('autorizacao');
+        $settings->autorizado = $request->input('autorizado');
         $settings->diagramacao = $request->input('diagramacao');
         $settings->impressao = $request->input('impressao');
-        $settings->acabamento = $request->input('acabamento');
         $settings->finalizado = $request->input('finalizado');
         $settings->devolucao = $request->input('devolucao');
         

@@ -34,6 +34,10 @@ jQuery(function ($) {
             $("#busca_data").show();
         }
     });
+
+    $('#scroll').stop().animate({
+        scrollTop: $('#scroll')[0].scrollHeight
+    }, 800);
     
 });
 
@@ -45,3 +49,4 @@ function MascaraMoeda(i) {
 	v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
 	i.value = v;
 }
+

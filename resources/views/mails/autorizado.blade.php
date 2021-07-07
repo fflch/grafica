@@ -1,5 +1,1 @@
-Olá, 
-
-O seu pedido foi aprovado com sucesso.
-
-Sistema - Gráficas
+{!! $pedido->configMail($pedido, $pedido->user->name, 'autorizado') !!}

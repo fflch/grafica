@@ -27,10 +27,12 @@ class GeneralSettingsRequest extends FormRequest
             'em_analise' => 'required',
             'orcamento' => 'required',
             'autorizacao' => 'required',
+            'autorizado' => 'required',
             'diagramacao' => 'required',
             'impressao' => 'required',
             'finalizado' => 'required',
             'devolucao' => 'required',            
+            'chat' => 'required',            
         ];
     }
 }

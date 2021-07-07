@@ -14,5 +14,6 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.impressao', file_get_contents(__DIR__ . "/defaults/impressao.txt"));
         $this->migrator->add('general.finalizado', file_get_contents(__DIR__ . "/defaults/finalizado.txt"));
         $this->migrator->add('general.devolucao', file_get_contents(__DIR__ . "/defaults/devolucao.txt"));
+        $this->migrator->add('general.chat', file_get_contents(__DIR__ . "/defaults/chat.txt"));
     }
 }

@@ -1,0 +1,11 @@
+Prezado(a) %usuario,<br>
+
+Você tem uma nova mensagem no sistema.<br>
+
+Mensagem de %remetente:<br>
+
+%mensagem
+
+<b>%url</b><br>
+
+<h4><b>Sistema - Gráfica - FFLCH</b></h4>

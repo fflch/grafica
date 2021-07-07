@@ -330,31 +330,8 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    /* Api para entregar dados do(a) aluno(a) no blade */
-    public function info(Request $request)
-    {
-        if(empty($request->codpes)){
-            return response('Pessoa não encontrada');
-        }
-
-        if(!is_int((int)$request->codpes)){
-            return response('Pessoa não encontrada');
-        }
-
-        if(strlen($request->codpes) < 6){
-            return response('Pessoa não encontrada');
-        }
-
-        $info = Pessoa::nomeCompleto($request->codpes);
-        if($info) {
-            return response($info);
-        } else {
-            return response('Pessoa não encontrada');
-        } 
-    }
-
     //Função para link de acesso temporário do arquivo do pedido
-    public function acesso_autorizado(Request $request)
+    public function acessoAutorizado(Request $request)
     {
         if ($request->hasValidSignature()) {
             $file = File::find($request->file_id);

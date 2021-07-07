@@ -14,6 +14,7 @@ class GeneralSettings extends Settings
     public string $impressao;
     public string $finalizado;
     public string $devolucao;
+    public string $chat;
         
     public static function group(): string
     {

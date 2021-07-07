@@ -62,6 +62,14 @@
 	</div>
 </div>
 
+<div class="form-group row">
+	<div class="form-group col-sm">
+		<label class="settings" for="chat"> Mensagem de E-mail de Novas Mensagens no Chat</label>  
+		<textarea rows="10" cols="70" class="form-control" name="chat">{{$chat}}</textarea> 
+		<span class="badge badge-warning">Token de substituição: %docente_nome, %candidato_nome, %titulo, %agendamento_id, %data_defesa, %agendamento_email </span>
+	</div>
+</div>
+
 <div class="form-group">
     <button type="submit" class="btn btn-success float-right">Salvar</button> 
 </div> 

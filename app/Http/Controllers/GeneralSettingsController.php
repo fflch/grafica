@@ -19,6 +19,7 @@ class GeneralSettingsController extends Controller
             'impressao' => $settings->impressao,
             'finalizado' => $settings->finalizado,
             'devolucao' => $settings->devolucao,
+            'chat' => $settings->chat,
         ]);
     }
 
@@ -32,6 +33,7 @@ class GeneralSettingsController extends Controller
         $settings->impressao = $request->input('impressao');
         $settings->finalizado = $request->input('finalizado');
         $settings->devolucao = $request->input('devolucao');
+        $settings->chat = $request->input('chat');
         
         $settings->save();
         

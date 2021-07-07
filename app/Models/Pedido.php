@@ -73,7 +73,7 @@ class Pedido extends Model
         
     }
 
-    //Função para modificar a mensagem padrão da Declaração
+    //Função para modificar a mensagem padrão dos emails
     public static function configMail($pedido, $usuario, $tipo){
         $settings = new GeneralSettings;
         $url = "<a href='http://grafica.fflch.usp.br/pedidos/{$pedido->id}'>Link do pedido</a>'";
@@ -115,4 +115,5 @@ class Pedido extends Model
         );
         return $mensagem;
     }
+
 }

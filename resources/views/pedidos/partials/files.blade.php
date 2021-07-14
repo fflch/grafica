@@ -1,7 +1,9 @@
 <div class="card">
         <div class="card-header"><b>Arquivos</b></div>
         <div class="card-body form-group">
-            @include('pedidos.files.partials.form')
+            @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+                @include('pedidos.files.partials.form')
+            @endif
             <br>
             <br>
             <table class="table table-striped" style="text-align: center;">
@@ -10,7 +12,7 @@
                         <th>Nome do Arquivo</th>
                         <th>Data de Envio</th>
                         <th>Status</th>
-                        @if($pedido->status == 'Orçamento')
+                        @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Diagramação' and Auth::user()->can('editora')))
                             <th>Ações</th>
                         @endif
                     </tr>
@@ -23,7 +25,7 @@
                             {{ Carbon\Carbon::parse($file->created_at)->format('d/m/Y') }}
                         </td>
                         <td>{{ $pedido->status }}</td>
-                        @if($pedido->status == 'Orçamento')
+                        @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Diagramação' and Auth::user()->can('editora')))
                             <td>
                                 <form method="POST" class="form-group" action="/files/{{$file->id}}">
                                     @csrf 

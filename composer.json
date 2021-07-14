@@ -17,6 +17,7 @@
         "rap2hpoutre/laravel-log-viewer": "^1.7",
         "spatie/laravel-model-status": "^1.10",
         "spatie/laravel-settings": "^2.1",
+        "uspdev/cache": "^0.7.3",
         "uspdev/laravel-usp-faker": "^1.0",
         "uspdev/laravel-usp-theme": "^2.1",
         "uspdev/laravel-usp-validators": "^1.0",

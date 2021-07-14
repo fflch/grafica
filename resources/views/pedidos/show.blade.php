@@ -6,7 +6,7 @@
     @include('pedidos.partials.cabecalho')
     <br>
     {!! $stepper !!}
-    @if($pedido->status == 'Diagramação' or $pedido->status == 'Impressão')
+    @if(($pedido->status == 'Diagramação' and Auth::user()->can('editora')) or ($pedido->status == 'Impressão' and Auth::user()->can('grafica')))
       <br><br>
       @include('pedidos.partials.chat')
     @endif

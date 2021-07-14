@@ -276,9 +276,11 @@ class PedidoController extends Controller
     //para os próximos passos do sistema (indo para a Editora ou para a Gráfica)
     //também pode ocorrer do Centro de Despesa não liberar, então retorna para status 'Em Elaboração'
     public function enviarAutorizacao(Pedido $pedido, Request $request){
-        $request->validate([
-            'termo_responsavel_centro_despesa' => 'required',
-        ]);
+        if($request->button == 'autorizado'){
+            $request->validate([
+                'termo_responsavel_centro_despesa' => 'required',
+            ]);
+        }
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);

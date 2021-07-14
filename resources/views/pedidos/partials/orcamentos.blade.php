@@ -11,7 +11,7 @@
                     <tr>
                         <th>Descrição</th>
                         <th>Preço</th>
-                        @if($pedido->status == 'Orçamento')
+                        @if($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
                             <th>Ações</th>
                         @endif
                     </tr>
@@ -21,7 +21,7 @@
                     <tr>
                         <td>{{ $orcamento->nome }}</td>
                         <td>R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
-                        @if($pedido->status == 'Orçamento')
+                        @if($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
                             <td>
                                 <form method="POST" class="form-group" action="/orcamentos/{{$orcamento->id}}">
                                     @csrf 

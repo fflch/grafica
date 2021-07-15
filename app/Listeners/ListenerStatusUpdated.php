@@ -41,9 +41,6 @@ class ListenerStatusUpdated
         elseif($event->newStatus == 'Impressão'){
             
         }
-        elseif($event->newStatus == 'Acabamento'){
-            
-        }
         elseif($event->newStatus == 'Finalizado'){
             
         }

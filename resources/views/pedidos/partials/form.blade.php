@@ -1,4 +1,5 @@
 @inject('financeiro','Uspdev\Replicado\Financeiro')
+@inject('utils','App\Utils\ReplicadoUtils')
 <div class="card">
             <div class="card-header"><b>Novo Pedido</b></div>
             <div class="card-body">
@@ -31,6 +32,10 @@
                     <input type="text" class="form-control paginas" name="paginas" value="{{ old('paginas', $pedido->paginas) }}">
                 </div>
                 <div class="form-group">
+                    <label for="finalidade"><b>Finalidade:</b></label>
+                    <textarea class="form-control" name="finalidade" id="finalidade" rows="5">{{ old('finalidade', $pedido->finalidade) }}</textarea>
+                </div>
+                <div class="form-group">
                     <label for="centro_de_despesa" class="required"><b>Centro de Despesa:</b></label>
                     <select class="form-control" name="centro_de_despesa">
                         <option value="" selected="">- Selecione -</option>
@@ -51,8 +56,22 @@
                 </div>
                 <div class="form-group">
                     <label for="responsavel_centro_despesa"><b>Responsável pelo Centro de Despesa:</b></label>
-                    <input type="text" class="form-control" id="responsavel_centro_despesa" name="responsavel_centro_despesa" value="{{ old('responsavel_centro_despesa', $pedido->responsavel_centro_despesa) }}">
-                    <div id="info"></div>
+                    <select class="form-control" name="responsavel_centro_despesa" @if($pedido->status == 'Aprovado')readonly @endif>
+                        <option value="" selected="">- Selecione -</option>
+                        @foreach ($utils->listarDocentesServidores() as $option)
+                            {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                            @if (old('responsavel_centro_despesa') == '' and isset($pedido->responsavel_centro_despesa))
+                            <option value="{{$option['codpes'] ?? ''}}" {{ ( $pedido->responsavel_centro_despesa == $option['codpes']) ? 'selected' : ''}}>
+                                {{$option['nompes'] ?? ''}}
+                            </option>
+                            {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                            @else
+                            <option value="{{$option['codpes'] ?? ''}}" {{ ( old('responsavel_centro_despesa') == $option['codpes']) ? 'selected' : ''}}>
+                                {{$option['nompes'] ?? ''}}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success float-right">Enviar</button> 

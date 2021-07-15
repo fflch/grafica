@@ -10,9 +10,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\AcabamentoMail;
+use App\Mail\AutorizadoMail;
 
-class AcabamentoJob implements ShouldQueue
+class AutorizadoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $tries = 3;
@@ -34,6 +34,6 @@ class AcabamentoJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::send(new AcabamentoMail($this->pedido));
+        Mail::send(new AutorizadoMail($this->pedido));
     }
 }

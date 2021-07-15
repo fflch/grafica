@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrcamentoRequest extends FormRequest
+class ChatRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,8 @@ class OrcamentoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
-            'preco' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'message' => 'required',
             'pedido_id' => 'required|exists:pedidos,id'
         ];
-    }
-
-    public function validationData()
-    {
-        $dado = $this->all();
-        $dado['preco'] = str_replace('.', '', $dado['preco']);
-        $dado['preco'] = str_replace(',', '.', $dado['preco']);
-        return $dado;
     }
 }

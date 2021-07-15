@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginAdminController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GeneralSettingsController;
 
 /*
@@ -33,7 +34,6 @@ Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'envia
 Route::post('pedidos/autorizacao/{pedido}', [PedidoController::class,'autorizacao']);
 Route::post('pedidos/enviar_autorizacao/{pedido}', [PedidoController::class,'enviarAutorizacao']);
 Route::post('pedidos/impressao/{pedido}', [PedidoController::class,'impressao']);
-Route::post('pedidos/acabamento/{pedido}', [PedidoController::class,'acabamento']);
 Route::post('pedidos/finalizar/{pedido}', [PedidoController::class,'finalizar']);
 
 Route::get('info', [PedidoController::class, 'info'])->name('pedidos.info');
@@ -41,6 +41,7 @@ Route::get('info', [PedidoController::class, 'info'])->name('pedidos.info');
 Route::resource('orcamentos', OrcamentoController::class);
 Route::resource('files', FileController::class);
 Route::resource('pedidos', PedidoController::class);
+Route::resource('chats', ChatController::class);
 
 Route::get('/login_admin',[LoginAdminController::class, 'show']);
 Route::post('/login_admin',[LoginAdminController::class, 'login']);

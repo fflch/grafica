@@ -33,6 +33,7 @@ class PedidoRequest extends FormRequest
             'descricao' => 'required',
             'tipo' => ['required',Rule::in($pedido->tipoOptions())],
             'paginas' => 'integer|nullable',
+            'finalidade' => ['required'],
             'centro_de_despesa' => ['required'],
             'responsavel_centro_despesa' => 'integer|codpes', 
         ];

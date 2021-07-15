@@ -7,15 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
 use App\Models\File;
+use App\Models\Chat;
 use Uspdev\Replicado\Pessoa;
 use App\Services\PedidoStepper;
 use App\Jobs\AnaliseJob;
 use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
 use App\Jobs\AutorizacaoJob;
+use App\Jobs\AutorizadoJob;
 use App\Jobs\DiagramacaoJob;
 use App\Jobs\ImpressaoJob;
-use App\Jobs\AcabamentoJob;
 use App\Jobs\FinalizarJob;
 use Illuminate\Validation\Rule;
 
@@ -162,10 +163,11 @@ class PedidoController extends Controller
     {
         $this->authorize('owner.pedido',$pedido);
         $stepper->setCurrentStepName($pedido->latestStatus());
-
+        $chats = Chat::where('pedido_id', $pedido->id)->orderBy('created_at','asc')->get();
         return view('pedidos.show', [
             'pedido' => $pedido,
             'stepper' => $stepper->render(),
+            'chats' => $chats,
         ]);
     }
 
@@ -274,8 +276,14 @@ class PedidoController extends Controller
     //para os próximos passos do sistema (indo para a Editora ou para a Gráfica)
     //também pode ocorrer do Centro de Despesa não liberar, então retorna para status 'Em Elaboração'
     public function enviarAutorizacao(Pedido $pedido, Request $request){
+        if($request->button == 'autorizado'){
+            $request->validate([
+                'termo_responsavel_centro_despesa' => 'required',
+            ]);
+        }
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
+            AutorizadoJob::dispatch($pedido);
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
                 $pedido->setStatus('Diagramação', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
@@ -291,6 +299,10 @@ class PedidoController extends Controller
                         ImpressaoJob::dispatch($pedido, $codpes);
                     }
                 }
+            }
+            if($request->termo_responsavel_centro_despesa == 'on'){
+                $pedido->termo_responsavel_centro_despesa = 1;
+                $pedido->update();
             }
         }
         else{
@@ -312,14 +324,6 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    //Função que avisa o usuário do acabamento do pedido na gráfica
-    public function acabamento(Pedido $pedido, Request $request){
-        $this->authorize('grafica');
-        $pedido->setStatus('Acabamento', $request->reason);
-        AcabamentoJob::dispatch($pedido);
-        return redirect("/pedidos/{$pedido->id}");
-    }
-
     //Função que avisa o usuário da finalização do pedido
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
@@ -328,31 +332,8 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    /* Api para entregar dados do(a) aluno(a) no blade */
-    public function info(Request $request)
-    {
-        if(empty($request->codpes)){
-            return response('Pessoa não encontrada');
-        }
-
-        if(!is_int((int)$request->codpes)){
-            return response('Pessoa não encontrada');
-        }
-
-        if(strlen($request->codpes) < 6){
-            return response('Pessoa não encontrada');
-        }
-
-        $info = Pessoa::nomeCompleto($request->codpes);
-        if($info) {
-            return response($info);
-        } else {
-            return response('Pessoa não encontrada');
-        } 
-    }
-
     //Função para link de acesso temporário do arquivo do pedido
-    public function acesso_autorizado(Request $request)
+    public function acessoAutorizado(Request $request)
     {
         if ($request->hasValidSignature()) {
             $file = File::find($request->file_id);

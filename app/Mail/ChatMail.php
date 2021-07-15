@@ -7,8 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
+use App\Models\Chat;
+use Uspdev\Replicado\Pessoa;
 
-class AcabamentoMail extends Mailable
+class ChatMail extends Mailable
 {
     use Queueable, SerializesModels;
     private $pedido;
@@ -17,9 +19,11 @@ class AcabamentoMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Pedido $pedido)
+    public function __construct(Pedido $pedido, Chat $chat, $codpes)
     {   
         $this->pedido = $pedido;
+        $this->chat = $chat;
+        $this->codpes = $codpes;
     }
 
     /**
@@ -29,12 +33,14 @@ class AcabamentoMail extends Mailable
      */
     public function build()
     {
-        $subject = "Pedido em Acabamento";
-        return $this->view('mails.acabamento')
-        ->to($this->pedido->user->email)
+        $subject = "Nova Mensagem de {$this->chat->user->name}";
+        return $this->view('mails.chat')
+        ->to(Pessoa::emailusp($this->codpes))
         ->subject($subject)
         ->with([
             'pedido' => $this->pedido,
+            'chat' => $this->chat,
+            'codpes' => $this->codpes,
         ]);
     }
 }

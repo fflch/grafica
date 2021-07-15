@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Orcamento;
 use App\Models\File;
+use App\Models\Chat;
 use App\Traits\HasStatuses;
 use App\Service\GeneralSettings;
 use Illuminate\Support\Facades\URL;
@@ -25,7 +26,6 @@ class Pedido extends Model
         'Autorização',
         'Diagramação',
         'Impressão',
-        'Acabamento',
         'Finalizado',
     ];
 
@@ -42,6 +42,11 @@ class Pedido extends Model
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
 
     public static function tipoOptions(){
@@ -68,7 +73,7 @@ class Pedido extends Model
         
     }
 
-    //Função para modificar a mensagem padrão da Declaração
+    //Função para modificar a mensagem padrão dos emails
     public static function configMail($pedido, $usuario, $tipo){
         $settings = new GeneralSettings;
         $url = "<a href='http://grafica.fflch.usp.br/pedidos/{$pedido->id}'>Link do pedido</a>'";
@@ -92,8 +97,8 @@ class Pedido extends Model
         elseif($tipo == 'impressao'){
             $mensagem = $settings->impressao;
         }
-        elseif($tipo == 'acabamento'){
-            $mensagem = $settings->acabamento;
+        elseif($tipo == 'autorizado'){
+            $mensagem = $settings->autorizado;
         }
         elseif($tipo == 'finalizado'){
             $mensagem = $settings->finalizado;
@@ -110,4 +115,5 @@ class Pedido extends Model
         );
         return $mensagem;
     }
+
 }

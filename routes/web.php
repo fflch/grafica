@@ -7,6 +7,7 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\GeneralSettingsController;
 
 /*
@@ -54,3 +55,6 @@ Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
+
+# Pdfs
+Route::get('/pedidos/documento_contabilidade/{pedido}',[PdfController::class, 'documentoContabilidade']);

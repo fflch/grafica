@@ -117,5 +117,11 @@
                     </div>
                 </form>
             </div>
+        @elseif($pedido->status == 'Finalizado' and Auth::user()->can('servidor'))
+            <div class="float-right">
+                <div class="col-auto">
+                    <a href="/pedidos/documento_contabilidade/{{ $pedido->id }}" class="btn btn-success">Gerar Documento para Contabilidade</a>
+                </div>
+            </div>
         @endif
     </div>

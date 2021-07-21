@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
+use Carbon\Carbon;
 use App\Models\File;
 use App\Models\Chat;
 use Uspdev\Replicado\Pessoa;
@@ -52,7 +53,7 @@ class PedidoController extends Controller
         }
         elseif($request->filtro_busca == 'data'){
             $data = Carbon::CreatefromFormat('d/m/Y', "$request->busca_data");
-            $query->whereDate('data_da_defesa','=', $data);
+            $query->whereDate('pedidos.created_at','=', $data);
         }
         if($request->busca_tipo != ''){
             $query->where('tipo','=', $request->busca_tipo);

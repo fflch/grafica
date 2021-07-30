@@ -69,13 +69,17 @@
 
 @section('content')
     <h2 align="center">Orçamento do Pedido - nº {{ $pedido->id }} </h2>
-    <table style="text-align:center; border: 1px solid;" width="18cm" cellspacing="0" cellpadding="0">
+    <table style="text-align:left; border: 1px solid;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <td style="font-size:18px; border: 1px solid #000;" colspan='2'><b>Dados do Pedido</b></td>
+            <td style="font-size:18px; border: 1px solid #000; text-align:center;" colspan='2'><b>Dados do Pedido</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? 'Não informado'}}</td>
             <td style="border: 1px solid #000;"><b>Tipo:</b> {{$pedido->tipo ?? 'Não informado'}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">    
+            <td style="border: 1px solid #000;"><b>Data da Solicitação:</b> {{ strftime('%d/%m/%Y', strtotime($pedido->created_at)) }}</td>
+            <td style="border: 1px solid #000;"><b>Data da Finalização:</b> {{ strftime('%d/%m/%Y', strtotime($pedido->updated_at)) }}</td>
         </tr>
         <tr style="border: 1px solid #000;">
             <td style="border: 1px solid #000;"><b>Centro de Despesa:</b> {{$pedido->centro_de_despesa ?? 'Não informado'}}</td>
@@ -83,13 +87,13 @@
         </tr>
     </table>
     <br>
-    <table style="text-align:center; table-layout:fixed; border:1px solid; white-space: normal;" width="18cm" cellspacing="0" cellpadding="0">
+    <table style="text-align:left; table-layout:fixed; border:1px solid; white-space: normal;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <td style="font-size:18px; border: 1px solid #000;"><b>Outras informações</b></td>
+            <td style="font-size:18px; border: 1px solid #000; text-align:center;"><b>Outras informações</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;">
-                <b>Descrição:</b><br>
+                <b>Descrição: </b>
                 {{$pedido->descricao ?? 'Não informado'}}
             </td>
         </tr>
@@ -98,36 +102,46 @@
         </tr>
         <tr style="border: 1px solid #000;">
             <td style="border: 1px solid #000;">
-                <b>Finalidade:</b><br> 
+                <b>Finalidade: </b>
                 {{$pedido->finalidade ?? 'Não informado'}}
             </td>
         </tr>
     </table>
     <br>
-    <table style="text-align: center; border: 1px solid #000;" width="18cm" cellspacing="0" cellpadding="0">
+    <table style="border: 1px solid #000;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <th height="0.4cm" style="background-color:gray; padding:0px; font-size:18px; border: 1px solid #000;" colspan='2'>Orçamento</th>
+            <th height="0.4cm" style="background-color:gray; padding:0px; font-size:18px; border: 1px solid #000; text-align: center;" colspan='2'>Orçamento</th>
         </tr>
-        <tr style="border: 1px solid #000;">
+        <tr style="border: 1px solid #000; text-align: center;">
             <th height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">Item</th>
             <th height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">Preço</th>
         </tr>
         @foreach ($pedido->orcamentos as $orcamento)
             <tr style="border: 1px solid #000;">
-                <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000;">{{ $orcamento->nome }}</td>
-                <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000;">R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
+                <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">{{ $orcamento->nome }}</td>
+                <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: right;">R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
             </tr>
         @endforeach
-        <tr style="border: 1px solid #000;">
-            <td colspan='2' height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000;"><b>Total:</b> R$ {{ number_format($pedido->orcamentos()->get()->sum("preco"), 2, ',', '.') }} </td>
+        <tr style="border: 1px solid #000; text-align: center;">
+            <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: left;"><b>Total: </b></td>
+            <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: right;"> R$ {{ number_format($pedido->orcamentos()->get()->sum("preco"), 2, ',', '.') }} </td>
         </tr>
     </table>
     <br><br>
     <div style="text-align:right; margin-right:22px;">
+        ______________________________________________
+        <br>
+        {{ $pedido->user->name }}<br><br><br>
         @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
         São Paulo, {{ strftime('%d de %B de %Y', strtotime('today')) }}
     </div><br><br>
     <br>
+    @if($observacao != null)
+        <p>
+            <b>Observação:</b><br>
+            {{$observacao}}
+        </p><br><br>
+    @endif
     <p style="text-align:center;">
         <b>{{Auth::user()->name}} - Serviço de Editoração e Distribuição - FFLCH/USP</b>
     </p>

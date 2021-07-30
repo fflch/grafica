@@ -118,10 +118,17 @@
                 </form>
             </div>
         @elseif($pedido->status == 'Finalizado' and Auth::user()->can('servidor'))
-            <div class="float-right">
-                <div class="col-auto">
-                    <a href="/pedidos/documento_contabilidade/{{ $pedido->id }}" class="btn btn-success">Gerar Documento para Contabilidade</a>
-                </div>
+            <div class="col-sm">
+                <form method="POST" action="/pedidos/documento_contabilidade/{{ $pedido->id }}">
+                    @csrf 
+                    <div class="col-sm form-group">
+                        <label for="observacao"><b>Observação a ser inserida no documento:</b></label>
+                        <textarea class="form-control" name="observacao" id="observacao" rows="5">{{ old('observacao') }}</textarea>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja gerar documento para contabilidade?')"> Gerar Documento para Contabilidade </button>
+                    </div>
+                </form>
             </div>
         @endif
     </div>

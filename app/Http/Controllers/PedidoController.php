@@ -329,6 +329,8 @@ class PedidoController extends Controller
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         $pedido->setStatus('Finalizado', $request->reason);
+        $pedido->updated_at = date('Y-m-d H:i:s');
+        $pedido->update();
         FinalizarJob::dispatch($pedido);
         return redirect("/pedidos/{$pedido->id}");
     }

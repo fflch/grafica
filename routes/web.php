@@ -57,4 +57,4 @@ Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
 
 # Pdfs
-Route::get('/pedidos/documento_contabilidade/{pedido}',[PdfController::class, 'documentoContabilidade']);
+Route::post('/pedidos/documento_contabilidade/{pedido}',[PdfController::class, 'documentoContabilidade']);

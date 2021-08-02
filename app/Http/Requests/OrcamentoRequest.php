@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrcamentoRequest extends FormRequest
 {
@@ -23,8 +24,10 @@ class OrcamentoRequest extends FormRequest
      */
     public function rules()
     {
+        $procedencia = ['editora','grafica'];
         return [
             'nome' => 'required',
+            'procedencia' => ['required', Rule::in($procedencia)],
             'preco' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'pedido_id' => 'required|exists:pedidos,id'
         ];

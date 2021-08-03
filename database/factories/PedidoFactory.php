@@ -27,6 +27,7 @@ class PedidoFactory extends Factory
         $responsavel_centro_despesa = $this->faker->unique()->servidor();
         return [
             'user_id' => $user[0]['id'],
+            'titulo' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
             'descricao' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
             'tipo' => $tipo[array_rand($tipo)],
             'paginas' => $this->faker->randomNumber($nbDigits = 3, $strict = false),

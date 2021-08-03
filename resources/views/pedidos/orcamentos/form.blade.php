@@ -3,10 +3,6 @@
     <input type="hidden" name="pedido_id" value="{{$pedido->id}}">
     <div class="row">
         <div class="col-sm form-group">
-            <label for="titulo"><b>Título:</b></label>
-            <input type="text" class="form-control" name="titulo" value="{{ old('titulo') }}">
-        </div>
-        <div class="col-sm form-group">
             <label for="nome"><b>Descrição do Item:</b></label>
             <input type="text" class="form-control" name="nome" value="{{ old('nome') }}">
         </div>

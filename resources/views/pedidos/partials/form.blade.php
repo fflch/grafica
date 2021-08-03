@@ -4,6 +4,10 @@
             <div class="card-header"><b>Novo Pedido</b></div>
             <div class="card-body">
                 <div class="form-group">
+                    <label for="titulo"><b>Título:</b></label>
+                    <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $pedido->titulo) }}">
+                </div>
+                <div class="form-group">
                     <input type="text" hidden class="form-control" name="user_id" value=""><br>
                     <label for="descricao"><b>Descrição:</b></label>
                     <textarea class="form-control" name="descricao" id="descricao" rows="5">{{ old('descricao', $pedido->descricao) }}</textarea>

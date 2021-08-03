@@ -316,6 +316,13 @@ class PedidoController extends Controller
     //Função que encaminha para a Gráfica assim que termina o status de Diagramação
     public function impressao(Pedido $pedido, Request $request){
         $this->authorize('editora');
+        $request->validate([
+            'formato' => 'required',
+            'paginas_diagramadas' => 'required',
+        ]);
+        $pedido->formato = $request->formato;
+        $pedido->paginas_diagramadas = $request->paginas_diagramadas;
+        $pedido->update();
         $pedido->setStatus('Impressão', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
             if(Pessoa::emailusp($codpes)){
@@ -328,6 +335,19 @@ class PedidoController extends Controller
     //Função que avisa o usuário da finalização do pedido
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
+        $request->validate([
+            'formato' => 'required',
+            'tiragem' => 'required',
+            'originais' => 'required',
+            'impressos' => 'required',
+        ]);
+        if($request->percentual_sobre_insumos == 'on'){
+            $pedido->percentual_sobre_insumos = 0.3 * $pedido->orcamentos()->get()->sum("preco");
+        }
+        $pedido->formato = $request->formato;
+        $pedido->tiragem = $request->tiragem;
+        $pedido->originais = $request->originais;
+        $pedido->impressos = $request->impressos;
         $pedido->setStatus('Finalizado', $request->reason);
         $pedido->updated_at = date('Y-m-d H:i:s');
         $pedido->update();

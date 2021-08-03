@@ -89,19 +89,32 @@
     <br>
     <table style="text-align:left; table-layout:fixed; border:1px solid; white-space: normal;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <td style="font-size:18px; border: 1px solid #000; text-align:center;"><b>Outras informações</b></td>
+            <td colspan='3' style="font-size:18px; border: 1px solid #000; text-align:center;"><b>Outras informações</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
-            <td style="border: 1px solid #000;">
+            <td colspan='3' style="border: 1px solid #000;">
+                <b>Título: </b>
+                {{$pedido->titulo ?? 'Não informado'}}
+            </td>
+        </tr>
+        <tr style="border: 1px solid #000;">    
+            <td colspan='3' style="border: 1px solid #000;">
                 <b>Descrição: </b>
                 {{$pedido->descricao ?? 'Não informado'}}
             </td>
         </tr>
         <tr style="border: 1px solid #000;">
             <td style="border: 1px solid #000;"><b>Número de páginas:</b> {{$pedido->paginas ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Páginas diagramadas:</b> {{$pedido->paginas_diagramadas ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Formato:</b> {{$pedido->formato ?? 'Não informado'}}</td>
         </tr>
         <tr style="border: 1px solid #000;">
-            <td style="border: 1px solid #000;">
+            <td style="border: 1px solid #000;"><b>Tiragem:</b> {{$pedido->tiragem ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Originais:</b> {{$pedido->originais ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Total de impressos:</b> {{$pedido->impressos ?? 'Não informado'}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">
+            <td colspan='3' style="border: 1px solid #000;">
                 <b>Finalidade: </b>
                 {{$pedido->finalidade ?? 'Não informado'}}
             </td>
@@ -116,16 +129,46 @@
             <th height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">Item</th>
             <th height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">Preço</th>
         </tr>
-        @foreach ($pedido->orcamentos as $orcamento)
-            <tr style="border: 1px solid #000;">
-                <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">{{ $orcamento->nome }}</td>
-                <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: right;">R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
+        @if($pedido->percentual_sobre_insumos != null)
+            @foreach ($pedido->orcamentos->where('procedencia','editora') as $orcamento)
+                <tr style="border: 1px solid #000;">
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">{{ $orcamento->nome }}</td>
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">@if($orcamento->procedencia == 'editora') Editora @else Gráfica @endif</td>
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: right;">R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
+                </tr>
+            @endforeach
+            <tr style="border: 1px solid #000; text-align: center;">
+                <td colspan="2" height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;"></td>
             </tr>
-        @endforeach
-        <tr style="border: 1px solid #000; text-align: center;">
-            <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: left;"><b>Total: </b></td>
-            <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: right;"> R$ {{ number_format($pedido->orcamentos()->get()->sum("preco"), 2, ',', '.') }} </td>
-        </tr>
+            @foreach ($pedido->orcamentos->where('procedencia','grafica') as $orcamento)
+                <tr style="border: 1px solid #000;">
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">{{ $orcamento->nome }}</td>
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">@if($orcamento->procedencia == 'editora') Editora @else Gráfica @endif</td>
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: right;">R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
+                </tr>
+            @endforeach
+            <tr style="border: 1px solid #000; text-align: center;">
+                <td colspan="2" height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">30% sobre os materiais utilizados</td>
+                <td colspan="2" height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">{{$pedido->percentual_sobre_insumos}}</td>
+            </tr>
+            <tr style="border: 1px solid #000; text-align: center;">
+                <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: left;"><b>Total: </b></td>
+                <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: right;"> R$ {{ number_format(($pedido->orcamentos()->get()->sum("preco")+$pedido->percentual_sobre_insumos), 2, ',', '.') }} </td>
+            </tr>
+        @else
+            @foreach ($pedido->orcamentos as $orcamento)
+                <tr style="border: 1px solid #000;">
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">{{ $orcamento->nome }}</td>
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: left;">@if($orcamento->procedencia == 'editora') Editora @else Gráfica @endif</td>
+                    <td height="0.4cm" style="background-color:white; padding:0px; border: 1px solid #000; text-align: right;">R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
+                </tr>
+            @endforeach
+            <tr style="border: 1px solid #000; text-align: center;">
+                <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: left;"><b>Total: </b></td>
+                <td height="0.4cm" style="background-color:#B9B1B1; padding:0px; border: 1px solid #000; text-align: right;"> R$ {{ number_format($pedido->orcamentos()->get()->sum("preco"), 2, ',', '.') }} </td>
+            </tr>
+        @endif
+        
     </table>
     <br><br>
     <div style="text-align:right; margin-right:22px;">
@@ -136,10 +179,11 @@
         São Paulo, {{ strftime('%d de %B de %Y', strtotime('today')) }}
     </div><br><br>
     <br>
-    @if($observacao != null)
+    @if($pedido->percentual_sobre_insumos != null)
         <p>
             <b>Observação:</b><br>
-            {{$observacao}}
+            30% sobre o total de materiais representa gastos com tinta, solventes, toner, cola, algodão,
+blanqueta, restauradoras etc.
         </p><br><br>
     @endif
     <p style="text-align:center;">

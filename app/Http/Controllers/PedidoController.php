@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\Orcamento;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
@@ -263,6 +264,16 @@ class PedidoController extends Controller
     //envia o orçamento para o usuário e para o responsável do centro de despesa para que este autorize
     public function autorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
+        if($request->percentual_sobre_insumos == 'on'){
+            $pedido->percentual_sobre_insumos = 1;
+            $pedido->update();
+            $orcamento = new Orcamento;
+            $orcamento->pedido_id = $pedido->id;
+            $orcamento->procedencia = 'grafica';
+            $orcamento->preco = 0.3 * $pedido->orcamentos()->where('procedencia','grafica')->get()->sum("preco");
+            $orcamento->nome = "30% sobre os materiais utilizados";
+            $orcamento->save();
+        }
         $pedido->setStatus('Autorização', $request->reason);
         if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
             AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);

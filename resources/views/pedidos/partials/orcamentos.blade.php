@@ -18,7 +18,7 @@
                     </tr>
                 </theader>
                 <tbody>
-                @foreach ($pedido->orcamentos as $orcamento)
+                @foreach ($pedido->orcamentos->sortBy('procedencia') as $orcamento)
                     <tr>
                         <td>{{ $orcamento->nome }}</td>
                         <td>@if($orcamento->procedencia == 'editora') Editora @else Gráfica @endif</td>

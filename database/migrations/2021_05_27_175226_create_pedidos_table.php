@@ -27,7 +27,7 @@ class CreatePedidosTable extends Migration
             $table->integer('tiragem')->nullable();
             $table->integer('originais')->nullable();
             $table->integer('impressos')->nullable();
-            $table->float('percentual_sobre_insumos')->nullable();
+            $table->boolean('percentual_sobre_insumos')->nullable();
             $table->string('centro_de_despesa')->nullable();
             $table->integer('responsavel_centro_despesa')->nullable();
             $table->boolean('termo_responsavel_centro_despesa')->nullable();

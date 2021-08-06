@@ -55,13 +55,23 @@
         @elseif($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
             <div class="col-sm">
                 <form method="POST" action="/pedidos/autorizacao/{{ $pedido->id }}">
-                    @csrf 
-                    <div class="col-sm form-group">
-                        <label for="reason"><b>Mensagem:</b></label>
-                        <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                    @csrf
+                    <div class="row"> 
+                        <div class="col-sm form-group">
+                            <label for="reason"><b>Mensagem:</b></label>
+                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para autorização?')"> Enviar para Autorização </button>
+                    <div class="row">
+                        <div class="col-sm form-check">
+                            <input style="margin-left:1px" type="checkbox" name="percentual_sobre_insumos" class="form-check-input" id="percentual_sobre_insumos" @if($pedido->percentual_sobre_insumos == 1) checked @endif>
+                            <label style="margin-left:20px" class="form-check-label" for="percentual_sobre_insumos">30% sobre o total de materiais</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para autorização?')"> Enviar para Autorização </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -146,12 +156,6 @@
                             <input type="text" class="form-control" name="impressos" value="{{ old('impressos', $pedido->impressos) }}">
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col-sm form-check">
-                            <input style="margin-left:1px" type="checkbox" name="percentual_sobre_insumos" class="form-check-input" id="percentual_sobre_insumos" @if($pedido->percentual_sobre_insumos == 1) checked @endif>
-                            <label style="margin-left:20px" class="form-check-label" for="percentual_sobre_insumos">30% sobre o total de materiais</label>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-auto">
                             <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja finalizar o pedido?')"> Finalizar Pedido </button>
@@ -163,10 +167,6 @@
             <div class="col-sm">
                 <form method="POST" action="/pedidos/documento_contabilidade/{{ $pedido->id }}">
                     @csrf 
-                    <div class="col-sm form-group">
-                        <label for="observacao"><b>Observação a ser inserida no documento:</b></label>
-                        <textarea class="form-control" name="observacao" id="observacao" rows="5">{{ old('observacao') }}</textarea>
-                    </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja gerar documento para contabilidade?')"> Gerar Documento para Contabilidade </button>
                     </div>

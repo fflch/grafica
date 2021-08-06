@@ -57,6 +57,3 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 
 Utilizamos a [PSR-2](https://www.php-fig.org/psr/psr-2/) para padrões de projeto. Ajuste seu editor favorito para a especificação.
 
-[logo-fflch]: logo-fflch.png
-{: height="12px" width="12px"}
-

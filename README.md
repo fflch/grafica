@@ -1,6 +1,5 @@
 ## Conceito
-
-![](/public/images/logo-fflch.png {width="120" height="120" style="display: block; margin: 0 auto"})
+[<img src="/public/images/logo-fflch.png" width="80"/>](/public/images/logo-fflch.png)
 
 Sistema Gráfica da FFLCH/USP
 

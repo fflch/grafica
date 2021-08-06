@@ -1,6 +1,5 @@
 ## Conceito
-
-![](/public/images/logo-fflch.png {:width="120" height="120" style="display: block; margin: 0 auto"})
+[<img src="/public/images/logo-fflch.png" width="80"/>](/public/images/logo-fflch.png)
 
 Sistema Gráfica da FFLCH/USP
 
@@ -57,4 +56,7 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 ## Padrões de Projeto
 
 Utilizamos a [PSR-2](https://www.php-fig.org/psr/psr-2/) para padrões de projeto. Ajuste seu editor favorito para a especificação.
+
+[logo-fflch]: logo-fflch.png
+{: height="12px" width="12px"}
 

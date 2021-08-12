@@ -30,6 +30,7 @@ class PedidoRequest extends FormRequest
         
         return [
             'user_id' => '',
+            'titulo' => 'required',
             'descricao' => 'required',
             'tipo' => ['required',Rule::in($pedido->tipoOptions())],
             'paginas' => 'integer|nullable',

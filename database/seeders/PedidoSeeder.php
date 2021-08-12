@@ -18,7 +18,8 @@ class PedidoSeeder extends Seeder
 
         $pedido1 = [
             'user_id' => 1,
-            'descricao' => 'Livro - A educação universitária',
+            'titulo' => 'A educação universitária',
+            'descricao' => 'Livro',
             'tipo' => 'Diagramação + Impressão',
             'paginas' => 200,
             'centro_de_despesa' => 'Centro de Despesa da FFLCH', 

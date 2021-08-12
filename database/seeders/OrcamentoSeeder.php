@@ -17,21 +17,25 @@ class OrcamentoSeeder extends Seeder
         $orcamento1 = [
             'preco' => 500.00,
             'nome' => 'Diagramação',
+            'procedencia' => 'editora',
             'pedido_id' => 1,
         ];
         $orcamento2 = [
             'preco' => 200.00,
             'nome' => 'Papel',
+            'procedencia' => 'grafica',
             'pedido_id' => 1,
         ];
         $orcamento3 = [
             'preco' => 300.00,
             'nome' => 'Capa Dura',
+            'procedencia' => 'grafica',
             'pedido_id' => 1,
         ];
         $orcamento4 = [
             'preco' => 150.00,
             'nome' => 'Tinta',
+            'procedencia' => 'grafica',
             'pedido_id' => 1,
         ];
 

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\Orcamento;
 use Illuminate\Http\Request;
 use App\Http\Requests\PedidoRequest;
 use Storage;
+use Carbon\Carbon;
 use App\Models\File;
 use App\Models\Chat;
 use Uspdev\Replicado\Pessoa;
@@ -52,7 +54,7 @@ class PedidoController extends Controller
         }
         elseif($request->filtro_busca == 'data'){
             $data = Carbon::CreatefromFormat('d/m/Y', "$request->busca_data");
-            $query->whereDate('data_da_defesa','=', $data);
+            $query->whereDate('pedidos.created_at','=', $data);
         }
         if($request->busca_tipo != ''){
             $query->where('tipo','=', $request->busca_tipo);
@@ -262,6 +264,16 @@ class PedidoController extends Controller
     //envia o orçamento para o usuário e para o responsável do centro de despesa para que este autorize
     public function autorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
+        if($request->percentual_sobre_insumos == 'on'){
+            $pedido->percentual_sobre_insumos = 1;
+            $pedido->update();
+            $orcamento = new Orcamento;
+            $orcamento->pedido_id = $pedido->id;
+            $orcamento->procedencia = 'grafica';
+            $orcamento->preco = 0.3 * $pedido->orcamentos()->where('procedencia','grafica')->get()->sum("preco");
+            $orcamento->nome = "30% sobre os materiais utilizados";
+            $orcamento->save();
+        }
         $pedido->setStatus('Autorização', $request->reason);
         if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
             AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);
@@ -315,6 +327,13 @@ class PedidoController extends Controller
     //Função que encaminha para a Gráfica assim que termina o status de Diagramação
     public function impressao(Pedido $pedido, Request $request){
         $this->authorize('editora');
+        $request->validate([
+            'formato' => 'required',
+            'paginas_diagramadas' => 'required',
+        ]);
+        $pedido->formato = $request->formato;
+        $pedido->paginas_diagramadas = $request->paginas_diagramadas;
+        $pedido->update();
         $pedido->setStatus('Impressão', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
             if(Pessoa::emailusp($codpes)){
@@ -327,7 +346,22 @@ class PedidoController extends Controller
     //Função que avisa o usuário da finalização do pedido
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
+        $request->validate([
+            'formato' => 'required',
+            'tiragem' => 'required',
+            'originais' => 'required',
+            'impressos' => 'required',
+        ]);
+        if($request->percentual_sobre_insumos == 'on'){
+            $pedido->percentual_sobre_insumos = 0.3 * $pedido->orcamentos()->get()->sum("preco");
+        }
+        $pedido->formato = $request->formato;
+        $pedido->tiragem = $request->tiragem;
+        $pedido->originais = $request->originais;
+        $pedido->impressos = $request->impressos;
         $pedido->setStatus('Finalizado', $request->reason);
+        $pedido->updated_at = date('Y-m-d H:i:s');
+        $pedido->update();
         FinalizarJob::dispatch($pedido);
         return redirect("/pedidos/{$pedido->id}");
     }

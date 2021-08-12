@@ -10,6 +10,7 @@
                 <theader>
                     <tr>
                         <th>Descrição</th>
+                        <th>Procedência</th>
                         <th>Preço</th>
                         @if($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
                             <th>Ações</th>
@@ -17,9 +18,10 @@
                     </tr>
                 </theader>
                 <tbody>
-                @foreach ($pedido->orcamentos as $orcamento)
+                @foreach ($pedido->orcamentos->sortBy('procedencia') as $orcamento)
                     <tr>
                         <td>{{ $orcamento->nome }}</td>
+                        <td>@if($orcamento->procedencia == 'editora') Editora @else Gráfica @endif</td>
                         <td>R$ {{  number_format($orcamento->preco, 2, ',', '.') }}</td>
                         @if($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
                             <td>

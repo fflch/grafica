@@ -17,6 +17,7 @@ class CreateOrcamentosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('pedido_id')->constrained('pedidos');
+            $table->text('procedencia');
             $table->float('preco');
             $table->text('nome');
         });

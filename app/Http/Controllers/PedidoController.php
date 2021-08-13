@@ -274,6 +274,9 @@ class PedidoController extends Controller
             $orcamento->nome = "30% sobre os materiais utilizados";
             $orcamento->save();
         }
+        else{
+            $orcamento = $pedido->orcamentos()->where('nome','LIKE', '%sobre os materiais utilizados%')->delete();
+        }
         $pedido->setStatus('Autorização', $request->reason);
         if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
             AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);

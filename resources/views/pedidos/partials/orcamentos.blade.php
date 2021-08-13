@@ -10,7 +10,7 @@
                 <theader>
                     <tr>
                         <th>Descrição</th>
-                        <th>Procedência</th>
+                        <th>Setor</th>
                         <th>Preço</th>
                         @if($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
                             <th>Ações</th>

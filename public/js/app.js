@@ -19,7 +19,7 @@ jQuery(function ($) {
         , prevText: 'Anterior'
     });
     
-    $(".paginas").mask('0000');
+    $(".numeros").mask('00000000');
 
     $("#numero_nome").click(function() {
         if ($("#numero_nome").prop("checked")) {

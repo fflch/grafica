@@ -57,10 +57,10 @@
       <td style='width:20%' style='text-align:left;'>
         <img src='images/logo-fflch.png' width='100px'/>
       </td>
-      <td style='width:80%'; style='text-align:center;'>
-        <p align='center'><b>FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS</b>
-        <br>Universidade de São Paulo<br>
-        Serviço de Editoração e Distribuição</p>
+      <td style='width:80%; text-align:center; font-size:18px; color: #042e6f'>
+        <b>FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS</b>
+        <p style="color:#000; margin: 0; padding: 0;">Universidade de São Paulo</p>
+        <i>Serviço de Editoração e Artes Gráficas</i>
       </td>
     </tr>
   </table>
@@ -71,7 +71,7 @@
     <h2 align="center">Orçamento do Pedido - nº {{ $pedido->id }} </h2>
     <table style="text-align:left; border: 1px solid;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <td style="font-size:18px; border: 1px solid #000; text-align:center;" colspan='2'><b>Dados do Pedido</b></td>
+            <td style="font-size:14px; border: 1px solid #000; text-align:center;" colspan='2'><b>Dados do Pedido</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? 'Não informado'}}</td>
@@ -89,7 +89,7 @@
     <br>
     <table style="text-align:left; table-layout:fixed; border:1px solid; white-space: normal;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <td colspan='3' style="font-size:18px; border: 1px solid #000; text-align:center;"><b>Outras informações</b></td>
+            <td colspan='3' style="font-size:14px; border: 1px solid #000; text-align:center;"><b>Outras informações</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td colspan='3' style="border: 1px solid #000;">
@@ -123,7 +123,7 @@
     <br>
     <table style="border: 1px solid #000;" width="18cm" cellspacing="0" cellpadding="0">
         <tr style="border: 1px solid #000;">
-            <th height="0.4cm" style="background-color:gray; padding:0px; font-size:18px; border: 1px solid #000; text-align: center;" colspan='3'>Orçamento</th>
+            <th height="0.4cm" style="background-color:gray; padding:0px; font-size:14px; border: 1px solid #000; text-align: center;" colspan='3'>Orçamento</th>
         </tr>
         <tr style="border: 1px solid #000; text-align: center;">
             <th height="0.4cm" style="background-color:gray; padding:0px; border: 1px solid #000;">Item</th>
@@ -147,25 +147,32 @@
     <div style="text-align:right; margin-right:22px;">
         ______________________________________________
         <br>
-        {{ $pedido->user->name }}<br><br><br>
+        {{ $pedido->user->name }}<br><br>
         @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
         São Paulo, {{ strftime('%d de %B de %Y', strtotime('today')) }}
     </div>
-    <br>
     @if($pedido->percentual_sobre_insumos == 1)
         <p>
             <b>Observação:</b><br>
             30% sobre o total de materiais representa gastos com tinta, solventes, toner, cola, algodão,
 blanqueta, restauradoras etc.
-        </p><br>
+        </p>
     @endif
-    <p style="text-align:center;">
-        <b>{{Auth::user()->name}} - Serviço de Editoração e Distribuição - FFLCH/USP</b>
-    </p>
     <div id="footer">
-        Serviço de Editoração e Distribuição <br> 
-        e-mail: pubfflch@usp.br | Tel e fax: 3091-4589 <br>
-        Rua do Lago, 717 CEP: 05508-080 - Cidade Universitária São Paulo - SP / Brasil <br>
+        <table style="text-align:center; color: #042e6f">
+            <tr>
+                <td style="border-right: 1px solid gray">
+                    <b>Serviço de Editoração da FFLCH</b><br> 
+                    <b>E-mail:</b> editorafflch@usp.br | <b>Tel e fax:</b> 3091-4593 <br>
+                    Rua do Lago, 717 CEP: 05508-080 - Cidade Universitária São Paulo - SP / Brasil <br>
+                </td>
+                <td>
+                    <b>Serviço de Artes Gráficas da FFLCH</b> <br> 
+                    <b>E-mail:</b> sagr@usp.br | <b>Tel e fax:</b> 3091-4591 <br>
+                    Rua do Lago, 717 CEP: 05508-080 - Cidade Universitária São Paulo - SP / Brasil <br>
+                </td>    
+            </tr>
+        </table>
     </div>
     <p style="page-break-before: always">&nbsp;</p>
 @endsection('content')

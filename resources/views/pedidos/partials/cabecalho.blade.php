@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-sm form-group">
                             <label for="paginas_diagramadas"><b>Páginas Diagramadas:</b></label>
-                            <input type="text" class="form-control" name="paginas_diagramadas" value="{{ old('paginas_diagramadas', $pedido->paginas_diagramadas) }}">
+                            <input type="text" class="form-control numeros" name="paginas_diagramadas" value="{{ old('paginas_diagramadas', $pedido->paginas_diagramadas) }}">
                         </div>
                     </div>
                     <div class="row">
@@ -145,15 +145,15 @@
                         </div>
                         <div class="col-sm form-group">
                             <label for="tiragem"><b>Tiragem:</b></label>
-                            <input type="text" class="form-control" name="tiragem" value="{{ old('tiragem', $pedido->tiragem) }}">
+                            <input type="text" class="form-control numeros" name="tiragem" value="{{ old('tiragem', $pedido->tiragem) }}">
                         </div>
                         <div class="col-sm form-group">
                             <label for="originais"><b>Originais:</b></label>
-                            <input type="text" class="form-control" name="originais" value="{{ old('originais', $pedido->originais) }}">
+                            <input type="text" class="form-control numeros" name="originais" value="{{ old('originais', $pedido->originais) }}">
                         </div>
                         <div class="col-sm form-group">
                             <label for="impressos"><b>Impressos:</b></label>
-                            <input type="text" class="form-control" name="impressos" value="{{ old('impressos', $pedido->impressos) }}">
+                            <input type="text" class="form-control numeros" name="impressos" value="{{ old('impressos', $pedido->impressos) }}">
                         </div>
                     </div>
                     <div class="row">

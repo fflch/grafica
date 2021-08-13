@@ -55,7 +55,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header"><h3>Pedidos a autorizar</h3></div>
+        <div class="card-header"><h3>Pedidos a serem autorizados pelo responsável do Centro de Despesa</h3></div>
         <div class="card-body">
             <table class="table table-striped">
                 <theader>

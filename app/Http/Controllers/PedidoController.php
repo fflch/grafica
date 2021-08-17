@@ -87,7 +87,7 @@ class PedidoController extends Controller
         
         $pedidos = $query->paginate(20);
         
-        if ($pedidos->count() == null and $request->busca != '') {
+        if ($pedidos->count() == null) {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
         return view('pedidos.meus_pedidos')->with('pedidos',$pedidos);
@@ -121,7 +121,7 @@ class PedidoController extends Controller
         
         $pedidos = $query->paginate(20);
         
-        if ($pedidos->count() == null and $request->busca != '') {
+        if ($pedidos->count() == null) {
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
         return view('pedidos.autorizacao_pedidos')->with('pedidos',$pedidos);
@@ -274,6 +274,9 @@ class PedidoController extends Controller
             $orcamento->nome = "30% sobre os materiais utilizados";
             $orcamento->save();
         }
+        else{
+            $orcamento = $pedido->orcamentos()->where('nome','LIKE', '%sobre os materiais utilizados%')->delete();
+        }
         $pedido->setStatus('Autorização', $request->reason);
         if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
             AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);
@@ -377,6 +380,16 @@ class PedidoController extends Controller
                 "URL expirada!");
             return redirect('/');
         }
+    }
+
+    public function voltarStatus(Pedido $pedido){
+        $this->authorize('admin');
+        for($i = 0; $i < 7; $i++){
+            if($pedido->status == Pedido::status[$i]){ break; }
+        }
+        $pedido->setStatus(Pedido::status[$i-1]);
+        $pedido->update();
+        return redirect('/pedidos/'.$pedido->id);
     }    
 
 }

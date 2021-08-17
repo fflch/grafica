@@ -8,7 +8,7 @@
         </div>
         <div class="row form-group">
             <div class="col-sm" style="padding:0">
-                <button type="submit" class="btn btn-primary rounded-circle float-right"><i class="far fa-paper-plane"></i></button>
+                <button type="submit" class="btn btn-primary float-right"><i class="far fa-paper-plane"></i> Enviar mensagem</button>
             </div> 
         </div>
     </form>

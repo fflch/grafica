@@ -7,7 +7,7 @@
             <input type="text" class="form-control" name="nome" value="{{ old('nome') }}">
         </div>
         <div class="col-sm form-group">
-            <label for="procedencia"><b>Procedência:</b></label>
+            <label for="procedencia"><b>Setor:</b></label>
             <select class="form-control" id="procedencia" name="procedencia">
                 <option value="editora">Editora</option>
                 <option value="grafica">Gráfica</option>

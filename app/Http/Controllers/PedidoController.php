@@ -349,12 +349,20 @@ class PedidoController extends Controller
     //Função que avisa o usuário da finalização do pedido
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
-        $request->validate([
-            'formato' => 'required',
-            'tiragem' => 'required',
-            'originais' => 'required',
-            'impressos' => 'required',
-        ]);
+        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão'){
+            $request->validate([
+                'formato' => 'required',
+                'tiragem' => 'required',
+                'originais' => 'required',
+                'impressos' => 'required',
+            ]);
+        }
+        else{
+            $request->validate([
+                'formato' => 'required',
+                'paginas_diagramadas' => 'required',
+            ]);
+        }
         if($request->percentual_sobre_insumos == 'on'){
             $pedido->percentual_sobre_insumos = 0.3 * $pedido->orcamentos()->get()->sum("preco");
         }

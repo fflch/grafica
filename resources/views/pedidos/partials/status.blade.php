@@ -1,53 +1,50 @@
-
-<div class="row">
-    <div class="col-sm">
-        <a href="/pedidos/create" class="btn btn-primary">Novo Pedido</a>
-    </div>
-    @if((auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração') or Auth::user()->can('admin'))
-    <div class="col-sm">
-        <form method="POST" action="/pedidos/{{ $pedido->id }}">
-            @csrf 
-            @method('delete')
-            <button type="submit" class="btn btn-danger ml-1 float-right" onclick="return confirm('Você tem certeza que deseja apagar?')">Apagar</button>
-        </form>
-        <a href="/pedidos/{{$pedido->id}}/edit" class="btn btn-warning mr-1 float-right">Editar Pedido</a>
-    </div>
-    @endif
-</div>
-<br>
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            @if(($pedido->status == 'Em Elaboração' or $pedido->status == null) and $pedido->files()->count() != 0)
-            <div class="col-sm">
-                <form method="POST" action="/pedidos/enviar_analise/{{ $pedido->id }}">
-                    @csrf 
-                    <div class="col-sm form-group">
+@if(($pedido->status == 'Em Elaboração' or $pedido->status == null) and $pedido->files()->count() != 0)
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <form method="POST" action="/pedidos/enviar_analise/{{ $pedido->id }}">
+                @csrf
+                <div class="row form-group"> 
+                    <div class="col-sm">
                         <label for="reason"><b>Mensagem:</b></label>
                         <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-auto">
                         <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para análise?')"> Enviar para Análise </button>
                     </div>
-                </form>
-            </div>
-            @elseif($pedido->status == 'Em Análise' and Auth::user()->can('autorizador'))
+                </div>
+            </form>  
+        </div>
+    </div>
+@elseif($pedido->status == 'Em Análise' and Auth::user()->can('autorizador'))
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <div class="row">       
                 <div class="col-sm">
                     <form method="POST" action="/pedidos/enviar_orcamento/{{ $pedido->id }}">
                         @csrf 
-                        <div class="col-sm form-group">
-                            <label for="reason"><b>Mensagem:</b></label>
-                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
-                        </div>
-                        <div class="col-auto float-left">
-                            <button type="submit" class="btn btn-success" name="button" value="orcamento" onclick="return confirm('Tem certeza que deseja enviar para orçamento?')"> Enviar para Orçamento </button>
-                        </div>
-                        <div class="col-auto float-left">
-                            <button type="submit" class="btn btn-danger" name="button" value="devolver" onclick="return confirm('Tem certeza que deseja devolver para solicitante?')"> Devolver Pedido </button>
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="reason"><b>Mensagem:</b></label>
+                                <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                            </div>
+                            <div class="col-auto float-left">
+                                <button type="submit" class="btn btn-success" name="button" value="orcamento" onclick="return confirm('Tem certeza que deseja enviar para orçamento?')"> Enviar para Orçamento </button>
+                            </div>
+                            <div class="col-auto float-left">
+                                <button type="submit" class="btn btn-danger" name="button" value="devolver" onclick="return confirm('Tem certeza que deseja devolver para solicitante?')"> Devolver Pedido </button>
+                            </div>
                         </div>
                     </form>
                 </div>
-            @elseif($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
+            </div>
+        </div>
+    </div>
+@elseif($pedido->status == 'Orçamento' and Auth::user()->can('servidor'))
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <div class="row">
                 <div class="col-sm">
                     <form method="POST" action="/pedidos/autorizacao/{{ $pedido->id }}">
                         @csrf
@@ -70,33 +67,45 @@
                         </div>
                     </form>
                 </div>
-            @elseif($pedido->status == 'Autorização' and (auth()->user()->codpes == $pedido->responsavel_centro_despesa or Auth::user()->can('admin')))
-            <div class="col-sm">
-                <form method="POST" action="/pedidos/enviar_autorizacao/{{ $pedido->id }}">
-                    @csrf
-                    <div class="row form-group"> 
-                        <div class="col-sm">
-                            <label for="reason"><b>Mensagem:</b></label>
-                            <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm">
-                            <input style="margin-left:1px" type="checkbox" name="termo_responsavel_centro_despesa" class="form-check-input" id="termo_responsavel_centro_despesa" @if($pedido->termo_responsavel_centro_despesa == 1) checked @endif>
-                            <label style="margin-left:19px" class="form-check-label" for="termo_responsavel_centro_despesa">Declaro ciência na autorização e de que foi consultado anteriormente o setor da Contabilidade para tal ação.</label>
-                        </div>
-                    </div>
-                    <div clas="row form-group">
-                        <div class="col-auto float-left">
-                            <button type="submit" class="btn btn-success" name="button" value="autorizado" onclick="return confirm('Tem certeza que deseja aprovar pedido para as próximas etapas?')"> Autorizar Pedido </button>
-                        </div>
-                        <div class="col-auto float-left">
-                            <button type="submit" class="btn btn-danger" name="button" value="negado" onclick="return confirm('Tem certeza que deseja rejeitar pedido?')"> Rejeitar Pedido </button>
-                        </div>
-                    </div>
-                </form>
             </div>
-            @elseif($pedido->status == 'Diagramação' and $pedido->tipo == 'Diagramação + Impressão' and Auth::user()->can('editora'))
+        </div>
+    </div>
+@elseif($pedido->status == 'Autorização' and (auth()->user()->codpes == $pedido->responsavel_centro_despesa or Auth::user()->can('admin')))
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm">
+                    <form method="POST" action="/pedidos/enviar_autorizacao/{{ $pedido->id }}">
+                        @csrf
+                        <div class="row form-group"> 
+                            <div class="col-sm">
+                                <label for="reason"><b>Mensagem:</b></label>
+                                <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm">
+                                <input style="margin-left:1px" type="checkbox" name="termo_responsavel_centro_despesa" class="form-check-input" id="termo_responsavel_centro_despesa" @if($pedido->termo_responsavel_centro_despesa == 1) checked @endif>
+                                <label style="margin-left:19px" class="form-check-label" for="termo_responsavel_centro_despesa">Declaro ciência na autorização e de que foi consultado anteriormente o setor da Contabilidade para tal ação.</label>
+                            </div>
+                        </div>
+                        <div clas="row form-group">
+                            <div class="col-auto float-left">
+                                <button type="submit" class="btn btn-success" name="button" value="autorizado" onclick="return confirm('Tem certeza que deseja aprovar pedido para as próximas etapas?')"> Autorizar Pedido </button>
+                            </div>
+                            <div class="col-auto float-left">
+                                <button type="submit" class="btn btn-danger" name="button" value="negado" onclick="return confirm('Tem certeza que deseja rejeitar pedido?')"> Rejeitar Pedido </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@elseif($pedido->status == 'Diagramação' and $pedido->tipo == 'Diagramação + Impressão' and Auth::user()->can('editora'))
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <div class="row">    
                 <div class="col-sm">
                     <form method="POST" action="/pedidos/impressao/{{ $pedido->id }}">
                         @csrf
@@ -123,7 +132,13 @@
                         </div>
                     </form>
                 </div>
-            @elseif(($pedido->status == 'Impressão' and Auth::user()->can('grafica')) or ($pedido->tipo == 'Diagramação' and $pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+            </div>
+        </div>
+    </div>
+@elseif(($pedido->status == 'Impressão' and Auth::user()->can('grafica')) or ($pedido->tipo == 'Diagramação' and $pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <div class="row">
                 <div class="col-sm">
                     <form method="POST" action="/pedidos/finalizar/{{ $pedido->id }}">
                         @csrf
@@ -171,7 +186,13 @@
                         </div>
                     </form>
                 </div>
-            @elseif($pedido->status == 'Finalizado' and Auth::user()->can('servidor'))
+            </div>
+        </div>
+    </div>
+@elseif($pedido->status == 'Finalizado' and Auth::user()->can('servidor'))
+    <div class="card" style="margin-bottom: 0.5em;">
+        <div class="card-body">
+            <div class="row">
                 <div class="col-sm">
                     <form method="POST" action="/pedidos/documento_contabilidade/{{ $pedido->id }}">
                         @csrf 
@@ -180,7 +201,8 @@
                         </div>
                     </form>
                 </div>
-            @endif
+            </div>
         </div>
     </div>
-</div>
+@endif
+        

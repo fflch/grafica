@@ -1,4 +1,4 @@
-    <div class="card">
+    <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Dados do Pedido</b></div>
         <div class="card-body">
             <b>Solicitante:</b> {{$pedido->user->name ?? 'Não informado'}}</br>

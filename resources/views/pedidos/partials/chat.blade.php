@@ -1,6 +1,6 @@
-    <div class="card">
+    <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Chat</b></div>
-        <div class="card-body form-group">
+        <div class="card-body">
             <div class="container rounded border border-dark" id="scroll" style="overflow-y: scroll; height: 200px;">
                 @foreach($chats as $chat)
                     @if($chat->user_id == $pedido->user_id)

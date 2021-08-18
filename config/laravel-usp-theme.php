@@ -15,14 +15,14 @@ $submenu1 = [
 
 $menu = [
     [
-        'text' => '<i class="fas fa-address-card"></i> Home',
+        'text' => '<i class="fas fa-home"></i> Home',
         'url' => config('app.url') . '/home',
         'can' => 'logado',
     ],
     [
         'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
         'url' => config('app.url') . '/pedidos/autorizacao_pedidos?busca_status=Autorização',
-        'can' => 'logado',
+        'can' => 'responsavel_centro_despesa',
     ],
     [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',

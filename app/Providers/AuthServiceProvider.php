@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Pedido;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -63,6 +64,15 @@ class AuthServiceProvider extends ServiceProvider
             if(Gate::allows('servidor')) return true;
             if($pedido->user_id == $user->id) return true;
             if($pedido->responsavel_centro_despesa == $user->codpes) return true;
+            return false;
+        });
+
+        Gate::define('responsavel_centro_despesa', function ($user) {
+            if(Gate::allows('admin')) return true;
+            $pedidos = Pedido::currentStatus("Autorização")->where('responsavel_centro_despesa', $user->codpes)->get();
+            if($pedidos->count() != 0){
+                return true;
+            }
             return false;
         });
     }

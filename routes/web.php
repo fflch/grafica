@@ -8,6 +8,7 @@ use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeneralSettingsController;
 
 /*
@@ -28,7 +29,7 @@ Route::get('login',[LoginController::class, 'redirectToProvider'])->name('login'
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::post('logout',[LoginController::class, 'logout'])->name('logout');
 
-Route::get('pedidos/meus_pedidos', [PedidoController::class,'meusPedidos']);
+Route::get('/home', [HomeController::class,'home']);
 Route::get('pedidos/autorizacao_pedidos', [PedidoController::class,'autorizacaoPedidos']);
 Route::post('pedidos/enviar_analise/{pedido}', [PedidoController::class,'enviarAnalise']);
 Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'enviarOrcamento']);

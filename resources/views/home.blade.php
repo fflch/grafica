@@ -3,9 +3,9 @@
 @section('content')
     @include('flash')
     <div class="card">
-        <div class="card-header"><h5><b>Filtros</b></h5></div>
+        <div class="card-header"><b>Meus Pedidos</b></div>
         <div class="card-body">
-            <form method="GET" action="/pedidos/meus_pedidos">
+            <form method="GET" action="/pedidos/home">
                 <div class="row form-group">
                     <div class="col-auto form-group"> 
                         <select class="form-control" name="busca_tipo">
@@ -43,17 +43,21 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="row form-group float-right">
+                    <div class="col-sm form-group" id="busca"  @if(Request()->filtro_busca == 'data') style="display:none;" @endif>
+                        <input type="text" class="form-control busca" autocomplete="off" name="busca" value="{{ Request()->busca }}" placeholder="Digite a descrição do pedido, o número USP, o nome do(a) solicitante">
+                    </div>
                     <div class="col-auto form-group">
                         <button type="submit" class="btn btn-success">Buscar</button>
                     </div>
+                </div>
+                <div class="row form-group float-right">
+                    
                 </div>
             </form>
         </div>
     </div>
     <div class="card">
-        <div class="card-header"><h3>Meus pedidos</h3></div>
+        <div class="card-header"><h3>Home</h3></div>
         <div class="card-body">
             <table class="table table-striped">
                 <theader>

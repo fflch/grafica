@@ -15,8 +15,8 @@ $submenu1 = [
 
 $menu = [
     [
-        'text' => '<i class="fas fa-address-card"></i> Meus Pedidos',
-        'url' => config('app.url') . '/pedidos/meus_pedidos',
+        'text' => '<i class="fas fa-address-card"></i> Home',
+        'url' => config('app.url') . '/home',
         'can' => 'logado',
     ],
     [

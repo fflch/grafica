@@ -20,14 +20,14 @@ $menu = [
         'can' => 'logado',
     ],
     [
-        'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
-        'url' => config('app.url') . '/pedidos/autorizacao_pedidos?busca_status=Autorização',
-        'can' => 'responsavel_centro_despesa',
-    ],
-    [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',
         'submenu' => $submenu1,
         'can' => 'logado',
+    ],
+    [
+        'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
+        'url' => config('app.url') . '/pedidos/autorizacao_pedidos?busca_status=Autorização',
+        'can' => 'responsavel_centro_despesa',
     ],
 ];
 

@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header"><h5><b>Pedidos</b></h5></div>
+        <div class="card-header"><b>Pedidos</b></div>
         <div class="card-body">
             <form method="GET" action="/pedidos">
                 <div class="row form-group">
@@ -73,7 +73,7 @@
             <tr>
                 <th>Nº USP</th>
                 <th>Nome</th>
-                <th>Descrição</th>
+                <th>Título</th>
                 <th>Data da Solicitação</th>
                 <th>Tipo</th>
                 <th>Status</th>
@@ -85,7 +85,7 @@
             <tr>
                 <td>{{ $pedido->user->codpes }}</td>
                 <td><a href="/pedidos/{{$pedido->id}}">{{ $pedido->user->name }}</a></td>
-                <td>{{ $pedido->descricao }}</td>
+                <td>{{ $pedido->titulo }}</td>
                 <td>{{ Carbon\Carbon::parse($pedido->created_at)->format('d/m/Y') }}</td>
                 <td>{{ $pedido->tipo}}</td>
                 <td>{{ $pedido->status}}</td>

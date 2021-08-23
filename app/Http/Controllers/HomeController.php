@@ -24,10 +24,10 @@ class HomeController extends Controller
             $query->currentStatus("Em Análise");
         }
         elseif(auth()->user()->can('editora')){
-            $query->currentStatus(["Orçamento","Diagramação"]);
+            $query->currentStatus(["Orçamento","Editora"]);
         }
         elseif(auth()->user()->can('grafica')){
-            $query->currentStatus(["Orçamento","Impressão"]);
+            $query->currentStatus(["Orçamento","Gráfica"]);
         }
         
         $query->orWhere('user_id', auth()->user()->id);

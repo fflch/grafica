@@ -35,7 +35,7 @@ Route::post('pedidos/enviar_analise/{pedido}', [PedidoController::class,'enviarA
 Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'enviarOrcamento']);
 Route::post('pedidos/autorizacao/{pedido}', [PedidoController::class,'autorizacao']);
 Route::post('pedidos/enviar_autorizacao/{pedido}', [PedidoController::class,'enviarAutorizacao']);
-Route::post('pedidos/impressao/{pedido}', [PedidoController::class,'impressao']);
+Route::post('pedidos/grafica/{pedido}', [PedidoController::class,'grafica']);
 Route::post('pedidos/finalizar/{pedido}', [PedidoController::class,'finalizar']);
 Route::post('pedidos/voltar_status/{pedido}', [PedidoController::class,'voltarStatus']);
 

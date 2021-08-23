@@ -17,8 +17,8 @@ use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
 use App\Jobs\AutorizacaoJob;
 use App\Jobs\AutorizadoJob;
-use App\Jobs\DiagramacaoJob;
-use App\Jobs\ImpressaoJob;
+use App\Jobs\EditoraJob;
+use App\Jobs\GraficaJob;
 use App\Jobs\FinalizarJob;
 use Illuminate\Validation\Rule;
 
@@ -274,19 +274,19 @@ class PedidoController extends Controller
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);
-            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
-                $pedido->setStatus('Diagramação', $request->reason);
+            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'ISBN+DOI+Ficha Catalográfica'){
+                $pedido->setStatus('Editora', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
-                        DiagramacaoJob::dispatch($pedido, $codpes);
+                        EditoraJob::dispatch($pedido, $codpes);
                     }
                 }
             }
             else{
-                $pedido->setStatus('Impressão', $request->reason);
+                $pedido->setStatus('Gráfica', $request->reason);
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
-                        ImpressaoJob::dispatch($pedido, $codpes);
+                        GraficaJob::dispatch($pedido, $codpes);
                     }
                 }
             }
@@ -302,20 +302,16 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    //Função que encaminha para a Gráfica assim que termina o status de Diagramação
-    public function impressao(Pedido $pedido, Request $request){
+    //Função que encaminha para a Gráfica assim que termina o trabalho da Editora
+    public function grafica(Pedido $pedido, Request $request){
         $this->authorize('editora');
-        $request->validate([
-            'formato' => 'required',
-            'paginas_diagramadas' => 'required',
-        ]);
         $pedido->formato = $request->formato;
         $pedido->paginas_diagramadas = $request->paginas_diagramadas;
         $pedido->update();
-        $pedido->setStatus('Impressão', $request->reason);
+        $pedido->setStatus('Gráfica', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
             if(Pessoa::emailusp($codpes)){
-                ImpressaoJob::dispatch($pedido, $codpes);
+                GraficaJob::dispatch($pedido, $codpes);
             }
         }
         return redirect("/pedidos/{$pedido->id}");
@@ -324,27 +320,16 @@ class PedidoController extends Controller
     //Função que avisa o usuário da finalização do pedido
     public function finalizar(Pedido $pedido, Request $request){
         $this->authorize('servidor');
-        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão'){
-            $request->validate([
-                'formato' => 'required',
-                'tiragem' => 'required',
-                'originais' => 'required',
-                'impressos' => 'required',
-            ]);
+        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão' or $pedido->tipo == 'Blocagem' or $pedido->tipo == 'Refile'){
+            $pedido->formato = $request->formato;
+            $pedido->tiragem = $request->tiragem;
+            $pedido->originais = $request->originais;
+            $pedido->impressos = $request->impressos;
         }
         else{
-            $request->validate([
-                'formato' => 'required',
-                'paginas_diagramadas' => 'required',
-            ]);
+            $pedido->formato = $request->formato;
+            $pedido->paginas_diagramadas = $request->paginas_diagramadas;
         }
-        if($request->percentual_sobre_insumos == 'on'){
-            $pedido->percentual_sobre_insumos = 0.3 * $pedido->orcamentos()->get()->sum("preco");
-        }
-        $pedido->formato = $request->formato;
-        $pedido->tiragem = $request->tiragem;
-        $pedido->originais = $request->originais;
-        $pedido->impressos = $request->impressos;
         $pedido->setStatus('Finalizado', $request->reason);
         $pedido->updated_at = date('Y-m-d H:i:s');
         $pedido->update();

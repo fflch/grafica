@@ -102,12 +102,12 @@
             </div>
         </div>
     </div>
-@elseif($pedido->status == 'Diagramação' and $pedido->tipo == 'Diagramação + Impressão' and Auth::user()->can('editora'))
+@elseif($pedido->status == 'Editora' and $pedido->tipo == 'Diagramação + Impressão' and Auth::user()->can('editora'))
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <div class="row">    
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/impressao/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/grafica/{{ $pedido->id }}">
                         @csrf
                         <div class="row"> 
                             <div class="col-sm form-group">
@@ -127,7 +127,7 @@
                         </div>
                         <div class="row">
                             <div class="col-auto">
-                                <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para impressao?')"> Enviar para Impressão </button>
+                                <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja enviar para gráfica?')"> Enviar para Gráfica </button>
                             </div>
                         </div>
                     </form>
@@ -135,7 +135,7 @@
             </div>
         </div>
     </div>
-@elseif(($pedido->status == 'Impressão' and Auth::user()->can('grafica')) or ($pedido->tipo == 'Diagramação' and $pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+@elseif(($pedido->status == 'Gráfica' and Auth::user()->can('grafica')) or (($pedido->tipo == 'Diagramação' or $pedido->tipo == 'ISBN+DOI+Ficha Catalográfica') and $pedido->status == 'Editora' and Auth::user()->can('editora')))
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <div class="row">
@@ -148,7 +148,7 @@
                                 <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
                             </div>
                         </div>
-                        @if($pedido->status == 'Impressão' and Auth::user()->can('grafica'))
+                        @if($pedido->status == 'Gráfica' and Auth::user()->can('grafica'))
                             <div class="row">
                                 <div class="col-sm form-group">
                                     <label for="formato"><b>Formato:</b></label>

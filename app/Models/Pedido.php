@@ -24,8 +24,8 @@ class Pedido extends Model
         'Em Análise',
         'Orçamento',
         'Autorização',
-        'Diagramação',
-        'Impressão',
+        'Editora',
+        'Gráfica',
         'Finalizado',
     ];
 
@@ -54,6 +54,16 @@ class Pedido extends Model
             'Diagramação',
             'Impressão',
             'Diagramação + Impressão',
+            'ISBN+DOI+Ficha Catalográfica',
+            'Blocagem',
+            'Refile',
+        ];
+    }
+
+    public static function tipoImagensOptions(){
+        return [
+            'Preto e Branco',
+            'Colorida',
         ];
     }
 

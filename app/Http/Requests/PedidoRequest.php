@@ -33,10 +33,13 @@ class PedidoRequest extends FormRequest
             'titulo' => 'required',
             'descricao' => 'required',
             'tipo' => ['required',Rule::in($pedido->tipoOptions())],
-            'paginas' => 'integer|nullable',
+            'paginas' => 'required|integer',
             'finalidade' => ['required'],
             'centro_de_despesa' => ['required'],
             'responsavel_centro_despesa' => 'integer|codpes', 
+            'contem_imagens' => 'integer|required', 
+            'tipo_imagens' => ['nullable','required_if:contem_imagens,1',Rule::in($pedido->tipoImagensOptions())], 
+            'quantidade_imagens' => 'nullable|integer|required_if:contem_imagens,1', 
         ];
     }
 }

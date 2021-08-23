@@ -1,7 +1,7 @@
 <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Arquivos</b></div>
         <div class="card-body form-group">
-            @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+            @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Editora' and Auth::user()->can('editora')))
                 @include('pedidos.files.partials.form')
             @endif
             <table class="table table-striped" style="text-align: center;">
@@ -10,7 +10,7 @@
                         <th>Nome do Arquivo</th>
                         <th>Data de Envio</th>
                         <th>Status</th>
-                        @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+                        @if($pedido->status == 'Em Elaboração' or ($pedido->status == 'Editora' and Auth::user()->can('editora')))
                             <th>Ações</th>
                         @endif
                     </tr>

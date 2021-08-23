@@ -97,21 +97,26 @@
                 {{$pedido->titulo ?? ''}}
             </td>
         </tr>
-        <tr style="border: 1px solid #000;">    
-            <td colspan='3' style="border: 1px solid #000;">
-                <b>Descrição: </b>
-                {{$pedido->descricao ?? ''}}
-            </td>
-        </tr>
         <tr style="border: 1px solid #000;">
             <td style="border: 1px solid #000;"><b>Número de páginas:</b> {{$pedido->paginas ?? ''}}</td>
             <td style="border: 1px solid #000;"><b>Páginas diagramadas:</b> {{$pedido->paginas_diagramadas ?? ''}}</td>
             <td style="border: 1px solid #000;"><b>Formato:</b> {{$pedido->formato ?? ''}}</td>
         </tr>
         <tr style="border: 1px solid #000;">
+            <td style="border: 1px solid #000;"><b>Contém Imagens?</b> @if($pedido->contem_imagens == 1) Sim @else Não @endif</td>
+            <td style="border: 1px solid #000;"><b>Tipo das Imagens:</b> {{$pedido->tipo_imagens ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Quantidade de Imagens:</b> {{$pedido->quantidade_imagens ?? ''}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">
             <td style="border: 1px solid #000;"><b>Tiragem:</b> {{$pedido->tiragem ?? ''}}</td>
             <td style="border: 1px solid #000;"><b>Originais:</b> {{$pedido->originais ?? ''}}</td>
             <td style="border: 1px solid #000;"><b>Total de impressos:</b> {{$pedido->impressos ?? ''}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">    
+            <td colspan='3' style="border: 1px solid #000;">
+                <b>Descrição: </b>
+                {{$pedido->descricao ?? ''}}
+            </td>
         </tr>
         <tr style="border: 1px solid #000;">
             <td colspan='3' style="border: 1px solid #000;">

@@ -24,15 +24,17 @@
                 <div class="col-sm">
                     <form method="POST" action="/pedidos/enviar_orcamento/{{ $pedido->id }}">
                         @csrf 
-                        <div class="row">
+                        <div class="row form-group">
                             <div class="col-sm">
                                 <label for="reason"><b>Mensagem:</b></label>
                                 <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
                             </div>
-                            <div class="col-auto float-left">
+                        </div>
+                        <div class="row">
+                            <div class="col-auto">
                                 <button type="submit" class="btn btn-success" name="button" value="orcamento" onclick="return confirm('Tem certeza que deseja enviar para orçamento?')"> Enviar para Orçamento </button>
                             </div>
-                            <div class="col-auto float-left">
+                            <div class="col-auto">
                                 <button type="submit" class="btn btn-danger" name="button" value="devolver" onclick="return confirm('Tem certeza que deseja devolver para solicitante?')"> Devolver Pedido </button>
                             </div>
                         </div>

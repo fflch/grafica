@@ -30,16 +30,15 @@ Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::post('logout',[LoginController::class, 'logout'])->name('logout');
 
 Route::get('/home', [HomeController::class,'home']);
-Route::get('pedidos/autorizacao_pedidos', [PedidoController::class,'autorizacaoPedidos']);
-Route::post('pedidos/enviar_analise/{pedido}', [PedidoController::class,'enviarAnalise']);
-Route::post('pedidos/enviar_orcamento/{pedido}', [PedidoController::class,'enviarOrcamento']);
-Route::post('pedidos/autorizacao/{pedido}', [PedidoController::class,'autorizacao']);
-Route::post('pedidos/enviar_autorizacao/{pedido}', [PedidoController::class,'enviarAutorizacao']);
-Route::post('pedidos/grafica/{pedido}', [PedidoController::class,'grafica']);
-Route::post('pedidos/finalizar/{pedido}', [PedidoController::class,'finalizar']);
-Route::post('pedidos/voltar_status/{pedido}', [PedidoController::class,'voltarStatus']);
+Route::get('pedidos/visualizar_pedidos_a_autorizar', [HomeController::class,'visualizarPedidosAAutorizar']);
 
-Route::get('info', [PedidoController::class, 'info'])->name('pedidos.info');
+Route::post('pedidos/enviar_para_analise/{pedido}', [PedidoController::class,'enviarParaAnalise']);
+Route::post('pedidos/enviar_para_orcamento/{pedido}', [PedidoController::class,'enviarParaOrcamento']);
+Route::post('pedidos/enviar_para_autorizacao/{pedido}', [PedidoController::class,'enviarOrcamentoParaAutorizacao']);
+Route::post('pedidos/enviar_pedido_para_setores/{pedido}', [PedidoController::class,'enviarPedidoParaSetores']);
+Route::post('pedidos/enviar_para_grafica/{pedido}', [PedidoController::class,'enviarParaGrafica']);
+Route::post('pedidos/finalizar_pedido/{pedido}', [PedidoController::class,'finalizarPedido']);
+Route::post('pedidos/voltar_status/{pedido}', [PedidoController::class,'voltarStatus']);
 
 Route::resource('orcamentos', OrcamentoController::class);
 Route::resource('files', FileController::class);
@@ -59,4 +58,4 @@ Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
 
 # Pdfs
-Route::post('/pedidos/documento_contabilidade/{pedido}',[PdfController::class, 'documentoContabilidade']);
+Route::post('/pedidos/gerar_documento_contabilidade/{pedido}',[PdfController::class, 'gerarDocumentoContabilidade']);

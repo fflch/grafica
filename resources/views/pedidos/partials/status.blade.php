@@ -1,7 +1,7 @@
 @if(($pedido->status == 'Em Elaboração' or $pedido->status == null) and $pedido->files()->count() != 0)
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
-            <form method="POST" action="/pedidos/enviar_analise/{{ $pedido->id }}">
+            <form method="POST" action="/pedidos/enviar_para_analise/{{ $pedido->id }}">
                 @csrf
                 <div class="row form-group"> 
                     <div class="col-sm">
@@ -22,7 +22,7 @@
         <div class="card-body">
             <div class="row">       
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/enviar_orcamento/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/enviar_para_orcamento/{{ $pedido->id }}">
                         @csrf 
                         <div class="row form-group">
                             <div class="col-sm">
@@ -48,7 +48,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/autorizacao/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/enviar_para_autorizacao/{{ $pedido->id }}">
                         @csrf
                         <div class="row form-group"> 
                             <div class="col-sm ">
@@ -77,7 +77,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/enviar_autorizacao/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/enviar_pedido_para_setores/{{ $pedido->id }}">
                         @csrf
                         <div class="row form-group"> 
                             <div class="col-sm">
@@ -109,7 +109,7 @@
         <div class="card-body">
             <div class="row">    
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/grafica/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/enviar_para_grafica/{{ $pedido->id }}">
                         @csrf
                         <div class="row"> 
                             <div class="col-sm form-group">
@@ -142,7 +142,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/finalizar/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/finalizar_pedido/{{ $pedido->id }}">
                         @csrf
                         <div class="row"> 
                             <div class="col-sm form-group">
@@ -196,7 +196,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm">
-                    <form method="POST" action="/pedidos/documento_contabilidade/{{ $pedido->id }}">
+                    <form method="POST" action="/pedidos/gerar_documento_contabilidade/{{ $pedido->id }}">
                         @csrf 
                         <div class="col-auto">
                             <button type="submit" class="btn btn-success" onclick="return confirm('Tem certeza que deseja gerar documento para contabilidade?')"> Gerar Documento para Contabilidade </button>

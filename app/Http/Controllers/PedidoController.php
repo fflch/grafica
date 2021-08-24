@@ -68,40 +68,6 @@ class PedidoController extends Controller
         return view('pedidos.index')->with('pedidos',$pedidos);
     }
 
-    public function autorizacaoPedidos(Request $request){
-        $this->authorize('logado');
-        $request->validate([
-            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
-            'busca' => 'nullable',
-            'busca_status' => ['nullable',Rule::in(Pedido::status)],
-        ]);
-
-        if($request->busca_status != ''){
-            $query = Pedido::currentStatus("{$request->busca_status}")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
-        }
-        else{
-            $query = Pedido::currentStatus("Autorização")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
-        }
-        
-        if($request->busca != ''){
-            $query->where(function($query) use($request){
-                $query->orWhere('users.name', 'LIKE', "%$request->busca%");
-                $query->orWhere('users.codpes', '=', "$request->busca");
-                $query->orWhere('pedidos.descricao', 'LIKE', "%$request->busca%");
-            });
-        }
-        if($request->busca_tipo != ''){
-            $query->where('tipo','=', $request->busca_tipo);
-        }
-        
-        $pedidos = $query->paginate(20);
-        
-        if ($pedidos->count() == null) {
-            $request->session()->flash('alert-danger', 'Não há registros!');
-        }
-        return view('pedidos.autorizacao_pedidos')->with('pedidos',$pedidos);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -199,7 +165,7 @@ class PedidoController extends Controller
     //Funções de Status
 
     //Função que envia pedido para liberação do grupo AUTORIZADOR
-    public function enviarAnalise(Pedido $pedido, Request $request){
+    public function enviarParaAnalise(Pedido $pedido, Request $request){
         $this->authorize('owner.pedido', $pedido);
         $pedido->setStatus('Em Análise', $request->reason);
         foreach(explode(',', trim(env('AUTORIZADOR'))) as $codpes){
@@ -213,18 +179,24 @@ class PedidoController extends Controller
     //Função que envia pedido, caso liberado, para o grupo EDITORA e GRÁFICA
     //para que façam o orçamento do pedido
     //caso rejeitado, status volta para 'Em Elaboração' e é devolvido para o usuário
-    public function enviarOrcamento(Pedido $pedido, Request $request){
+    public function enviarParaOrcamento(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
-            foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                if(Pessoa::emailusp($codpes)){  
-                    OrcamentoJob::dispatch($pedido, $codpes);
+            $tipos_editora = ['Diagramação', 'Diagramação + Impressão', 'ISBN+DOI+Ficha Catalográfica'];
+            if(in_array($pedido->tipo, $tipos_editora)){
+                foreach(explode(',', trim(env('EDITORA'))) as $codpes){
+                    if(Pessoa::emailusp($codpes)){  
+                        OrcamentoJob::dispatch($pedido, $codpes);
+                    }
                 }
             }
-            foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                if(Pessoa::emailusp($codpes)){
-                    OrcamentoJob::dispatch($pedido, $codpes);
+            $tipos_grafica = ['Impressão', 'Diagramação + Impressão', 'Blocagem', 'Refile'];
+            if(in_array($pedido->tipo, $tipos_grafica)){
+                foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
+                    if(Pessoa::emailusp($codpes)){
+                        OrcamentoJob::dispatch($pedido, $codpes);
+                    }
                 }
             }
         }
@@ -237,7 +209,7 @@ class PedidoController extends Controller
 
     //Função ativada após feitura do orçamento, em que a editora ou gráfica
     //envia o orçamento para o usuário e para o responsável do centro de despesa para que este autorize
-    public function autorizacao(Pedido $pedido, Request $request){
+    public function enviarOrcamentoParaAutorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         if($request->percentual_sobre_insumos == 'on'){
             $pedido->percentual_sobre_insumos = 1;
@@ -265,7 +237,7 @@ class PedidoController extends Controller
     //Função que trabalha com o resultado da autorização do Centro de Despesa e encaminha
     //para os próximos passos do sistema (indo para a Editora ou para a Gráfica)
     //também pode ocorrer do Centro de Despesa não liberar, então retorna para status 'Em Elaboração'
-    public function enviarAutorizacao(Pedido $pedido, Request $request){
+    public function enviarPedidoParaSetores(Pedido $pedido, Request $request){
         if($request->button == 'autorizado'){
             $request->validate([
                 'termo_responsavel_centro_despesa' => 'required',
@@ -303,7 +275,7 @@ class PedidoController extends Controller
     }
 
     //Função que encaminha para a Gráfica assim que termina o trabalho da Editora
-    public function grafica(Pedido $pedido, Request $request){
+    public function enviarParaGrafica(Pedido $pedido, Request $request){
         $this->authorize('editora');
         $pedido->formato = $request->formato;
         $pedido->paginas_diagramadas = $request->paginas_diagramadas;
@@ -318,7 +290,7 @@ class PedidoController extends Controller
     }
 
     //Função que avisa o usuário da finalização do pedido
-    public function finalizar(Pedido $pedido, Request $request){
+    public function finalizarPedido(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão' or $pedido->tipo == 'Blocagem' or $pedido->tipo == 'Refile'){
             $pedido->formato = $request->formato;

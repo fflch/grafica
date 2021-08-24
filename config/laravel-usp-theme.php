@@ -26,7 +26,7 @@ $menu = [
     ],
     [
         'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
-        'url' => config('app.url') . '/pedidos/autorizacao_pedidos?busca_status=Autorização',
+        'url' => config('app.url') . '/pedidos/visualizar_pedidos_a_autorizar?busca_status=Autorização',
         'can' => 'responsavel_centro_despesa',
     ],
 ];

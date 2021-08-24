@@ -10,30 +10,33 @@ class HomeController extends Controller
 {
     public function home(Request $request){
         $this->authorize('logado');
+        $query = Pedido::orderBy('created_at', 'desc');
         $request->validate([
             'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
             'busca_status' => ['nullable',Rule::in(Pedido::status)],
         ]);
+
         if($request->busca_status != ''){
-            $query = Pedido::currentStatus("{$request->busca_status}")->orderBy('created_at', 'desc'); 
+            $query->currentStatus("{$request->busca_status}");
         }
-        else{
-            $query = Pedido::orderBy('created_at', 'desc'); 
+        if($request->busca_tipo != ''){
+            $query->where('tipo','=', $request->busca_tipo);
         }
+
         if(auth()->user()->can('autorizador')){
             $query->currentStatus("Em Análise");
+            $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('editora')){
             $query->currentStatus(["Orçamento","Editora"])->whereIn('tipo',['Diagramação', 'Diagramação + Impressão', 'ISBN+DOI+Ficha Catalográfica']);
+            $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('grafica')){
             $query->currentStatus(["Orçamento","Gráfica"])->whereIn('tipo',['Impressão', 'Diagramação + Impressão', 'Blocagem', 'Refile']);
+            $query->orWhere('user_id', auth()->user()->id);
         }
-        
-        $query->orWhere('user_id', auth()->user()->id);
-
-        if($request->busca_tipo != ''){
-            $query->where('tipo','=', $request->busca_tipo);
+        else{
+            $query->where('user_id', auth()->user()->id);
         }
         
         $pedidos = $query->paginate(20);
@@ -46,29 +49,7 @@ class HomeController extends Controller
 
     public function visualizarPedidosAAutorizar(Request $request){
         $this->authorize('logado');
-        $request->validate([
-            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
-            'busca' => 'nullable',
-            'busca_status' => ['nullable',Rule::in(Pedido::status)],
-        ]);
-
-        if($request->busca_status != ''){
-            $query = Pedido::currentStatus("{$request->busca_status}")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
-        }
-        else{
-            $query = Pedido::currentStatus("Autorização")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
-        }
-        
-        if($request->busca != ''){
-            $query->where(function($query) use($request){
-                $query->orWhere('users.name', 'LIKE', "%$request->busca%");
-                $query->orWhere('users.codpes', '=', "$request->busca");
-                $query->orWhere('pedidos.descricao', 'LIKE', "%$request->busca%");
-            });
-        }
-        if($request->busca_tipo != ''){
-            $query->where('tipo','=', $request->busca_tipo);
-        }
+        $query = Pedido::currentStatus("Autorização")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
         
         $pedidos = $query->paginate(20);
         

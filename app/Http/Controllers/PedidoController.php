@@ -45,7 +45,7 @@ class PedidoController extends Controller
             $query = Pedido::join('users', 'users.id', '=', 'pedidos.user_id')->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
         }
         
-        if($request->busca != ''){
+        if($request->filtro_busca == 'numero_nome'){
             $query->where(function($query) use($request){
                 $query->orWhere('users.name', 'LIKE', "%$request->busca%");
                 $query->orWhere('users.codpes', '=', "$request->busca");

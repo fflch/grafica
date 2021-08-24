@@ -42,7 +42,7 @@ class ChatJob implements ShouldQueue
             Mail::send(new ChatMail($this->pedido, $this->chat, $this->pedido->user->codpes));
         }
         else{
-            if($this->pedido->status == 'Diagramação'){
+            if($this->pedido->status == 'Editora'){
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){  
                         Mail::send(new ChatMail($this->pedido, $this->chat, $codpes));

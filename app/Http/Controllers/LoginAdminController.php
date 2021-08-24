@@ -34,7 +34,7 @@ class LoginAdminController extends Controller
             $user->save();
         } 
         auth()->login($user, true);
-        return redirect('/');
+        return redirect('/home');
         
     }
 }

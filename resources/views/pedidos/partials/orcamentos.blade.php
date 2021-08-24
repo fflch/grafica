@@ -1,6 +1,6 @@
-<div class="card">
+<div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Orçamento do Pedido</b></div>
-        <div class="card-body form-group">
+        <div class="card-body">
             @can('servidor')
                 @if($pedido->status == 'Orçamento')
                     @include('pedidos.orcamentos.form')

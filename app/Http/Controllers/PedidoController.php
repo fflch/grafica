@@ -17,8 +17,8 @@ use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
 use App\Jobs\AutorizacaoJob;
 use App\Jobs\AutorizadoJob;
-use App\Jobs\DiagramacaoJob;
-use App\Jobs\ImpressaoJob;
+use App\Jobs\EditoraJob;
+use App\Jobs\GraficaJob;
 use App\Jobs\FinalizarJob;
 use Illuminate\Validation\Rule;
 
@@ -45,7 +45,7 @@ class PedidoController extends Controller
             $query = Pedido::join('users', 'users.id', '=', 'pedidos.user_id')->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
         }
         
-        if($request->busca != ''){
+        if($request->filtro_busca == 'numero_nome'){
             $query->where(function($query) use($request){
                 $query->orWhere('users.name', 'LIKE', "%$request->busca%");
                 $query->orWhere('users.codpes', '=', "$request->busca");
@@ -66,65 +66,6 @@ class PedidoController extends Controller
             $request->session()->flash('alert-danger', 'Não há registros!');
         }
         return view('pedidos.index')->with('pedidos',$pedidos);
-    }
-
-    public function meusPedidos(Request $request){
-        $this->authorize('logado');
-        $request->validate([
-            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
-            'busca_status' => ['nullable',Rule::in(Pedido::status)],
-        ]);
-
-        if($request->busca_status != ''){
-            $query = Pedido::currentStatus("{$request->busca_status}")->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc'); 
-        }
-        else{
-            $query = Pedido::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc'); 
-        }
-        if($request->busca_tipo != ''){
-            $query->where('tipo','=', $request->busca_tipo);
-        }
-        
-        $pedidos = $query->paginate(20);
-        
-        if ($pedidos->count() == null) {
-            $request->session()->flash('alert-danger', 'Não há registros!');
-        }
-        return view('pedidos.meus_pedidos')->with('pedidos',$pedidos);
-    }
-
-    public function autorizacaoPedidos(Request $request){
-        $this->authorize('logado');
-        $request->validate([
-            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
-            'busca' => 'nullable',
-            'busca_status' => ['nullable',Rule::in(Pedido::status)],
-        ]);
-
-        if($request->busca_status != ''){
-            $query = Pedido::currentStatus("{$request->busca_status}")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
-        }
-        else{
-            $query = Pedido::currentStatus("Autorização")->join('users', 'users.id', '=', 'pedidos.user_id')->where('responsavel_centro_despesa', auth()->user()->codpes)->orderBy('pedidos.created_at', 'desc')->select('pedidos.*'); 
-        }
-        
-        if($request->busca != ''){
-            $query->where(function($query) use($request){
-                $query->orWhere('users.name', 'LIKE', "%$request->busca%");
-                $query->orWhere('users.codpes', '=', "$request->busca");
-                $query->orWhere('pedidos.descricao', 'LIKE', "%$request->busca%");
-            });
-        }
-        if($request->busca_tipo != ''){
-            $query->where('tipo','=', $request->busca_tipo);
-        }
-        
-        $pedidos = $query->paginate(20);
-        
-        if ($pedidos->count() == null) {
-            $request->session()->flash('alert-danger', 'Não há registros!');
-        }
-        return view('pedidos.autorizacao_pedidos')->with('pedidos',$pedidos);
     }
 
     /**
@@ -224,7 +165,7 @@ class PedidoController extends Controller
     //Funções de Status
 
     //Função que envia pedido para liberação do grupo AUTORIZADOR
-    public function enviarAnalise(Pedido $pedido, Request $request){
+    public function enviarParaAnalise(Pedido $pedido, Request $request){
         $this->authorize('owner.pedido', $pedido);
         $pedido->setStatus('Em Análise', $request->reason);
         foreach(explode(',', trim(env('AUTORIZADOR'))) as $codpes){
@@ -238,18 +179,24 @@ class PedidoController extends Controller
     //Função que envia pedido, caso liberado, para o grupo EDITORA e GRÁFICA
     //para que façam o orçamento do pedido
     //caso rejeitado, status volta para 'Em Elaboração' e é devolvido para o usuário
-    public function enviarOrcamento(Pedido $pedido, Request $request){
+    public function enviarParaOrcamento(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
-            foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                if(Pessoa::emailusp($codpes)){  
-                    OrcamentoJob::dispatch($pedido, $codpes);
+            $tipos_editora = ['Diagramação', 'Diagramação + Impressão', 'ISBN+DOI+Ficha Catalográfica'];
+            if(in_array($pedido->tipo, $tipos_editora)){
+                foreach(explode(',', trim(env('EDITORA'))) as $codpes){
+                    if(Pessoa::emailusp($codpes)){  
+                        OrcamentoJob::dispatch($pedido, $codpes);
+                    }
                 }
             }
-            foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                if(Pessoa::emailusp($codpes)){
-                    OrcamentoJob::dispatch($pedido, $codpes);
+            $tipos_grafica = ['Impressão', 'Diagramação + Impressão', 'Blocagem', 'Refile'];
+            if(in_array($pedido->tipo, $tipos_grafica)){
+                foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
+                    if(Pessoa::emailusp($codpes)){
+                        OrcamentoJob::dispatch($pedido, $codpes);
+                    }
                 }
             }
         }
@@ -262,7 +209,7 @@ class PedidoController extends Controller
 
     //Função ativada após feitura do orçamento, em que a editora ou gráfica
     //envia o orçamento para o usuário e para o responsável do centro de despesa para que este autorize
-    public function autorizacao(Pedido $pedido, Request $request){
+    public function enviarOrcamentoParaAutorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         if($request->percentual_sobre_insumos == 'on'){
             $pedido->percentual_sobre_insumos = 1;
@@ -290,7 +237,7 @@ class PedidoController extends Controller
     //Função que trabalha com o resultado da autorização do Centro de Despesa e encaminha
     //para os próximos passos do sistema (indo para a Editora ou para a Gráfica)
     //também pode ocorrer do Centro de Despesa não liberar, então retorna para status 'Em Elaboração'
-    public function enviarAutorizacao(Pedido $pedido, Request $request){
+    public function enviarPedidoParaSetores(Pedido $pedido, Request $request){
         if($request->button == 'autorizado'){
             $request->validate([
                 'termo_responsavel_centro_despesa' => 'required',
@@ -299,19 +246,19 @@ class PedidoController extends Controller
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);
-            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
-                $pedido->setStatus('Diagramação', $request->reason);
+            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'ISBN+DOI+Ficha Catalográfica'){
+                $pedido->setStatus('Editora', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
-                        DiagramacaoJob::dispatch($pedido, $codpes);
+                        EditoraJob::dispatch($pedido, $codpes);
                     }
                 }
             }
             else{
-                $pedido->setStatus('Impressão', $request->reason);
+                $pedido->setStatus('Gráfica', $request->reason);
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
-                        ImpressaoJob::dispatch($pedido, $codpes);
+                        GraficaJob::dispatch($pedido, $codpes);
                     }
                 }
             }
@@ -327,41 +274,34 @@ class PedidoController extends Controller
         return redirect("/pedidos/{$pedido->id}");
     }
 
-    //Função que encaminha para a Gráfica assim que termina o status de Diagramação
-    public function impressao(Pedido $pedido, Request $request){
+    //Função que encaminha para a Gráfica assim que termina o trabalho da Editora
+    public function enviarParaGrafica(Pedido $pedido, Request $request){
         $this->authorize('editora');
-        $request->validate([
-            'formato' => 'required',
-            'paginas_diagramadas' => 'required',
-        ]);
         $pedido->formato = $request->formato;
         $pedido->paginas_diagramadas = $request->paginas_diagramadas;
         $pedido->update();
-        $pedido->setStatus('Impressão', $request->reason);
+        $pedido->setStatus('Gráfica', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
             if(Pessoa::emailusp($codpes)){
-                ImpressaoJob::dispatch($pedido, $codpes);
+                GraficaJob::dispatch($pedido, $codpes);
             }
         }
         return redirect("/pedidos/{$pedido->id}");
     }
 
     //Função que avisa o usuário da finalização do pedido
-    public function finalizar(Pedido $pedido, Request $request){
+    public function finalizarPedido(Pedido $pedido, Request $request){
         $this->authorize('servidor');
-        $request->validate([
-            'formato' => 'required',
-            'tiragem' => 'required',
-            'originais' => 'required',
-            'impressos' => 'required',
-        ]);
-        if($request->percentual_sobre_insumos == 'on'){
-            $pedido->percentual_sobre_insumos = 0.3 * $pedido->orcamentos()->get()->sum("preco");
+        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão' or $pedido->tipo == 'Blocagem' or $pedido->tipo == 'Refile'){
+            $pedido->formato = $request->formato;
+            $pedido->tiragem = $request->tiragem;
+            $pedido->originais = $request->originais;
+            $pedido->impressos = $request->impressos;
         }
-        $pedido->formato = $request->formato;
-        $pedido->tiragem = $request->tiragem;
-        $pedido->originais = $request->originais;
-        $pedido->impressos = $request->impressos;
+        else{
+            $pedido->formato = $request->formato;
+            $pedido->paginas_diagramadas = $request->paginas_diagramadas;
+        }
         $pedido->setStatus('Finalizado', $request->reason);
         $pedido->updated_at = date('Y-m-d H:i:s');
         $pedido->update();

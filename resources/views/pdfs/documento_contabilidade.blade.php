@@ -74,15 +74,15 @@
             <td style="font-size:14px; border: 1px solid #000; text-align:center;" colspan='2'><b>Dados do Pedido</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
-            <td style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? 'Não informado'}}</td>
-            <td style="border: 1px solid #000;"><b>Tipo:</b> {{$pedido->tipo ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Tipo:</b> {{$pedido->tipo ?? ''}}</td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Data da Solicitação:</b> {{ strftime('%d/%m/%Y', strtotime($pedido->created_at)) }}</td>
             <td style="border: 1px solid #000;"><b>Data da Finalização:</b> {{ strftime('%d/%m/%Y', strtotime($pedido->updated_at)) }}</td>
         </tr>
         <tr style="border: 1px solid #000;">
-            <td style="border: 1px solid #000;"><b>Centro de Despesa:</b> {{$pedido->centro_de_despesa ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Centro de Despesa:</b> {{$pedido->centro_de_despesa ?? ''}}</td>
             <td style="border: 1px solid #000;"><b>Responsável Centro de Despesa:</b>@if($pedido->responsavel_centro_despesa != null) {{$pessoa::dump($pedido->responsavel_centro_despesa)['nompes'] }}@endif</td>
         </tr>
     </table>
@@ -94,29 +94,34 @@
         <tr style="border: 1px solid #000;">    
             <td colspan='3' style="border: 1px solid #000;">
                 <b>Título: </b>
-                {{$pedido->titulo ?? 'Não informado'}}
+                {{$pedido->titulo ?? ''}}
             </td>
+        </tr>
+        <tr style="border: 1px solid #000;">
+            <td style="border: 1px solid #000;"><b>Número de páginas:</b> {{$pedido->paginas ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Páginas diagramadas:</b> {{$pedido->paginas_diagramadas ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Formato:</b> {{$pedido->formato ?? ''}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">
+            <td style="border: 1px solid #000;"><b>Contém Imagens?</b> @if($pedido->contem_imagens == 1) Sim @else Não @endif</td>
+            <td style="border: 1px solid #000;"><b>Tipo das Imagens:</b> {{$pedido->tipo_imagens ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Quantidade de Imagens:</b> {{$pedido->quantidade_imagens ?? ''}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">
+            <td style="border: 1px solid #000;"><b>Tiragem:</b> {{$pedido->tiragem ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Originais:</b> {{$pedido->originais ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Total de impressos:</b> {{$pedido->impressos ?? ''}}</td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td colspan='3' style="border: 1px solid #000;">
                 <b>Descrição: </b>
-                {{$pedido->descricao ?? 'Não informado'}}
+                {{$pedido->descricao ?? ''}}
             </td>
-        </tr>
-        <tr style="border: 1px solid #000;">
-            <td style="border: 1px solid #000;"><b>Número de páginas:</b> {{$pedido->paginas ?? 'Não informado'}}</td>
-            <td style="border: 1px solid #000;"><b>Páginas diagramadas:</b> {{$pedido->paginas_diagramadas ?? 'Não informado'}}</td>
-            <td style="border: 1px solid #000;"><b>Formato:</b> {{$pedido->formato ?? 'Não informado'}}</td>
-        </tr>
-        <tr style="border: 1px solid #000;">
-            <td style="border: 1px solid #000;"><b>Tiragem:</b> {{$pedido->tiragem ?? 'Não informado'}}</td>
-            <td style="border: 1px solid #000;"><b>Originais:</b> {{$pedido->originais ?? 'Não informado'}}</td>
-            <td style="border: 1px solid #000;"><b>Total de impressos:</b> {{$pedido->impressos ?? 'Não informado'}}</td>
         </tr>
         <tr style="border: 1px solid #000;">
             <td colspan='3' style="border: 1px solid #000;">
                 <b>Finalidade: </b>
-                {{$pedido->finalidade ?? 'Não informado'}}
+                {{$pedido->finalidade ?? ''}}
             </td>
         </tr>
     </table>
@@ -174,5 +179,4 @@ blanqueta, restauradoras etc.
             </tr>
         </table>
     </div>
-    <p style="page-break-before: always">&nbsp;</p>
 @endsection('content')

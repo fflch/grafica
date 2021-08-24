@@ -15,19 +15,19 @@ $submenu1 = [
 
 $menu = [
     [
-        'text' => '<i class="fas fa-address-card"></i> Meus Pedidos',
-        'url' => config('app.url') . '/pedidos/meus_pedidos',
-        'can' => 'logado',
-    ],
-    [
-        'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
-        'url' => config('app.url') . '/pedidos/autorizacao_pedidos?busca_status=Autorização',
+        'text' => '<i class="fas fa-home"></i> Home',
+        'url' => config('app.url') . '/home',
         'can' => 'logado',
     ],
     [
         'text' => '<i class="fas fa-store-alt"></i> Pedidos',
         'submenu' => $submenu1,
         'can' => 'logado',
+    ],
+    [
+        'text' => '<i class="fas fa-check-square"></i> Pedidos a Autorizar',
+        'url' => config('app.url') . '/pedidos/visualizar_pedidos_a_autorizar',
+        'can' => 'responsavel_centro_despesa',
     ],
 ];
 

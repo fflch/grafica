@@ -10,10 +10,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\DiagramacaoMail;
+use App\Mail\EditoraMail;
 use Uspdev\Replicado\Pessoa;
 
-class DiagramacaoJob implements ShouldQueue
+class EditoraJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $tries = 3;
@@ -38,7 +38,7 @@ class DiagramacaoJob implements ShouldQueue
     public function handle()
     {
         if(Pessoa::emailusp($this->codpes) != false){
-            Mail::send(new DiagramacaoMail($this->pedido, $this->codpes));
+            Mail::send(new EditoraMail($this->pedido, $this->codpes));
         }
     }
 }

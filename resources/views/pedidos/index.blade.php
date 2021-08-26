@@ -91,16 +91,20 @@
                 <td>{{ $pedido->tipo}}</td>
                 <td>{{ $pedido->tipo_material}}</td>
                 <td>{{ $pedido->status}}</td>
-                <td>
-                    <a href="/pedidos/{{$pedido->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-                </td>
-                <td>
-                    <form method="POST" action="/pedidos/{{ $pedido->id }}">
-                        @csrf 
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
-                    </form>
-                </td>
+                @if((auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração') or Auth::user()->can('admin'))
+                    <td>
+                        <a href="/pedidos/{{$pedido->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                    </td>
+                    <td>
+                        <form method="POST" action="/pedidos/{{ $pedido->id }}">
+                            @csrf 
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja apagar?')"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
+                @else
+                    <td></td>
+                @endif
             </tr>
         @endforeach
         </tbody>

@@ -22,7 +22,9 @@ class PedidoFactory extends Factory
      */
     public function definition()
     {
+        $contem_imagens = [0,1];
         $tipo = Pedido::tipoPedidoOptions();
+        $tipo_material = Pedido::tipoMaterialOptions();
         $user = User::factory(1)->create()->toArray();
         $responsavel_centro_despesa = $this->faker->unique()->servidor();
         return [
@@ -32,7 +34,12 @@ class PedidoFactory extends Factory
             'tipo' => $tipo[array_rand($tipo)],
             'paginas' => $this->faker->randomNumber($nbDigits = 3, $strict = false),
             'centro_de_despesa' => $this->faker->text($maxNbChars = 200), 
-            'responsavel_centro_despesa' => $responsavel_centro_despesa, 
+            'responsavel_centro_despesa' => $responsavel_centro_despesa,
+            'formato' => $this->faker->sentence($nbWords = 2, $variableNbWords = true),
+            'tiragem' => $this->faker->randomNumber($nbDigits = 3, $strict = false),
+            'tipo_material' => $tipo_material[array_rand($tipo_material)],
+            'finalidade' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
+            'contem_imagens' => $contem_imagens[array_rand($contem_imagens)], 
         ];
     }
 }

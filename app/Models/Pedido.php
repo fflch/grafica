@@ -49,14 +49,30 @@ class Pedido extends Model
         return $this->hasMany(Chat::class);
     }
 
-    public static function tipoOptions(){
+    public static function tipoPedidoOptions(){
         return [
             'Diagramação',
             'Impressão',
             'Diagramação + Impressão',
-            'ISBN+DOI+Ficha Catalográfica',
-            'Blocagem',
-            'Refile',
+        ];
+    }
+
+    public static function tipoMaterialOptions(){
+        return [
+            'Livro',
+            'Revista',
+            'Eméritos',
+            'Jornais',
+            'Bloco de notas',
+            'Agenda',
+            'Convite',
+            'Folha de prova',
+            'Folders',
+            'Envelopes',
+            'Cartazes',
+            'Folhetos',
+            'Cartão de Visitas',
+            'Papel'
         ];
     }
 
@@ -87,11 +103,6 @@ class Pedido extends Model
     public static function configMail($pedido, $usuario, $tipo){
         $settings = new GeneralSettings;
         $url = "<a href='http://grafica.fflch.usp.br/pedidos/{$pedido->id}'>Link do pedido</a>'";
-        $temporaryUrl = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(2880), [
-            'file_id'   => $pedido->files()->first()->id,
-            'pedido_id' => $pedido->id
-        ]);
-        $url2 = "<a href={$temporaryUrl}>Link do arquivo</a>'";
         if($tipo == 'em_analise'){
             $mensagem = $settings->em_analise;
         }
@@ -119,8 +130,8 @@ class Pedido extends Model
 
         //Busca a última configuração
         $mensagem = str_replace(
-            ["%usuario","%mensagem", "%url", "%link_arquivo"], 
-            [$usuario, $pedido->latestStatus()->reason, $url, $url2], 
+            ["%usuario","%mensagem", "%url"], 
+            [$usuario, $pedido->latestStatus()->reason, $url], 
             $mensagem
         );
         return $mensagem;

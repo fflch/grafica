@@ -12,7 +12,7 @@ class HomeController extends Controller
         $this->authorize('logado');
         $query = Pedido::orderBy('created_at', 'desc');
         $request->validate([
-            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
+            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoPedidoOptions())],
             'busca_status' => ['nullable',Rule::in(Pedido::status)],
         ]);
 
@@ -28,11 +28,11 @@ class HomeController extends Controller
             $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('editora')){
-            $query->currentStatus(["Orçamento","Editora"])->whereIn('tipo',['Diagramação', 'Diagramação + Impressão', 'ISBN+DOI+Ficha Catalográfica']);
+            $query->currentStatus(["Orçamento","Editora"])->whereIn('tipo',['Diagramação', 'Diagramação + Impressão']);
             $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('grafica')){
-            $query->currentStatus(["Orçamento","Gráfica"])->whereIn('tipo',['Impressão', 'Diagramação + Impressão', 'Blocagem', 'Refile']);
+            $query->currentStatus(["Orçamento","Gráfica"])->whereIn('tipo',['Impressão', 'Diagramação + Impressão']);
             $query->orWhere('user_id', auth()->user()->id);
         }
         else{

@@ -34,7 +34,7 @@ class PedidoController extends Controller
         $this->authorize('servidor');
         $request->validate([
             'busca_data' => 'required_if:filtro_busca,data|dateformat:d/m/Y|nullable',
-            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoOptions())],
+            'busca_tipo' => ['nullable',Rule::in(Pedido::tipoPedidoOptions())],
             'busca_status' => ['nullable',Rule::in(Pedido::status)],
         ]);
 
@@ -183,7 +183,7 @@ class PedidoController extends Controller
         $this->authorize('servidor');
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
-            $tipos_editora = ['Diagramação', 'Diagramação + Impressão', 'ISBN+DOI+Ficha Catalográfica'];
+            $tipos_editora = ['Diagramação', 'Diagramação + Impressão'];
             if(in_array($pedido->tipo, $tipos_editora)){
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){  
@@ -191,7 +191,7 @@ class PedidoController extends Controller
                     }
                 }
             }
-            $tipos_grafica = ['Impressão', 'Diagramação + Impressão', 'Blocagem', 'Refile'];
+            $tipos_grafica = ['Impressão', 'Diagramação + Impressão'];
             if(in_array($pedido->tipo, $tipos_grafica)){
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
@@ -211,19 +211,6 @@ class PedidoController extends Controller
     //envia o orçamento para o usuário e para o responsável do centro de despesa para que este autorize
     public function enviarOrcamentoParaAutorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
-        if($request->percentual_sobre_insumos == 'on'){
-            $pedido->percentual_sobre_insumos = 1;
-            $pedido->update();
-            $orcamento = new Orcamento;
-            $orcamento->pedido_id = $pedido->id;
-            $orcamento->procedencia = 'grafica';
-            $orcamento->preco = 0.3 * $pedido->orcamentos()->where('procedencia','grafica')->get()->sum("preco");
-            $orcamento->nome = "30% sobre os materiais utilizados";
-            $orcamento->save();
-        }
-        else{
-            $orcamento = $pedido->orcamentos()->where('nome','LIKE', '%sobre os materiais utilizados%')->delete();
-        }
         $pedido->setStatus('Autorização', $request->reason);
         if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
             AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);
@@ -246,7 +233,7 @@ class PedidoController extends Controller
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);
-            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'ISBN+DOI+Ficha Catalográfica'){
+            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
                 $pedido->setStatus('Editora', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
@@ -292,7 +279,7 @@ class PedidoController extends Controller
     //Função que avisa o usuário da finalização do pedido
     public function finalizarPedido(Pedido $pedido, Request $request){
         $this->authorize('servidor');
-        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão' or $pedido->tipo == 'Blocagem' or $pedido->tipo == 'Refile'){
+        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão'){
             $pedido->formato = $request->formato;
             $pedido->tiragem = $request->tiragem;
             $pedido->originais = $request->originais;
@@ -307,19 +294,6 @@ class PedidoController extends Controller
         $pedido->update();
         FinalizarJob::dispatch($pedido);
         return redirect("/pedidos/{$pedido->id}");
-    }
-
-    //Função para link de acesso temporário do arquivo do pedido
-    public function acessoAutorizado(Request $request)
-    {
-        if ($request->hasValidSignature()) {
-            $file = File::find($request->file_id);
-            return Storage::download($file->path, $file->original_name);
-        } else {
-            $request->session()->flash('alert-danger',
-                "URL expirada!");
-            return redirect('/');
-        }
     }
 
     public function voltarStatus(Pedido $pedido){

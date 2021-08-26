@@ -40,7 +40,8 @@ class PedidoRequest extends FormRequest
             'user_id' => '',
             'titulo' => 'required',
             'descricao' => 'required',
-            'tipo' => ['required',Rule::in($pedido->tipoOptions())],
+            'tipo' => ['required',Rule::in($pedido->tipoPedidoOptions())],
+            'tipo_material' => ['required',Rule::in($pedido->tipoMaterialOptions())],
             'paginas' => 'required|integer',
             'finalidade' => ['required'],
             'centro_de_despesa' => ['required',Rule::in($centros_despesas)],
@@ -48,6 +49,8 @@ class PedidoRequest extends FormRequest
             'contem_imagens' => 'integer|required', 
             'tipo_imagens' => ['nullable','required_if:contem_imagens,1',Rule::in($pedido->tipoImagensOptions())], 
             'quantidade_imagens' => 'nullable|integer|required_if:contem_imagens,1', 
+            'formato' => 'nullable', 
+            'tiragem' => 'nullable|integer', 
         ];
     }
 }

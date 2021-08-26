@@ -22,7 +22,7 @@
                     <div class="col-2"> 
                         <select class="form-control" name="busca_tipo">
                             <option value="" selected="">- Tipo -</option>
-                            @foreach (App\Models\Pedido::tipoOptions() as $option)
+                            @foreach (App\Models\Pedido::tipoPedidoOptions() as $option)
                                 {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
                                 @if (old('busca_tipo') == '' and isset(Request()->busca_tipo))
                                 <option value="{{$option}}" {{ ( Request()->busca_tipo == $option) ? 'selected' : ''}}>

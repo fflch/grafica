@@ -74,8 +74,11 @@
             <td style="font-size:14px; border: 1px solid #000; text-align:center;" colspan='2'><b>Dados do Pedido</b></td>
         </tr>
         <tr style="border: 1px solid #000;">    
-            <td style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? ''}}</td>
-            <td style="border: 1px solid #000;"><b>Tipo:</b> {{$pedido->tipo ?? ''}}</td>
+            <td colspan='2' style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? ''}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">    
+            <td style="border: 1px solid #000;"><b>Tipo de Pedido:</b> {{$pedido->tipo ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Tipo de Material:</b> {{$pedido->tipo_material ?? ''}}</td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Data da Solicitação:</b> {{ strftime('%d/%m/%Y', strtotime($pedido->created_at)) }}</td>
@@ -156,13 +159,12 @@
         @php(setlocale(LC_TIME, 'pt_BR','pt_BR.utf-8','portuguese'))
         São Paulo, {{ strftime('%d de %B de %Y', strtotime('today')) }}
     </div>
-    @if($pedido->percentual_sobre_insumos == 1)
-        <p>
+    <p>
+        @if($observacao)
             <b>Observação:</b><br>
-            30% sobre o total de materiais representa gastos com tinta, solventes, toner, cola, algodão,
-blanqueta, restauradoras etc.
-        </p>
-    @endif
+            {{$observacao}}
+        @endif
+    </p>
     <div id="footer">
         <table style="text-align:center; color: #042e6f">
             <tr>

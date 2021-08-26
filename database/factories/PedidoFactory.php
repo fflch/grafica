@@ -22,7 +22,7 @@ class PedidoFactory extends Factory
      */
     public function definition()
     {
-        $tipo = Pedido::tipoOptions();
+        $tipo = Pedido::tipoPedidoOptions();
         $user = User::factory(1)->create()->toArray();
         $responsavel_centro_despesa = $this->faker->unique()->servidor();
         return [

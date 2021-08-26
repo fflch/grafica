@@ -11,11 +11,11 @@
         </div>
                       
         <div class="row form-group">
-            <div class="col-sm">
-                <label for="tipo" class="required"><b>Tipo:</b></label>
+            <div class="col-3">
+                <label for="tipo" class="required"><b>Tipo do Pedido:</b></label>
                 <select class="form-control" name="tipo">
                     <option value="" selected="">- Selecione -</option>
-                    @foreach ($pedido->tipoOptions() as $option)
+                    @foreach ($pedido->tipoPedidoOptions() as $option)
                         {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
                         @if (old('tipo') == '' and isset($pedido->tipo))
                         <option value="{{$option}}" {{ ( $pedido->tipo == $option) ? 'selected' : ''}}>
@@ -30,11 +30,40 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-auto">
+            <div class="col-sm">
+                <label for="tipo_material" class="required"><b>Tipo do Material:</b></label>
+                <select class="form-control" name="tipo_material">
+                    <option value="" selected="">- Selecione -</option>
+                    @foreach ($pedido->tipoMaterialOptions() as $option)
+                        {{-- 1. Situação em que não houve tentativa de submissão e é uma edição --}}
+                        @if (old('tipo_material') == '' and isset($pedido->tipo_material))
+                        <option value="{{$option}}" {{ ( $pedido->tipo_material == $option) ? 'selected' : ''}}>
+                            {{$option}}
+                        </option>
+                        {{-- 2. Situação em que houve tentativa de submissão, o valor de old prevalece --}}
+                        @else
+                        <option value="{{$option}}" {{ ( old('tipo_material') == $option) ? 'selected' : ''}}>
+                            {{$option}}
+                        </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm">
                 <label for="paginas"><b>Número de páginas:</b></label>
                 <input type="text" class="form-control numeros" name="paginas" value="{{ old('paginas', $pedido->paginas) }}">
             </div>
-            <div class="col-auto">
+            <div class="col-sm">
+                <label for="formato"><b>Formato:</b></label>
+                <input type="text" class="form-control" name="formato" value="{{ old('formato', $pedido->formato) }}">
+            </div>
+            <div class="col-sm">
+                <label for="tiragem"><b>Tiragem:</b></label>
+                <input type="text" class="form-control numeros" name="tiragem" value="{{ old('tiragem', $pedido->tiragem) }}">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-3">
                 <label class="form-group"><b>Contém Imagens?</b></label><br>
                 <div class="form-check form-check-inline">
                     @if (old('contem_imagens') == '' and isset($pedido->contem_imagens))
@@ -72,7 +101,7 @@
                     @endforeach
                 </select>            
             </div>
-            <div class="col-auto">
+            <div class="col-sm">
                 <label for="quantidade_imagens"><b>Quantidade de Imagens:</b></label>
                 <input type="text" class="form-control numeros" name="quantidade_imagens" value="{{ old('quantidade_imagens', $pedido->quantidade_imagens) }}">
             </div>

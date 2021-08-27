@@ -1,46 +1,14 @@
-@extends('pdfs.fflch')
+@extends('laravel-fflch-pdf::main')
 @inject('pessoa','Uspdev\Replicado\Pessoa')
 
-@section('styles_head')
+@section('other_styles')
 <style>
-  /**
-  @page { margin: 100px 100px 25px 25px; }
-  header { position: fixed; top: -60px; left: 0px; right: 0px; height: 100px; }
-  footer { position: fixed; bottom: -60px; left: 0px; right: 0px; height: 50px; }
-  .page-break {
-      page-break-after: always;
-      margin-top:160px;
-  }
-  p:last-child { page-break-after: never; }
-  .content {
-      margin-top:160px;
-  }
-  **/
+  
     body{
-        margin-left: 1.2em; font-family: DejaVu Sans, sans-serif; font-size: 12px;
+        margin-left: 0.9em; font-family: DejaVu Sans, sans-serif; font-size: 12px;
     }   
     .dados {
         border:1px solid; margin-top:0.3cm; margin-bottom:0.3cm; width: 15cm; font-size:14px; margin-left:1.5cm;
-    }
-    #footer {
-      position: fixed;
-      bottom: -1cm;
-      left: 0px;
-      right: 0px;
-      text-align: center;
-      border-top: 1px solid gray;
-      width: 18.5cm;
-      height: 100px;
-    }
-    .page-break {
-      page-break-after: always;
-      margin-top:160px;
-    }
-    p:last-child {
-      page-break-after: never; 
-    }
-    .content {
-      margin-top:0px;
     }
     table{
         border-collapse: collapse;
@@ -49,23 +17,7 @@
         word-wrap:break-word;
     }
 </style>
-@endsection('styles_head')
-
-@section('header')
-  <table style='width:100%'>
-    <tr>
-      <td style='width:20%' style='text-align:left;'>
-        <img src='images/logo-fflch.png' width='100px'/>
-      </td>
-      <td style='width:80%; text-align:center; font-size:18px; color: #042e6f'>
-        <b>FACULDADE DE FILOSOFIA, LETRAS E CIÊNCIAS HUMANAS</b>
-        <p style="color:#000; margin: 0; padding: 0;">Universidade de São Paulo</p>
-        <i>Serviço de Editoração e Artes Gráficas</i>
-      </td>
-    </tr>
-  </table>
-  <hr>
-@endsection('header')
+@endsection('other_styles')
 
 @section('content')
     <h2 align="center">Orçamento do Pedido - nº {{ $pedido->id }} </h2>
@@ -165,20 +117,23 @@
             {{$observacao}}
         @endif
     </p>
+@endsection('content')
+
+@section('footer')
     <div id="footer">
         <table style="text-align:center; color: #042e6f">
             <tr>
                 <td style="border-right: 1px solid gray">
-                    <b>Serviço de Editoração da FFLCH</b><br> 
-                    <b>E-mail:</b> editorafflch@usp.br | <b>Tel e fax:</b> 3091-4593 <br>
+                    <b>Setor de Editoração da FFLCH</b><br> 
+                    <b>E-mail:</b> editorafflch@usp.br | <b>Tel e fax:</b> 3091-0458 <br>
                     Rua do Lago, 717 CEP: 05508-080 - Cidade Universitária São Paulo - SP / Brasil <br>
                 </td>
                 <td>
-                    <b>Serviço de Artes Gráficas da FFLCH</b> <br> 
+                    <b>Setor de Artes Gráficas da FFLCH</b> <br> 
                     <b>E-mail:</b> sagr@usp.br | <b>Tel e fax:</b> 3091-4591 <br>
                     Rua do Lago, 717 CEP: 05508-080 - Cidade Universitária São Paulo - SP / Brasil <br>
                 </td>    
             </tr>
         </table>
     </div>
-@endsection('content')
+@endsection('footer')

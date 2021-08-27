@@ -8,6 +8,11 @@ use App\Models\Pedido;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function home(Request $request){
         $this->authorize('logado');
         $query = Pedido::orderBy('created_at', 'desc');

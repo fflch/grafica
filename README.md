@@ -21,6 +21,7 @@ cp .env.example .env
     - Nº USP dos funcionários do grupo autorizador
     - Nº USP dos funcionários do grupo editora
     - Nº USP dos funcionários do grupo gráfica
+    - Identificar o nome do setor utilizado nos PDFs
 
 - Configurações finais do framework e do sistema:
 
@@ -44,6 +45,7 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 - [uspdev/senhaunica-socialite](https://github.com/uspdev/senhaunica-socialite)
 - [uspdev/laravel-usp-faker](https://github.com/uspdev/laravel-usp-faker)
 - [uspdev/laravel-usp-validators](https://github.com/uspdev/laravel-usp-validators)
+- [fflch/laravel-fflch-pdf](https://github.com/fflch/laravel-fflch-pdf)
 
 ## Contribuição
 

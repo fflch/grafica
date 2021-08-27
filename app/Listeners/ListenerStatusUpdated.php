@@ -35,10 +35,10 @@ class ListenerStatusUpdated
         elseif($event->newStatus == 'Autorização'){
             
         }
-        elseif($event->newStatus == 'Editora'){
+        elseif($event->newStatus == 'Diagramação'){
             
         }
-        elseif($event->newStatus == 'Gráfica'){
+        elseif($event->newStatus == 'Impressão'){
             
         }
         elseif($event->newStatus == 'Finalizado'){

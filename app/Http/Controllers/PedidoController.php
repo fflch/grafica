@@ -17,7 +17,7 @@ use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
 use App\Jobs\AutorizacaoJob;
 use App\Jobs\AutorizadoJob;
-use App\Jobs\EditoraJob;
+use App\Jobs\DiagramacaoJob;
 use App\Jobs\GraficaJob;
 use App\Jobs\FinalizarJob;
 use Illuminate\Validation\Rule;
@@ -234,15 +234,15 @@ class PedidoController extends Controller
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);
             if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
-                $pedido->setStatus('Editora', $request->reason);
+                $pedido->setStatus('Diagramação', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
-                        EditoraJob::dispatch($pedido, $codpes);
+                        DiagramacaoJob::dispatch($pedido, $codpes);
                     }
                 }
             }
             else{
-                $pedido->setStatus('Gráfica', $request->reason);
+                $pedido->setStatus('Impressão', $request->reason);
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
                         GraficaJob::dispatch($pedido, $codpes);
@@ -267,7 +267,7 @@ class PedidoController extends Controller
         $pedido->formato = $request->formato;
         $pedido->paginas_diagramadas = $request->paginas_diagramadas;
         $pedido->update();
-        $pedido->setStatus('Gráfica', $request->reason);
+        $pedido->setStatus('Impressão', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
             if(Pessoa::emailusp($codpes)){
                 GraficaJob::dispatch($pedido, $codpes);

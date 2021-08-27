@@ -10,7 +10,7 @@
     
     @include('pedidos.partials.status')
     
-    @if(($pedido->status == 'Editora' and Auth::user()->can('editora')) or ($pedido->status == 'Gráfica' and Auth::user()->can('grafica')) or (($pedido->status == 'Editora' or $pedido->status == 'Gráfica') and Auth::user()->id == $pedido->user_id))
+    @if(($pedido->status == 'Diagramação' and Auth::user()->can('editora')) or ($pedido->status == 'Impressão' and Auth::user()->can('grafica')) or (($pedido->status == 'Diagramação' or $pedido->status == 'Impressão') and Auth::user()->id == $pedido->user_id))
       @include('pedidos.partials.chat')
     @endif
     

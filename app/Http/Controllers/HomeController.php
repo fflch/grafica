@@ -28,11 +28,11 @@ class HomeController extends Controller
             $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('editora')){
-            $query->currentStatus(["Orçamento","Editora"])->whereIn('tipo',['Diagramação', 'Diagramação + Impressão']);
+            $query->currentStatus(["Orçamento","Diagramação"])->whereIn('tipo',['Diagramação', 'Diagramação + Impressão']);
             $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('grafica')){
-            $query->currentStatus(["Orçamento","Gráfica"])->whereIn('tipo',['Impressão', 'Diagramação + Impressão']);
+            $query->currentStatus(["Orçamento","Impressão"])->whereIn('tipo',['Impressão', 'Diagramação + Impressão']);
             $query->orWhere('user_id', auth()->user()->id);
         }
         else{

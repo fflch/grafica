@@ -24,8 +24,8 @@ class Pedido extends Model
         'Em Análise',
         'Orçamento',
         'Autorização',
-        'Editora',
-        'Gráfica',
+        'Diagramação',
+        'Impressão',
         'Finalizado',
     ];
 

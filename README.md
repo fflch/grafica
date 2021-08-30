@@ -38,6 +38,14 @@ php artisan migrate:fresh --seed
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
+## [<img src="public/images/youtube.png" width="40" height="30"/>](public/images/youtube.png) Tutoriais 
+
+- [Visão do Usuário](https://www.youtube.com/watch?v=kkPFmTwta1s)
+- [Visão do Grupo Autorizador](https://www.youtube.com/watch?v=oAwgLOt8hXA)
+- [Visão do Grupo Editora](https://www.youtube.com/watch?v=6KVa6yfqL9U)
+- [Visão do Grupo Gráfica](https://www.youtube.com/watch?v=ZLqxfQDShio)
+- [Visão do Responsável pelo Centro de Despesa](https://www.youtube.com/watch?v=8eRNtIc0wg8)
+
 ## Projetos utilizados
 
 - [uspdev/laravel-usp-theme](https://github.com/uspdev/laravel-usp-theme)

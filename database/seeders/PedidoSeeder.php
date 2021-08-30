@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Pedido;
+use App\Models\User;
 use App\Models\Orcamento;
 use Auth;
 
@@ -31,15 +32,20 @@ class PedidoSeeder extends Seeder
             'finalidade' => 'Finalidade de Teste',
             'contem_imagens' => 0,                     
         ];
-        $pedido1 = Pedido::create($pedido1);
-        $pedido1->setStatus('Em Elaboração');
+        Pedido::create($pedido1);
 
         Pedido::factory(5)->create()->each(function ($pedido) {           
             $orcamentos = Orcamento::factory(4)->make();
-            $pedido->setStatus('Em Elaboração');
             $pedido->orcamentos()->saveMany($orcamentos);
         });
-        //Depois de rodar o seeder, desloga o primeiro usuário criado para que seja possível funcionar o setStatus da biblioteca de Status
-        Auth::logout();
+
+        //Para setar status dos dados fakes
+        $pedidos = Pedido::all();
+        foreach($pedidos as $pedido){
+            $user = User::where('id', $pedido->user_id)->first();
+            Auth::login($user);
+            $pedido->setStatus('Em Elaboração');
+            Auth::logout();
+        }
     }
 }

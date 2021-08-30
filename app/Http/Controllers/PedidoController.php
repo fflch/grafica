@@ -162,9 +162,11 @@ class PedidoController extends Controller
                 Storage::delete($file->path);
             }
             $pedido->files()->delete();
+            $pedido->chats()->delete();
             $pedido->delete();
             return redirect('/pedidos');
         }
+        return redirect('/pedidos');
     }
 
     //Funções de Status

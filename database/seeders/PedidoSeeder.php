@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Pedido;
+use App\Models\User;
 use App\Models\Orcamento;
+use Auth;
 
 class PedidoSeeder extends Seeder
 {
@@ -23,7 +25,12 @@ class PedidoSeeder extends Seeder
             'tipo' => 'Diagramação + Impressão',
             'paginas' => 200,
             'centro_de_despesa' => 'Centro de Despesa da FFLCH', 
-            'responsavel_centro_despesa' => 65389,                     
+            'responsavel_centro_despesa' => 65389,
+            'formato' => '14x21cm',
+            'tiragem' => 200,
+            'tipo_material' => 'Livro',
+            'finalidade' => 'Finalidade de Teste',
+            'contem_imagens' => 0,                     
         ];
         Pedido::create($pedido1);
 
@@ -31,5 +38,14 @@ class PedidoSeeder extends Seeder
             $orcamentos = Orcamento::factory(4)->make();
             $pedido->orcamentos()->saveMany($orcamentos);
         });
+
+        //Para setar status dos dados fakes
+        $pedidos = Pedido::all();
+        foreach($pedidos as $pedido){
+            $user = User::where('id', $pedido->user_id)->first();
+            Auth::login($user);
+            $pedido->setStatus('Em Elaboração');
+            Auth::logout();
+        }
     }
 }

@@ -10,6 +10,10 @@ use App\Jobs\ChatJob;
 
 class ChatController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     
     public function store(ChatRequest $request)
     {

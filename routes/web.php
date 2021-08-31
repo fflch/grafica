@@ -52,10 +52,8 @@ Route::post('/login_admin',[LoginAdminController::class, 'login']);
 Route::get('/settings',[GeneralSettingsController::class, 'show']);
 Route::post('/settings',[GeneralSettingsController::class, 'update']);
 
-Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->name('acesso_autorizado');
-
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
 
 # Pdfs
-Route::post('/pedidos/gerar_documento_contabilidade/{pedido}',[PdfController::class, 'gerarDocumentoContabilidade']);
+Route::any('/pedidos/gerar_documento_contabilidade/{pedido}',[PdfController::class, 'gerarDocumentoContabilidade']);

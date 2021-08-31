@@ -8,6 +8,11 @@ use App\Http\Requests\OrcamentoRequest;
 
 class OrcamentoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function store(OrcamentoRequest $request)
     {
         $this->authorize('servidor');

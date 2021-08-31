@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Uspdev\Replicado\Pessoa;
-
+use Auth;
 class UserSeeder extends Seeder
 {
     /**

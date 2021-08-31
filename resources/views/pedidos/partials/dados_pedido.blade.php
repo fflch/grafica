@@ -2,11 +2,14 @@
         <div class="card-header"><b>Dados do Pedido</b></div>
         <div class="card-body">
             <b>Solicitante:</b> {{$pedido->user->name ?? 'Não informado'}}</br>
-            <b>Tipo:</b> {{$pedido->tipo ?? 'Não informado'}}</br>
+            <b>Tipo de Pedido:</b> {{$pedido->tipo ?? 'Não informado'}}</br>
+            <b>Tipo do Material:</b> {{$pedido->tipo_material ?? 'Não informado'}}</br>
             <b>Título:</b> {{$pedido->titulo ?? 'Não informado'}}</br>
             <b>Descrição:</b> {{$pedido->descricao ?? 'Não informado'}}</br>
             <b>Finalidade:</b> {{$pedido->finalidade ?? 'Não informado'}}</br>
             <b>Número de páginas:</b> {{$pedido->paginas ?? 'Não informado'}}</br>
+            <b>Formato:</b> {{$pedido->formato ?? 'Não informado'}}</br>
+            <b>Tiragem:</b> {{$pedido->tiragem ?? 'Não informado'}}</br>
             <b>Contém Imagens?</b> @if($pedido->contem_imagens == 1) Sim @else Não @endif
             @if($pedido->contem_imagens == 1)
                 |

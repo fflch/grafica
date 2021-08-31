@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
 use Uspdev\Replicado\Pessoa;
 
-class EditoraMail extends Mailable
+class DiagramacaoMail extends Mailable
 {
     use Queueable, SerializesModels;
     private $pedido;

@@ -30,11 +30,6 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
 
-        Gate::define('admin', function ($user) {
-            $admins = explode(',', trim(env('ADMINS')));
-            return in_array($user->codpes, $admins);
-        });
-
         Gate::define('autorizador', function ($user) {
             if(Gate::allows('admin')) return true;
             $autorizador = explode(',', trim(env('AUTORIZADOR')));

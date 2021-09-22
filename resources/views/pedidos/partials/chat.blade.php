@@ -25,7 +25,7 @@
                 @endforeach
             </div>
             
-            @if($pedido->status == 'Diagramação' or $pedido->status == 'Impressão')
+            @if($pedido->status == 'Editoração' or $pedido->status == 'Artes Gráficas')
                 <br>
                 @include('pedidos.chats.form')
             @endif

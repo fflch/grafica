@@ -24,8 +24,8 @@ class Pedido extends Model
         'Em Análise',
         'Orçamento',
         'Autorização',
-        'Diagramação',
-        'Impressão',
+        'Editoração',
+        'Artes Gráficas',
         'Finalizado',
     ];
 
@@ -51,9 +51,9 @@ class Pedido extends Model
 
     public static function tipoPedidoOptions(){
         return [
-            'Diagramação',
-            'Impressão',
-            'Diagramação + Impressão',
+            'Editoração',
+            'Artes Gráficas',
+            'Editoração + Artes Gráficas',
         ];
     }
 
@@ -72,7 +72,8 @@ class Pedido extends Model
             'Cartazes',
             'Folhetos',
             'Cartão de Visitas',
-            'Papel'
+            'Papel',
+            'ISBN+DOI+Ficha Catalográfica'
         ];
     }
 

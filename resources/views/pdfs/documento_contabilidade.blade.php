@@ -30,7 +30,7 @@
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Tipo de Pedido:</b> {{$pedido->tipo ?? ''}}</td>
-            <td style="border: 1px solid #000;"><b>Tipo de Material:</b> {{$pedido->tipo_material ?? ''}}</td>
+            <td style="border: 1px solid #000;"><b>Especificação:</b> {{$pedido->tipo_material ?? ''}}</td>
         </tr>
         <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Data da Solicitação:</b> {{ strftime('%d/%m/%Y', strtotime($pedido->created_at)) }}</td>

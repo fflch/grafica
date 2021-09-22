@@ -32,7 +32,7 @@ class GraficaMail extends Mailable
     public function build()
     {
         $subject = "Novo pedido de {$this->pedido->user->name} para ser impresso";
-        return $this->view('mails.impressao')
+        return $this->view('mails.grafica')
         ->to(Pessoa::emailusp($this->codpes))
         ->subject($subject)
         ->with([

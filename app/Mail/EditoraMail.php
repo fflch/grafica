@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Pedido;
 use Uspdev\Replicado\Pessoa;
 
-class DiagramacaoMail extends Mailable
+class EditoraMail extends Mailable
 {
     use Queueable, SerializesModels;
     private $pedido;
@@ -32,7 +32,7 @@ class DiagramacaoMail extends Mailable
     public function build()
     {
         $subject = "Novo pedido de {$this->pedido->user->name} para ser diagramado";
-        return $this->view('mails.diagramacao')
+        return $this->view('mails.editora')
         ->to(Pessoa::emailusp($this->codpes))
         ->subject($subject)
         ->with([

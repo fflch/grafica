@@ -89,7 +89,7 @@
             </form>
         </div>
     </div>
-@elseif($pedido->status == 'Diagramação' and $pedido->tipo == 'Diagramação + Impressão' and Auth::user()->can('editora'))
+@elseif($pedido->status == 'Editoração' and $pedido->tipo == 'Editoração + Impressão' and Auth::user()->can('editora'))
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <form method="POST" action="/pedidos/enviar_para_grafica/{{ $pedido->id }}">
@@ -118,7 +118,7 @@
             </form>
         </div>
     </div>
-@elseif(($pedido->status == 'Impressão' and Auth::user()->can('grafica')) or (($pedido->tipo == 'Diagramação') and $pedido->status == 'Diagramação' and Auth::user()->can('editora')))
+@elseif(($pedido->status == 'Artes Gráficas' and Auth::user()->can('grafica')) or (($pedido->tipo == 'Editoração') and $pedido->status == 'Editoração' and Auth::user()->can('editora')))
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <form method="POST" action="/pedidos/finalizar_pedido/{{ $pedido->id }}">
@@ -129,7 +129,7 @@
                         <textarea class="form-control" name="reason" id="reason" rows="5">{{ old('reason', $pedido->reason) }}</textarea>
                     </div>
                 </div>
-                @if($pedido->status == 'Impressão' and Auth::user()->can('grafica'))
+                @if($pedido->status == 'Artes Gráficas' and Auth::user()->can('grafica'))
                     <div class="row">
                         <div class="col-sm form-group">
                             <label for="formato"><b>Formato:</b></label>

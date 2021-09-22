@@ -22,7 +22,7 @@ class PedidoSeeder extends Seeder
             'user_id' => 1,
             'titulo' => 'A educação universitária',
             'descricao' => 'Livro',
-            'tipo' => 'Diagramação + Impressão',
+            'tipo' => 'Editoração + Artes Gráficas',
             'paginas' => 200,
             'centro_de_despesa' => 'Centro de Despesa da FFLCH', 
             'responsavel_centro_despesa' => 65389,

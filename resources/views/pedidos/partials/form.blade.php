@@ -31,7 +31,7 @@
                 </select>
             </div>
             <div class="col-sm">
-                <label for="tipo_material" class="required"><b>Tipo do Material:</b></label>
+                <label for="tipo_material" class="required"><b>Especificação:</b></label>
                 <select class="form-control" name="tipo_material">
                     <option value="" selected="">- Selecione -</option>
                     @foreach ($pedido->tipoMaterialOptions() as $option)

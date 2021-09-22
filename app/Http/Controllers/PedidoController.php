@@ -17,7 +17,7 @@ use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
 use App\Jobs\AutorizacaoJob;
 use App\Jobs\AutorizadoJob;
-use App\Jobs\DiagramacaoJob;
+use App\Jobs\EditoraJob;
 use App\Jobs\GraficaJob;
 use App\Jobs\FinalizarJob;
 use Illuminate\Validation\Rule;
@@ -190,7 +190,7 @@ class PedidoController extends Controller
         $this->authorize('servidor');
         if($request->button == 'orcamento'){
             $pedido->setStatus('Orçamento', $request->reason);
-            $tipos_editora = ['Diagramação', 'Diagramação + Impressão'];
+            $tipos_editora = ['Editoração', 'Editoração + Artes Gráficas'];
             if(in_array($pedido->tipo, $tipos_editora)){
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){  
@@ -198,7 +198,7 @@ class PedidoController extends Controller
                     }
                 }
             }
-            $tipos_grafica = ['Impressão', 'Diagramação + Impressão'];
+            $tipos_grafica = ['Artes Gráficas', 'Editoração + Artes Gráficas'];
             if(in_array($pedido->tipo, $tipos_grafica)){
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
@@ -240,16 +240,16 @@ class PedidoController extends Controller
         $this->authorize('owner.pedido', $pedido);
         if($request->button == 'autorizado'){
             AutorizadoJob::dispatch($pedido);
-            if($pedido->tipo == 'Diagramação' or $pedido->tipo == 'Diagramação + Impressão'){
-                $pedido->setStatus('Diagramação', $request->reason);
+            if($pedido->tipo == 'Editoração' or $pedido->tipo == 'Editoração + Artes Gráficas'){
+                $pedido->setStatus('Editoração', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
-                        DiagramacaoJob::dispatch($pedido, $codpes);
+                        EditoraJob::dispatch($pedido, $codpes);
                     }
                 }
             }
             else{
-                $pedido->setStatus('Impressão', $request->reason);
+                $pedido->setStatus('Artes Gráficas', $request->reason);
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
                     if(Pessoa::emailusp($codpes)){
                         GraficaJob::dispatch($pedido, $codpes);
@@ -274,7 +274,7 @@ class PedidoController extends Controller
         $pedido->formato = $request->formato;
         $pedido->paginas_diagramadas = $request->paginas_diagramadas;
         $pedido->update();
-        $pedido->setStatus('Impressão', $request->reason);
+        $pedido->setStatus('Artes Gráficas', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
             if(Pessoa::emailusp($codpes)){
                 GraficaJob::dispatch($pedido, $codpes);
@@ -286,7 +286,7 @@ class PedidoController extends Controller
     //Função que avisa o usuário da finalização do pedido
     public function finalizarPedido(Pedido $pedido, Request $request){
         $this->authorize('servidor');
-        if($pedido->tipo == 'Diagramação + Impressão' or $pedido->tipo == 'Impressão'){
+        if($pedido->tipo == 'Editoração + Artes Gráficas' or $pedido->tipo == 'Artes Gráficas'){
             $pedido->formato = $request->formato;
             $pedido->tiragem = $request->tiragem;
             $pedido->originais = $request->originais;

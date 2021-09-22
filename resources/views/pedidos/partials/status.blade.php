@@ -89,7 +89,7 @@
             </form>
         </div>
     </div>
-@elseif($pedido->status == 'Editoração' and $pedido->tipo == 'Editoração + Impressão' and Auth::user()->can('editora'))
+@elseif($pedido->status == 'Editoração' and $pedido->tipo == 'Editoração + Artes Gráficas' and Auth::user()->can('editora'))
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <form method="POST" action="/pedidos/enviar_para_grafica/{{ $pedido->id }}">

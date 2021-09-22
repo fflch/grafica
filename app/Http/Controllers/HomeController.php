@@ -37,7 +37,7 @@ class HomeController extends Controller
             $query->orWhere('user_id', auth()->user()->id);
         }
         elseif(auth()->user()->can('grafica')){
-            $query->currentStatus(["Orçamento","Artes Gráficas"])->whereIn('tipo',['Artes Gráficas', 'Diagramação + Artes Gráficas']);
+            $query->currentStatus(["Orçamento","Artes Gráficas"])->whereIn('tipo',['Artes Gráficas', 'Editoração + Artes Gráficas']);
             $query->orWhere('user_id', auth()->user()->id);
         }
         else{

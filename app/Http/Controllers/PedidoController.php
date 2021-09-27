@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use App\Models\File;
 use App\Models\Chat;
 use Uspdev\Replicado\Pessoa;
-use App\Services\PedidoStepper;
+use Fflch\LaravelFflchStepper\Stepper;
 use App\Jobs\AnaliseJob;
 use App\Jobs\OrcamentoJob;
 use App\Jobs\DevolucaoJob;
@@ -107,7 +107,7 @@ class PedidoController extends Controller
      * @param  \App\Models\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function show(Pedido $pedido, PedidoStepper $stepper)
+    public function show(Pedido $pedido, Stepper $stepper)
     {
         $this->authorize('owner.pedido',$pedido);
         $stepper->setCurrentStepName($pedido->latestStatus());

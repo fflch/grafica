@@ -31,25 +31,25 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('autorizador', function ($user) {
-            if(Gate::allows('admin')) return true;
+            if(Gate::allows('admins')) return true;
             $autorizador = explode(',', trim(env('AUTORIZADOR')));
             return in_array($user->codpes, $autorizador);
         });
 
         Gate::define('editora', function ($user) {
-            if(Gate::allows('admin')) return true;
+            if(Gate::allows('admins')) return true;
             $editora = explode(',', trim(env('EDITORA')));
             return in_array($user->codpes, $editora);
         });
 
         Gate::define('grafica', function ($user) {
-            if(Gate::allows('admin')) return true;
+            if(Gate::allows('admins')) return true;
             $grafica = explode(',', trim(env('GRAFICA')));
             return in_array($user->codpes, $grafica);
         });
 
         Gate::define('servidor', function ($user) {
-            if(Gate::allows('admin')) return true;
+            if(Gate::allows('admins')) return true;
             if(Gate::allows('autorizador')) return true;
             if(Gate::allows('editora')) return true;
             if(Gate::allows('grafica')) return true;
@@ -63,7 +63,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('responsavel_centro_despesa', function ($user) {
-            if(Gate::allows('admin')) return true;
+            if(Gate::allows('admins')) return true;
             $pedidos = Pedido::currentStatus("Autorização")->where('responsavel_centro_despesa', $user->codpes)->get();
             if($pedidos->count() != 0){
                 return true;

@@ -45,7 +45,7 @@ Route::get('/settings',[GeneralSettingsController::class, 'show']);
 Route::post('/settings',[GeneralSettingsController::class, 'update']);
 
 # Logs  
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admins');
 
 # Pdfs
 Route::any('/pedidos/gerar_documento_contabilidade/{pedido}',[PdfController::class, 'gerarDocumentoContabilidade']);

@@ -9,7 +9,7 @@ use App\Http\Requests\GeneralSettingsRequest;
 class GeneralSettingsController extends Controller
 {
     public function show(GeneralSettings $settings){
-        $this->authorize('admin');
+        $this->authorize('admins');
         return view('settings.show', [
             'em_analise' => $settings->em_analise,
             'orcamento' => $settings->orcamento,
@@ -24,7 +24,7 @@ class GeneralSettingsController extends Controller
     }
 
     public function update(GeneralSettingsRequest $request, GeneralSettings $settings){
-        $this->authorize('admin');
+        $this->authorize('admins');
         $settings->em_analise = $request->input('em_analise');
         $settings->orcamento = $request->input('orcamento');
         $settings->autorizacao = $request->input('autorizacao');

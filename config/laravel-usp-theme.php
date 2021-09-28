@@ -38,7 +38,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/settings',
         'align' => 'right',
-        'can' => 'admin',
+        'can' => 'admins',
     ],
     [
         'text' => '<i class="fas fa-user-shield"></i>',
@@ -46,7 +46,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/loginas',
         'align' => 'right',
-        'can' => 'admin',
+        'can' => 'admins',
     ],
     [
         'text' => '<i class="fas fa-hard-hat"></i>',
@@ -54,7 +54,7 @@ $right_menu = [
         'target' => '_blank',
         'url' => config('app.url') . '/logs',
         'align' => 'right',
-        'can' => 'admin',
+        'can' => 'admins',
     ],
 ];
 

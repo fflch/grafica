@@ -91,7 +91,7 @@
                 <td>{{ $pedido->tipo}}</td>
                 <td>{{ $pedido->tipo_material}}</td>
                 <td>{{ $pedido->status}}</td>
-                @if((auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração') or Auth::user()->can('admin'))
+                @if((auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração') or Auth::user()->can('admins'))
                     <td>
                         <a href="/pedidos/{{$pedido->id}}/edit" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
                     </td>

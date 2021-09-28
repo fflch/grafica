@@ -61,7 +61,7 @@
             </form>
         </div>
     </div>
-@elseif($pedido->status == 'Autorização' and (auth()->user()->codpes == $pedido->responsavel_centro_despesa or Auth::user()->can('admin')))
+@elseif($pedido->status == 'Autorização' and (auth()->user()->codpes == $pedido->responsavel_centro_despesa or Auth::user()->can('admins')))
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <form method="POST" action="/pedidos/enviar_pedido_para_setores/{{ $pedido->id }}">

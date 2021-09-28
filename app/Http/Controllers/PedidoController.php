@@ -304,7 +304,7 @@ class PedidoController extends Controller
     }
 
     public function voltarStatus(Pedido $pedido){
-        $this->authorize('admin');
+        $this->authorize('admins');
         for($i = 0; $i < 7; $i++){
             if($pedido->status == Pedido::status[$i]){ break; }
         }

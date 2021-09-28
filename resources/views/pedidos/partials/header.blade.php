@@ -2,7 +2,7 @@
     <div class="col-sm">
         <a href="/pedidos/create" class="btn btn-primary">Novo Pedido</a>
     </div>
-    @if((auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração') or Auth::user()->can('admin'))
+    @if((auth()->user()->id == $pedido->user_id and $pedido->status == 'Em Elaboração') or Auth::user()->can('admins'))
     <div class="col-sm">
         <form method="POST" action="/pedidos/{{ $pedido->id }}">
             @csrf 

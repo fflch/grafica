@@ -1,4 +1,4 @@
-@if(($pedido->status == 'Em Elaboração' or $pedido->status == null) and $pedido->files()->count() != 0)
+@if($pedido->status == 'Em Elaboração' or $pedido->status == null)
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-body">
             <form method="POST" action="/pedidos/enviar_para_analise/{{ $pedido->id }}">

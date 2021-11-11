@@ -71,6 +71,7 @@
     <table class="table table-striped">
         <theader>
             <tr>
+                <th>Nº do Pedido</th>
                 <th>Nº USP</th>
                 <th>Nome</th>
                 <th>Título</th>
@@ -84,7 +85,7 @@
         <tbody>
         @foreach ($pedidos as $pedido)
             <tr>
-                <td>{{ $pedido->user->codpes }}</td>
+                <td>{{ $pedido->id }}</td>
                 <td><a href="/pedidos/{{$pedido->id}}">{{ $pedido->user->name }}</a></td>
                 <td>{{ $pedido->titulo }}</td>
                 <td>{{ Carbon\Carbon::parse($pedido->created_at)->format('d/m/Y') }}</td>

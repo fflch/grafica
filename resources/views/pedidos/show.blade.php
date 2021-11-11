@@ -20,7 +20,7 @@
 
     @include('pedidos.partials.orcamentos')
     
-    @can('admins')
+    @can('servidor')
         @if($pedido->status != 'Em Elaboração')
             <div class="row">
                 <div class="col-auto">

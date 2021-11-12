@@ -1,6 +1,7 @@
     <div class="card" style="margin-bottom: 0.5em;">
         <div class="card-header"><b>Dados do Pedido</b></div>
         <div class="card-body">
+            <b>N° do Pedido:</b> {{$pedido->id ?? 'Não informado'}}</br>
             <b>Solicitante:</b> {{$pedido->user->name ?? 'Não informado'}}</br>
             <b>Tipo de Pedido:</b> {{$pedido->tipo ?? 'Não informado'}}</br>
             <b>Tipo do Material:</b> {{$pedido->tipo_material ?? 'Não informado'}}</br>

@@ -34,7 +34,7 @@ class AutorizacaoMail extends Mailable
     {
         $subject = "Novo pedido de {$this->pedido->user->name} esperando ser autorizado";
         return $this->view('mails.autorizacao')
-        ->to(Pessoa::emailusp($this->codpes))
+        ->to(Pessoa::retornarEmailUsp($this->codpes))
         ->subject($subject)
         ->with([
             'pedido' => $this->pedido,

@@ -176,7 +176,7 @@ class PedidoController extends Controller
         $this->authorize('owner.pedido', $pedido);
         $pedido->setStatus('Em Análise', $request->reason);
         foreach(explode(',', trim(env('AUTORIZADOR'))) as $codpes){
-            if(Pessoa::emailusp($codpes)){
+            if(Pessoa::retornarEmailUsp($codpes)){
                 AnaliseJob::dispatch($pedido, $codpes);
             }
         }
@@ -193,7 +193,7 @@ class PedidoController extends Controller
             $tipos_editora = ['Editoração', 'Editoração + Artes Gráficas'];
             if(in_array($pedido->tipo, $tipos_editora)){
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes)){  
+                    if(Pessoa::retornarEmailUsp($codpes)){  
                         OrcamentoJob::dispatch($pedido, $codpes);
                     }
                 }
@@ -201,7 +201,7 @@ class PedidoController extends Controller
             $tipos_grafica = ['Artes Gráficas', 'Editoração + Artes Gráficas'];
             if(in_array($pedido->tipo, $tipos_grafica)){
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes)){
+                    if(Pessoa::retornarEmailUsp($codpes)){
                         OrcamentoJob::dispatch($pedido, $codpes);
                     }
                 }
@@ -219,10 +219,10 @@ class PedidoController extends Controller
     public function enviarOrcamentoParaAutorizacao(Pedido $pedido, Request $request){
         $this->authorize('servidor');
         $pedido->setStatus('Autorização', $request->reason);
-        if(Pessoa::emailusp($pedido->responsavel_centro_despesa)){
+        if(Pessoa::retornarEmailUsp($pedido->responsavel_centro_despesa)){
             AutorizacaoJob::dispatch($pedido, $pedido->responsavel_centro_despesa);
         }
-        if(Pessoa::emailusp($pedido->user->codpes)){
+        if(Pessoa::retornarEmailUsp($pedido->user->codpes)){
             AutorizacaoJob::dispatch($pedido, $pedido->user->codpes);
         }
         return redirect("/pedidos/{$pedido->id}");
@@ -243,7 +243,7 @@ class PedidoController extends Controller
             if($pedido->tipo == 'Editoração' or $pedido->tipo == 'Editoração + Artes Gráficas'){
                 $pedido->setStatus('Editoração', $request->reason);
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes)){
+                    if(Pessoa::retornarEmailUsp($codpes)){
                         EditoraJob::dispatch($pedido, $codpes);
                     }
                 }
@@ -251,7 +251,7 @@ class PedidoController extends Controller
             else{
                 $pedido->setStatus('Artes Gráficas', $request->reason);
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes)){
+                    if(Pessoa::retornarEmailUsp($codpes)){
                         GraficaJob::dispatch($pedido, $codpes);
                     }
                 }
@@ -276,7 +276,7 @@ class PedidoController extends Controller
         $pedido->update();
         $pedido->setStatus('Artes Gráficas', $request->reason);
         foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-            if(Pessoa::emailusp($codpes)){
+            if(Pessoa::retornarEmailUsp($codpes)){
                 GraficaJob::dispatch($pedido, $codpes);
             }
         }

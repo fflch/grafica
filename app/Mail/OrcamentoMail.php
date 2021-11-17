@@ -33,7 +33,7 @@ class OrcamentoMail extends Mailable
     {
         $subject = "Pedido de {$this->pedido->user->name} esperando por orçamento";
         return $this->view('mails.orcamento')
-        ->to(Pessoa::emailusp($this->codpes))
+        ->to(Pessoa::retornarEmailUsp($this->codpes))
         ->subject($subject)
         ->with([
             'pedido' => $this->pedido,

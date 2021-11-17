@@ -33,7 +33,7 @@ class AnaliseMail extends Mailable
     {
         $subject = "Novo pedido de {$this->pedido->user->name} para ser analisado";
         return $this->view('mails.em_analise')
-        ->to(Pessoa::emailusp($this->codpes))
+        ->to(Pessoa::retornarEmailUsp($this->codpes))
         ->subject($subject)
         ->with([
             'pedido' => $this->pedido,

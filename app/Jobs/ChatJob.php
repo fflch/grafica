@@ -44,14 +44,14 @@ class ChatJob implements ShouldQueue
         else{
             if($this->pedido->status == 'Editoração' or $this->pedido->status == 'Editoração + Artes Gráficas'){
                 foreach(explode(',', trim(env('EDITORA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes)){  
+                    if(Pessoa::retornarEmailUsp($codpes)){  
                         Mail::send(new ChatMail($this->pedido, $this->chat, $codpes));
                     }
                 }
             }
             if($this->pedido->status == 'Artes Gráficas' or $this->pedido->status == 'Editoração + Artes Gráficas'){
                 foreach(explode(',', trim(env('GRAFICA'))) as $codpes){
-                    if(Pessoa::emailusp($codpes)){
+                    if(Pessoa::retornarEmailUsp($codpes)){
                         Mail::send(new ChatMail($this->pedido, $this->chat, $codpes));
                     }
                 }

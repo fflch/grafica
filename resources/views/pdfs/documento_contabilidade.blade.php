@@ -29,6 +29,10 @@
             <td colspan='2' style="border: 1px solid #000;"><b>Solicitante:</b> {{$pedido->user->name ?? ''}}</td>
         </tr>
         <tr style="border: 1px solid #000;">    
+            <td style="border: 1px solid #000;"><b>E-mail:</b> {{$pessoa->retornarEmailUsp($pedido->user->codpes) ?? 'Não informado'}}</td>
+            <td style="border: 1px solid #000;"><b>Vínculo:</b> {{$pessoa->cracha($pedido->user->codpes)['nomorg'] ?? 'Não informado'}}</td>
+        </tr>
+        <tr style="border: 1px solid #000;">    
             <td style="border: 1px solid #000;"><b>Tipo de Pedido:</b> {{$pedido->tipo ?? ''}}</td>
             <td style="border: 1px solid #000;"><b>Especificação:</b> {{$pedido->tipo_material ?? ''}}</td>
         </tr>

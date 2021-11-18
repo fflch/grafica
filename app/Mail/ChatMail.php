@@ -35,7 +35,7 @@ class ChatMail extends Mailable
     {
         $subject = "Nova Mensagem de {$this->chat->user->name}";
         return $this->view('mails.chat')
-        ->to(Pessoa::emailusp($this->codpes))
+        ->to(Pessoa::retornarEmailUsp($this->codpes))
         ->subject($subject)
         ->with([
             'pedido' => $this->pedido,

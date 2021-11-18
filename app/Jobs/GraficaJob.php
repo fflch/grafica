@@ -38,7 +38,7 @@ class GraficaJob implements ShouldQueue
      */
     public function handle()
     {
-        if(Pessoa::emailusp($this->codpes) != false){
+        if(Pessoa::retornarEmailUsp($this->codpes) != false){
             Mail::send(new GraficaMail($this->pedido, $this->codpes));
         }
     }

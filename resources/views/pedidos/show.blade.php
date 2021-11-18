@@ -2,6 +2,7 @@
 
 @section('content')
     @inject('pessoa','Uspdev\Replicado\Pessoa')
+    @inject('utils','App\Utils\ReplicadoUtils')
     @include('flash')
     
     @include('pedidos.partials.header')

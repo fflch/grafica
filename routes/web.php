@@ -20,11 +20,7 @@ use App\Http\Controllers\GeneralSettingsController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
-Route::get('/home', [HomeController::class,'home']);
+Route::get('/', [HomeController::class,'home']);
 Route::get('pedidos/visualizar_pedidos_a_autorizar', [HomeController::class,'visualizarPedidosAAutorizar']);
 
 Route::post('pedidos/enviar_para_analise/{pedido}', [PedidoController::class,'enviarParaAnalise']);

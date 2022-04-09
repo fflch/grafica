@@ -107,6 +107,7 @@
                         </td>
                     @else
                         <td></td>
+                        <td></td>
                     @endif
                 @endcan
             </tr>

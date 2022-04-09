@@ -29,11 +29,6 @@ class PedidoController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $this->authorize('servidor');
@@ -73,11 +68,6 @@ class PedidoController extends Controller
         return view('pedidos.index')->with('pedidos',$pedidos);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $this->authorize('logado');
@@ -85,12 +75,6 @@ class PedidoController extends Controller
         return view('pedidos.create')->with('pedido', $pedido);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(PedidoRequest $request)
     {
         $this->authorize('logado');
@@ -101,12 +85,6 @@ class PedidoController extends Controller
         return redirect("/pedidos/$pedido->id");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pedido $pedido, Stepper $stepper)
     {
         $this->authorize('owner.pedido',$pedido);
@@ -119,25 +97,12 @@ class PedidoController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pedido $pedido)
     {
         $this->authorize('owner.pedido',$pedido);
         return view('pedidos.edit')->with('pedido', $pedido);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
     public function update(PedidoRequest $request, Pedido $pedido)
     {
         $this->authorize('owner.pedido',$pedido);
@@ -146,12 +111,6 @@ class PedidoController extends Controller
         return redirect("/pedidos/$pedido->id");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pedido $pedido)
     {
         $this->authorize('owner.pedido',$pedido);

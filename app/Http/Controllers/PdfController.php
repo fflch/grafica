@@ -15,10 +15,8 @@ class PdfController extends Controller
         $this->middleware('auth');
     }
     
-    //Bloco destinado aos documentos gerais
     public function gerarDocumentoContabilidade(Pedido $pedido, Request $request){
         $this->authorize('owner.pedido', $pedido);
-        //$configs = Config::orderbyDesc('created_at')->first();
         $observacao = $request->observacao;
         $pdf = PDF::loadView("pdfs.documento_contabilidade", compact(['pedido','observacao']));
         return $pdf->download("documento_contabilidade.pdf");

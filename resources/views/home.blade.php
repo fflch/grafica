@@ -2,7 +2,7 @@
 <div class="card">
     <div class="card-header"><b>Meus Pedidos</b></div>
     <div class="card-body">
-        <form method="GET" action="/home">
+        <form method="GET" action="/">
             <label><b>Filtros:</b></label></br>
             <div class="row">
                 <div class="col-auto"> 

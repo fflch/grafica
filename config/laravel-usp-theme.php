@@ -16,7 +16,7 @@ $submenu1 = [
 $menu = [
     [
         'text' => '<i class="fas fa-home"></i> Home',
-        'url' => config('app.url') . '/home',
+        'url' => config('app.url') . '/',
         'can' => 'logado',
     ],
     [

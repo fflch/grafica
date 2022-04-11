@@ -73,7 +73,8 @@ class Pedido extends Model
             'Folhetos',
             'Cartão de Visitas',
             'Papel',
-            'ISBN+DOI+Ficha Catalográfica'
+            'ISBN+DOI+Ficha Catalográfica',
+            'Outros'
         ];
     }
 

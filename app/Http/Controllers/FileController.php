@@ -19,7 +19,7 @@ class FileController extends Controller
             'file' => 'required|mimetypes:application/pdf|max:12288',
             'pedido_id' => 'required|integer|exists:pedidos,id',
         ]);
-        //Depois faz upload de novo arquivo
+
         $file = new File;
         $file->pedido_id = $request->pedido_id;
         $file->original_name = $request->file('file')->getClientOriginalName();

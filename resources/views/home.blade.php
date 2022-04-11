@@ -5,7 +5,7 @@
         <form method="GET" action="/">
             <label><b>Filtros:</b></label></br>
             <div class="row">
-                <div class="col-auto"> 
+                <div class="col-auto">
                     <select class="form-control" name="busca_tipo">
                         <option value="" selected="">- Tipo -</option>
                         @foreach (App\Models\Pedido::tipoPedidoOptions() as $option)
@@ -23,7 +23,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-auto"> 
+                <div class="col-auto">
                     <select class="form-control" name="busca_status">
                         <option value="" selected="">- Status -</option>
                         @foreach (App\Models\Pedido::status as $option)

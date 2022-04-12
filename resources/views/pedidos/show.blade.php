@@ -33,6 +33,8 @@
             </div>
         @endif
     @endcan
+
+    @include('pedidos.partials.historico_status')
 @endsection('content')
 
 @section('javascripts_bottom')

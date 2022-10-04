@@ -23,13 +23,15 @@ use App\Http\Controllers\GeneralSettingsController;
 Route::get('', [HomeController::class,'home']);
 Route::get('pedidos/visualizar_pedidos_a_autorizar', [HomeController::class,'visualizarPedidosAAutorizar']);
 
-Route::post('pedidos/enviar_para_analise/{pedido}', [PedidoController::class,'enviarParaAnalise']);
-Route::post('pedidos/enviar_para_orcamento/{pedido}', [PedidoController::class,'enviarParaOrcamento']);
-Route::post('pedidos/enviar_para_autorizacao/{pedido}', [PedidoController::class,'enviarOrcamentoParaAutorizacao']);
-Route::post('pedidos/enviar_pedido_para_setores/{pedido}', [PedidoController::class,'enviarPedidoParaSetores']);
-Route::post('pedidos/enviar_para_grafica/{pedido}', [PedidoController::class,'enviarParaGrafica']);
-Route::post('pedidos/finalizar_pedido/{pedido}', [PedidoController::class,'finalizarPedido']);
-Route::post('pedidos/voltar_status/{pedido}', [PedidoController::class,'voltarStatus']);
+Route::prefix('pedidos')->group(function(){
+	Route::post('enviar_para_analise/{pedido}', [PedidoController::class,'enviarParaAnalise']);
+	Route::post('enviar_para_orcamento/{pedido}', [PedidoController::class,'enviarParaOrcamento']);
+	Route::post('enviar_para_autorizacao/{pedido}', [PedidoController::class,'enviarOrcamentoParaAutorizacao']);
+	Route::post('enviar_pedido_para_setores/{pedido}', [PedidoController::class,'enviarPedidoParaSetores']);
+	Route::post('enviar_para_grafica/{pedido}', [PedidoController::class,'enviarParaGrafica']);
+	Route::post('finalizar_pedido/{pedido}', [PedidoController::class,'finalizarPedido']);
+	Route::post('voltar_status/{pedido}', [PedidoController::class,'voltarStatus']);
+});
 
 Route::resource('orcamentos', OrcamentoController::class);
 Route::resource('files', FileController::class);

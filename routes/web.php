@@ -20,7 +20,7 @@ use App\Http\Controllers\GeneralSettingsController;
 |
 */
 
-Route::get('/', [HomeController::class,'home']);
+Route::get('', [HomeController::class,'home']);
 Route::get('pedidos/visualizar_pedidos_a_autorizar', [HomeController::class,'visualizarPedidosAAutorizar']);
 
 Route::post('pedidos/enviar_para_analise/{pedido}', [PedidoController::class,'enviarParaAnalise']);
@@ -37,11 +37,11 @@ Route::resource('pedidos', PedidoController::class);
 Route::resource('chats', ChatController::class);
 
 #settings
-Route::get('/settings',[GeneralSettingsController::class, 'show']);
-Route::post('/settings',[GeneralSettingsController::class, 'update']);
+Route::get('settings',[GeneralSettingsController::class, 'show']);
+Route::post('settings',[GeneralSettingsController::class, 'update']);
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admins');
 
 # Pdfs
-Route::any('/pedidos/gerar_documento_contabilidade/{pedido}',[PdfController::class, 'gerarDocumentoContabilidade']);
+Route::any('pedidos/gerar_documento_contabilidade/{pedido}',[PdfController::class, 'gerarDocumentoContabilidade']);
